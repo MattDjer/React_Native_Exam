@@ -32,7 +32,7 @@ export default function SignupScreen() {
         <View style={styles.container}>
             <Text>Login123</Text>
             <TextInput value={email} placeholder="email" onChangeText={setEmail} />
-            <TextInput value={password} placeholder="password" onChangeText={setPassword} />
+            <TextInput value={password} placeholder="password"  secureTextEntry={true} onChangeText={setPassword} />
             <Button title="Signin" onPress={() => dispatch(login(email, password))} />
         </View>
     );
