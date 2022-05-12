@@ -15,7 +15,7 @@ export const rehydrateUser = (user: User, idToken: string) => {
 
 export const login = (email: string, password: string) => {
     return async (dispatch: any, getState: any) => {
-        const response = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signIn?key=AIzaSyDlO9g-z87u34DcKesUQmUJ81HqYsUXRqY', {
+        const response = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDlO9g-z87u34DcKesUQmUJ81HqYsUXRqY', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
