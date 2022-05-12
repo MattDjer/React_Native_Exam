@@ -37,11 +37,16 @@ export const login = (email: string, password: string) => {
             console.log("data from server", data);
 
             const user = new User(data.email, '', '');
+            
 
             await SecureStore.setItemAsync('idToken', data.idToken);
+            await SecureStore.setItemAsync('localId', data.localId);
             await SecureStore.setItemAsync('user', JSON.stringify(user)); // convert user js-obj. to json
 
-            dispatch({ type: LOGIN, payload: { user, idToken: data.idToken } })
+            let localId =  await SecureStore.getItemAsync('localId')
+            console.log(localId)
+
+            dispatch({ type: LOGIN, payload: { user, idToken: data.idToken, localId: data.localId } })
         }
     }
 }
@@ -79,7 +84,7 @@ export const signup = (email: string, password: string) => {
             await SecureStore.setItemAsync('idToken', data.idToken);
             await SecureStore.setItemAsync('user', JSON.stringify(user)); // convert user js-obj. to json
 
-            dispatch({ type: SIGNUP, payload: { user, idToken: data.idToken } })
+            dispatch({ type: SIGNUP, payload: { user, idToken: data.idToken, localId: data.localId } })
         }
     };
 };

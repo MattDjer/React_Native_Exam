@@ -14,15 +14,13 @@ const initialState: ReduxState = {
 const userReducer = (state: ReduxState = initialState, action: any) => {
     switch (action.type) {
         case LOGOUT:
-            return { ...state, loggedInUser: null, idToken: undefined }
+            return { ...state, loggedInUser: null, idToken: undefined, localId: undefined }
         case REHYDRATE_USER:
-            return { ...state, loggedInUser: action.payload.user, idToken: action.payload.idToken }
+            return { ...state, loggedInUser: action.payload.user, idToken: action.payload.idToken, localId: action.payload.localId }
         case SIGNUP:
-            // const user = new User(action.payload.email, '', '');
-            //state.loggedInUser = user; // MUTATION!!!!
-            return { ...state, loggedInUser: action.payload.user, idToken: action.payload.idToken }
+            return { ...state, loggedInUser: action.payload.user, idToken: action.payload.idToken, localId: action.payload.localId }
         case LOGIN: 
-            return { ...state, loggedInUser: action.payload.user, idToken: action.payload.idToken }
+            return { ...state, loggedInUser: action.payload.user, idToken: action.payload.idToken, localId: action.payload.localId }
 
 
         default:
