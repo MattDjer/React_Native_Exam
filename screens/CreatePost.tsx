@@ -4,7 +4,7 @@ import { Button, StyleSheet, Text, TextInput, View, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch } from 'react-redux';
 
-const heyComp = () => {
+const createPost = () => {
     return (
     <SafeAreaView>    
         <Text> Hey </Text>
@@ -12,10 +12,10 @@ const heyComp = () => {
             <Text>
                 Hey igen
             </Text>
-           
+          
         </View>
     </SafeAreaView>
     )
 }
 
-export default heyComp;
+export default createPost;
