@@ -8,3 +8,9 @@ export class FirebaseSignupSuccess {
         public expiresIn: string, public localId: string) {
     }
 }
+
+export class FirebaseLoginSuccess {
+    constructor(public idToken: string, public email: string, public refreshToken: string,
+        public expiresIn: string, public localId: string) {
+    }
+}
