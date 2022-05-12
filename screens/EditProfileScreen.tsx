@@ -1,18 +1,25 @@
+import * as SecureStore from 'expo-secure-store';
 import React, { useState } from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../App';
 import Input from '../components/Input';
 import { User } from '../entities/User';
+import { updateEmail } from '../store/actions/profile.actions';
+
+
 
 export default function EditProfileScreen() {
     const user: User = useSelector((state: RootState) => state.user.loggedInUser);
     const [textEmail, setTextEmail] = useState(user.email)
     // console.log(user.email);
 
+    const dispatch = useDispatch();
+
     const onSave = () => {
         if (textEmail !== ''  /* && other inputs are not empty */) {
             // save the data to the server
+            dispatch(updateEmail(textEmail));
         } else {
             //Show error message
         }
@@ -30,7 +37,8 @@ export default function EditProfileScreen() {
                 inputValue=""
                 error="Study programme cannot be empty" /> */}
 
-            <Button title="Save" onPress={() => console.log("hi")} />
+            <Button title="Save" onPress={onSave} />
+            
         </View>
     );
 }
