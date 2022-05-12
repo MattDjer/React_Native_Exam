@@ -8,8 +8,7 @@ export default function HomeScreen() {
 
     return (
         <View style={styles.container}>
-            <Text>Home Screen123</Text>
-            <Text>Hello</Text>
+            <Text>Home Screen</Text>
             <Button title="Logout" onPress={() => dispatch(logout())} />
         </View>
     );

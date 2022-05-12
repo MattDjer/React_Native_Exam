@@ -27,7 +27,7 @@ export const login = (email: string, password: string) => {
             })
         });
 
-        console.log("RESPONSE : " + response.json());
+        //console.log("RESPONSE : " + response.json());
 
         if (!response.ok) {
             console.log("There was a problem login in")
