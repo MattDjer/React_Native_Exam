@@ -23,12 +23,12 @@ interface ReduxAction {
 const chatReducer = (state: ReduxState = initialState, action: ReduxAction) => {
     switch (action.type) {
         case TOGGLE_HAPPY:
-            console.log("hi");
+            console.log("hi123");
 
             return { ...state, isHappy: !state.isHappy }
 
         case ADD_CHATROOM:
-            console.log(action.payload);
+            console.log("hi \n\n" + action.payload);
             return { ...state, chatrooms: [...state.chatrooms, action.payload] }
         // state.chatrooms.push(chatroom) // mutating state. Not allowed
 

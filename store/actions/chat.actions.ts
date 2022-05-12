@@ -48,11 +48,9 @@ export const addChatroom = (chatroom: Chatroom) => {
     return async (dispatch: any, getState: any) => {
         const token = getState().user.idToken;
 
-        console.log(token);
-
         //delete chatroom.id // for an update, this would remove the id attribute (and value) from the chatroom
         const response = await fetch(
-            'https://cbscs-7a227-default-rtdb.europe-west1.firebasedatabase.app/chatrooms.json?auth=' + token, {
+            'https://react-native-firebase-27cc0-default-rtdb.europe-west1.firebasedatabase.app/chatrooms.json?auth=' + token, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -61,10 +59,12 @@ export const addChatroom = (chatroom: Chatroom) => {
                 chatroom
             )
         });
-
+        const data = await response.json();
+        console.log(data)
         // console.log(await response.json());
 
         if (!response.ok) {
+            console.log("WHOE")
             //There was a problem..
             //dispatch({type: ADD_CHATROOM_FAILED, payload: 'something'})
         } else {
