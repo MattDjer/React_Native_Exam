@@ -4,13 +4,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../App';
 import Input from '../components/Input';
 import { User } from '../entities/User';
-import { updateEmail } from '../store/actions/profile.actions';
+import { updateEmail, updateProfileInfo } from '../store/actions/profile.actions';
 
 
 
 export default function EditProfileScreen() {
     const user: User = useSelector((state: RootState) => state.user.loggedInUser);
-    const [textEmail, setTextEmail] = useState(user.email)
+    const [textEmail, setTextEmail] = useState(user.email);
+    const [textDisplayName, setTextDisplayName] = useState(user.displayName ? user.displayName : "");
     // console.log(user.email);
 
     const dispatch = useDispatch();
@@ -19,6 +20,8 @@ export default function EditProfileScreen() {
         if (textEmail !== ''  /* && other inputs are not empty */) {
             // save the data to the server
             dispatch(updateEmail(textEmail));
+            dispatch(updateProfileInfo(textDisplayName));
+            
         } else {
             //Show error message
         }
@@ -32,9 +35,16 @@ export default function EditProfileScreen() {
                 setText={setTextEmail}
                 error="Email cannot be empty"
             />
+
+            <Input title='What name should be displayed to other people'
+                inputValue={textDisplayName}
+                setText={setTextDisplayName}
+                error={"Display name can't be empty"}
+            />
             {/* <Input title="Study programme"
                 inputValue=""
                 error="Study programme cannot be empty" /> */}
+
 
             <Button title="Save" onPress={onSave} />
             
