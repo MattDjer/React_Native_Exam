@@ -6,6 +6,7 @@ import Navigation from './components/Navigation';
 import chatReducer from './store/reducers/chat.reducer';
 import userReducer from './store/reducers/user.reducer';
 
+//test
 
 const rootReducer = combineReducers({
   chat: chatReducer,
