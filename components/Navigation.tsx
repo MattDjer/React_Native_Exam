@@ -55,7 +55,7 @@ export default function Navigation() {
                     <Tab.Screen name="CreatePost" component={CreatePost}></Tab.Screen>
                     {/* <Tab.Screen name="Discover" component={DiscoverScreen} /> */}
                     <Tab.Screen name="Chat" component={ChatStackNavigator} />
-                    <Tab.Screen name="Menu" component={ProfileStackNavigator} />
+                    <Tab.Screen name="Menu" component={ProfileStackNavigator} options={{title : "Profile"}}/>
                 </Tab.Navigator>
             ) : (
                 // show a stack navigator with only signup and login screens.
