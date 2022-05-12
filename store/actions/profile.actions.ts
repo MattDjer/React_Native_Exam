@@ -4,6 +4,14 @@ import { REHYDRATE_USER } from "./user.actions";
 
 export function updateEmail(email : string) {
     return async function(dispatch : any, getState : any) {
+        
+        const user = getState().user.loggedInUser;
+
+        if (user.email === email) {
+            // the new email is the same as the old one, so no need to request an email change
+            return;
+        }
+        
         const request = {
             method : "POST",
             headers : {
@@ -28,7 +36,7 @@ export function updateEmail(email : string) {
 
             const data = await response.json();
 
-            const user = getState().user.loggedInUser;
+            
             const newUser = new User(data.email, user.displayname, user.photoUrl);
 
             await SecureStore.setItemAsync("idToken", data.idToken);

@@ -1,4 +1,3 @@
-import * as SecureStore from 'expo-secure-store';
 import React, { useState } from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
