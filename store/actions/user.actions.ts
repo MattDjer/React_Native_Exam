@@ -85,6 +85,7 @@ export const signup = (email: string, password: string) => {
             await SecureStore.setItemAsync('user', JSON.stringify(user)); // convert user js-obj. to json
 
             dispatch({ type: SIGNUP, payload: { user, idToken: data.idToken, localId: data.localId } })
+            console.log(getState());
         }
     };
 };

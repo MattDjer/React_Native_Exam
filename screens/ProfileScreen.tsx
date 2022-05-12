@@ -26,7 +26,8 @@ export default function ProfileScreen() {
                 "Content-Type" : "application/json"
             },
             body  : JSON.stringify({
-                idToken : await SecureStore.getItemAsync("idToken")
+                idToken : await SecureStore.getItemAsync("idToken"),
+                returnSecureToken : true
             })
         }
         
@@ -48,7 +49,7 @@ export default function ProfileScreen() {
 
             await SecureStore.setItemAsync("user", JSON.stringify(newUser));
             
-            dispatch({type : REHYDRATE_USER, payload : {user : newUser, idToken : data.idToken, localId : data.localId}});
+            dispatch({type : REHYDRATE_USER, payload : {user : newUser, idToken : await SecureStore.getItemAsync("idToken"), localId : await SecureStore.getItemAsync("localId")}});
         }
 
     }
