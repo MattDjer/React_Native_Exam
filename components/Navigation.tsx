@@ -15,7 +15,7 @@ import Screen1 from './../screens/Screen1';
 import Screen2 from './../screens/Screen2';
 import Screen3 from './../screens/Screen3';
 import { StackParamList } from "./../typings/navigations";
-import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
+
 
 const Stack = createNativeStackNavigator<StackParamList>();
 const Tab = createBottomTabNavigator();
@@ -81,14 +81,6 @@ const styles = StyleSheet.create({
 const Icon = (props: any) => (
     <TouchableOpacity>
       <View>
-        <FontAwesome5
-          name={props.icon}
-          size={25}
-          style={{
-            marginBottom: 3,
-            alignSelf: "center",
-          }}
-        />
         <Text>{props.text}</Text>
       </View>
     </TouchableOpacity>

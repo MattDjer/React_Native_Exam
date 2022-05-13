@@ -40,7 +40,7 @@ const CreatePost = () => {
                 // photo = e.target.result
                
                 //console.log(result.uri)           
-        }
+            }
         }  
     } 
     

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { Button, StyleSheet, Text, View, ScrollView } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { logout } from '../store/actions/user.actions';
 import Navbar from '../components/Navbar';
@@ -13,9 +13,10 @@ export default function HomeScreen() {
 
         <SafeAreaView>
             <Navbar/>
-            <Posts/>
-            <Text>Home Screen</Text>
-            <Button title="Logout" onPress={() => dispatch(logout())} />
+            <ScrollView>
+                <Posts/>           
+                <Button title="Logout" onPress={() => dispatch(logout())} />
+            </ScrollView>
         </SafeAreaView>
     );
 }
