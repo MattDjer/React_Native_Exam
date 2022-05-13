@@ -10,15 +10,12 @@ import { Post } from '../entities/Post';
 export default function Posts() {
     const dispatch = useDispatch();
 
-    const posts: Post[] = useSelector((state: any) => state.chat.posts)
-
-
-    useEffect(() => { // only runs dispatch the first time the component renders
-        dispatch(fetchPosts())
-    }, [])
+    const posts: Post[] = useSelector((state: any) => state.post.posts)
+    dispatch(fetchPosts())
+    
 
     const renderPost = ({ item }: { item: any }) => (
-        <Text>{item.title}</Text>
+        <Text>{item.title} {item.description}</Text>        
     );
 
     return (
@@ -26,12 +23,13 @@ export default function Posts() {
         <View style={styles.container}>
             <Text>All posts</Text>
             
-            <FlatList
+            <FlatList 
+                
+                style={{flexDirection: "row"}}
                 data={posts}
                 renderItem={renderPost}
+                
             />
-            
-            <Text></Text>
 
         </View>
     );

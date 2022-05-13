@@ -19,7 +19,6 @@ const postReducer = (state: ReduxState = initialState, action: ReduxAction) => {
     switch (action.type) {
         
         case FETCH_POSTS:
-            console.log("FETCHING POSTS")
             // create a new state object with the action.payload assigned to the chatrooms array.
             return { ...state, posts: action.payload }
 

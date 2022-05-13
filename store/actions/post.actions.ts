@@ -33,9 +33,6 @@ export const fetchPosts = () => {
                 posts.push(new Post(obj.title, obj.description, obj.timestamp, obj.userId))
             }
 
-            console.log("data from server " +  posts);
-            
-            console.log("dispatching")
             dispatch({ type: 'FETCH_POSTS', payload: posts })
         }
     };

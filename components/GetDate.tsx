@@ -1,4 +1,4 @@
-export function getDate() {
+export function GetDate() {
     const today = new Date();
 
     let minutes = today.getMinutes()

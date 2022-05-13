@@ -37,7 +37,6 @@ const chatReducer = (state: ReduxState = initialState, action: ReduxAction) => {
         // state.chatrooms.push(chatroom) // mutating state. Not allowed
 
         case FETCH_CHATROOMS:
-            console.log("FETCHING POSTS")
             // create a new state object with the action.payload assigned to the chatrooms array.
             return { ...state, chatrooms: action.payload }
 
