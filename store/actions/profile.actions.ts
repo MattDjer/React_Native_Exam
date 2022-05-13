@@ -1,6 +1,6 @@
 import * as SecureStore from 'expo-secure-store';
 import { User } from '../../entities/User';
-import { REHYDRATE_USER } from "./user.actions";
+import { LOGIN, rehydrateUser, REHYDRATE_USER } from "./user.actions";
 
 export function updateEmail(email : string) {
     return async function(dispatch : any, getState : any) {
@@ -38,11 +38,12 @@ export function updateEmail(email : string) {
 
             
             const newUser = new User(data.email, user.displayName, user.photoUrl);
+            
 
             await SecureStore.setItemAsync("idToken", data.idToken);
             await SecureStore.setItemAsync("user", JSON.stringify(newUser));
             
-            dispatch({type : REHYDRATE_USER, payload : {user : newUser, idToken : data.idToken, localId : data.localId}});
+            dispatch(rehydrateUser(newUser, data.idToken));
         }
 
     } 
@@ -85,12 +86,15 @@ export function updateProfileInfo(displayName : string) {
             
             const newUser = new User(data.email, data.displayName, data.photoUrl);
 
-            console.log("id token update: ", getState());
+            
 
-            await SecureStore.setItemAsync("idToken", data.idToken ? data.idToken : getState().user.idToken);
+            const idToken = data.idToken ? data.idToken : getState().user.idToken;
+
+            await SecureStore.setItemAsync("idToken", idToken);
             await SecureStore.setItemAsync("user", JSON.stringify(newUser));
             
-            dispatch({type : REHYDRATE_USER, payload : {user : newUser, idToken : data.idToken, localId : data.localId}});
+            dispatch(rehydrateUser(newUser, idToken));
+            console.log("id token update: ", getState());
         }
     }
 }

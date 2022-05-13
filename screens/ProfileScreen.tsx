@@ -4,7 +4,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useEffect } from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
 import { StackParamList } from '../typings/navigations';
-import { logout, REHYDRATE_USER } from '../store/actions/user.actions';
+import { logout, rehydrateUser, REHYDRATE_USER } from '../store/actions/user.actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../App';
 import { User } from "../entities/User";
@@ -17,6 +17,7 @@ export default function ProfileScreen() {
     const dispatch = useDispatch();
 
     const displayName = useSelector((state : RootState) => state.user.loggedInUser.displayName);
+    const idToken = useSelector((state : RootState) => state.user.idToken);
 
     async function getUserInfo() {
         
@@ -26,7 +27,7 @@ export default function ProfileScreen() {
                 "Content-Type" : "application/json"
             },
             body  : JSON.stringify({
-                idToken : await SecureStore.getItemAsync("idToken"),
+                idToken : idToken,
                 returnSecureToken : true
             })
         }
@@ -47,9 +48,10 @@ export default function ProfileScreen() {
             
             const newUser = new User(data.users[0].email, data.users[0].displayName, data.users[0].photoUrl);
 
+
             await SecureStore.setItemAsync("user", JSON.stringify(newUser));
             
-            dispatch({type : REHYDRATE_USER, payload : {user : newUser, idToken : await SecureStore.getItemAsync("idToken"), localId : await SecureStore.getItemAsync("localId")}});
+            dispatch(rehydrateUser(newUser, idToken));
         }
 
     }
