@@ -4,6 +4,7 @@ import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/
 import * as ImagePicker from 'expo-image-picker';
 import { useDispatch } from 'react-redux';
 import { async } from '@firebase/util';
+import uuid from "react-native-uuid";
 
 function uploadImageAsync(uri : string) {
     return async function(dispatch : any, getState : any) {
@@ -14,7 +15,7 @@ function uploadImageAsync(uri : string) {
         console.log(3);
         const storage = getStorage();
         console.log(4);
-        const imageRef = ref(storage, "test.png");
+        const imageRef = ref(storage, uuid.v4());
         console.log(5);
   
         uploadBytesResumable(imageRef, blob).then((snapshot) => {
