@@ -12,6 +12,7 @@ import SignupScreen from '../screens/SignupScreen';
 import LoginScreen from '../screens/LoginScreen';
 import CreatePost from '../screens/CreatePost';
 import PostsScreen from '../screens/PostsScreen';
+import PostDetails from '../screens/PostDetails'
 import Screen1 from './../screens/Screen1';
 import Screen2 from './../screens/Screen2';
 import Screen3 from './../screens/Screen3';
@@ -27,6 +28,15 @@ function ChatStackNavigator() {
             <Stack.Screen name="Screen1" component={Screen1} />
             <Stack.Screen name="Screen2" component={Screen2} />
             <Stack.Screen name="Screen3" component={Screen3} />
+        </Stack.Navigator>
+    );
+}
+
+function PostsStackNavigator() {
+    return (
+        <Stack.Navigator>
+            <Stack.Screen name="Posts" component={PostsScreen}  />
+            <Stack.Screen name="PostDetails" component={PostDetails} />
         </Stack.Navigator>
     );
 }
@@ -54,8 +64,7 @@ export default function Navigation() {
                 // Show the app with all navigation
                 <Tab.Navigator screenOptions={{ headerShown: false }}>
                         <Tab.Screen name="Home" component={HomeScreen} />
-                        <Tab.Screen name="Posts" component={PostsScreen} />
-                        <Tab.Screen name="New Post" component={CreatePost}></Tab.Screen>
+                        <Tab.Screen name="Posts" component={PostsStackNavigator} />
                         {/* <Tab.Screen name="Discover" component={DiscoverScreen} /> */}
                         <Tab.Screen name="Chat" component={ChatStackNavigator} />
                         <Tab.Screen name="Menu" component={ProfileStackNavigator} options={{title : "Profile"}}/>

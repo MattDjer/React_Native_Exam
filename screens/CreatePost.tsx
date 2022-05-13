@@ -71,8 +71,7 @@ const CreatePost = () => {
     return (
     <SafeAreaView>    
         <Text> Upload post </Text>
-        <View>
-            
+        <View>           
             <TextInput 
                 placeholder="Title" 
                 value={title} 

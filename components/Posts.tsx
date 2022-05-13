@@ -1,17 +1,34 @@
-import * as SecureStore from 'expo-secure-store';
 import React, { useEffect, useState } from 'react';
-import { Button, StyleSheet, Text, TextInput, View, Image, FlatList, TouchableOpacity } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Button, StyleSheet, Text, TextInput, View, Image, FlatList, TouchableOpacity, TouchableHighlight } from 'react-native';
 import { fetchPosts } from '../store/actions/post.actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { Post } from '../entities/Post';
+import { createPost, postDetails } from '../store/actions/post.actions';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { StackParamList } from "../typings/navigations";
 
+type ScreenNavigationType = NativeStackNavigationProp<
+    StackParamList,
+    "Posts"
+>
 
 export default function Posts() {
-    
-    
+    const navigation = useNavigation<ScreenNavigationType>()
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatch()
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const [photo, setPhoto] = useState('')
+
+    const handleAddPost = () => {       
+        const post: Post = new Post(title, description, new Date(), "undefined");
+        dispatch(createPost(post));
+        dispatch(fetchPosts())
+        setDescription('')
+        setTitle('')       
+    }
+
     const posts: Post[] = useSelector((state: any) => state.post.posts) 
     
     useEffect(() => {
@@ -19,13 +36,31 @@ export default function Posts() {
     }, [])
 
 
+    const goToDetails = (post: any) => {        
+        dispatch(postDetails(post));
+        navigation.navigate("PostDetails")
+    }
 
     return (
         
         <>
-        <TouchableOpacity>
+        <TouchableOpacity style={styles.container}>
             <View> 
                 <Text>Create post</Text>
+            </View>
+
+            <View>           
+                <TextInput 
+                    placeholder="Title" 
+                    value={title} 
+                    onChangeText={setTitle}/>            
+
+                <TextInput 
+                    placeholder="Description"
+                    value={description} 
+                    onChangeText={setDescription}/>
+
+                <Button title='Submit' onPress={handleAddPost}/>         
             </View>
         </TouchableOpacity>
 
@@ -34,10 +69,12 @@ export default function Posts() {
         </View>
         
         {posts.map((post: any, index) => (
-            <TouchableOpacity>
-                <View style={{backgroundColor: "white", marginBottom: 10, borderRadius: 10}}>
+            <TouchableOpacity
+                key={index} 
+                onPress={() => goToDetails(posts[index])}>
+                <View style={styles.container}>
                     <Text style={{fontSize: 20}}>{posts[index].title}</Text>
-                    <Text style={{fontSize: 15}}>{posts[index].description}</Text>
+                    <Text style={{fontSize: 15}}>{posts[index].description}</Text>                      
                 </View> 
             </TouchableOpacity>      
         ))}
@@ -46,11 +83,13 @@ export default function Posts() {
     );
 }
 
+
 const styles = StyleSheet.create({
     container: {
-        alignSelf: "center",
-        fontSize: 50,
-        fontWeight: "700",
-        margin: 15,
+        backgroundColor: "white", 
+        marginBottom: 10, 
+        borderRadius: 10, 
+        alignSelf: "center", 
+        width: 300
     },
 })

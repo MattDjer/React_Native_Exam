@@ -14,8 +14,7 @@ export default function PostsScreen() {
         <SafeAreaView>
             <Navbar/>
             <ScrollView>
-                <Posts/>           
-                <Button title="Logout" onPress={() => dispatch(logout())} />
+                <Posts />           
             </ScrollView>
         </SafeAreaView>
     );

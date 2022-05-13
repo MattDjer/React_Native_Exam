@@ -3,6 +3,14 @@ import { Post } from "../../entities/Post";
 
 export const ADD_POST = 'ADD_POST';
 export const FETCH_POSTS = 'FETCH_POSTS'
+export const POST_DETAILS = 'POST_DETAILS'
+
+
+export const postDetails = (post: Post) => {
+    return async (dispatch: any) => {
+         dispatch({ type: POST_DETAILS, payload: post })
+        }
+    };
 
 
 export const fetchPosts = () => {
@@ -21,8 +29,6 @@ export const fetchPosts = () => {
     
         if (!response.ok) {
             console.log("Problem fetching posts")
-            //There was a problem..
-            //dispatch({type: FETCH_CHATROOM_FAILED, payload: 'something'})
         } else {
             const data = await response.json(); // json to javascript
             let posts: Post[] = []
@@ -44,9 +50,8 @@ export const createPost = (post: Post) => {
     return async (dispatch: any, getState: any) => {
         const token = getState().user.idToken;
         const userId = getState().user.localId;
-
         post.userId = userId
-        console.log(post)
+        
         //delete chatroom.id // for an update, this would remove the id attribute (and value) from the chatroom
         const response = await fetch(
             'https://react-native-firebase-27cc0-default-rtdb.europe-west1.firebasedatabase.app/posts.json?auth=' + token, {
