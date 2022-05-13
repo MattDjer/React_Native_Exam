@@ -9,48 +9,39 @@ import { Post } from '../entities/Post';
 
 export default function Posts() {
     
-    const dispatch = useDispatch();
-    const posts: Post[] = useSelector((state: any) => state.post.posts)
-    dispatch(fetchPosts())
     
-    const postDetails = () => {
-        console.log("Hello")
-        console.log()
-    }
 
-    const renderPost = ({ item }: { item: any }) => (
-        <TouchableOpacity onPress={() => postDetails()}>
-            <View style={{backgroundColor: "white", }}>        
-                <Text style={{fontSize: 20, marginTop: 5, width: 400, borderRadius: 210}}>{item.title} </Text>
-                <Text style={{marginBottom: 1}}>{item.description}</Text>  
-            </View>
-        </TouchableOpacity>      
-    );
+    const dispatch = useDispatch();
+    const posts: Post[] = useSelector((state: any) => state.post.posts) 
+    
+    useEffect(() => {
+        dispatch(fetchPosts());
+    }, [])
+
+
 
     return (
-        <>
-        {posts.map((post: any, index) => (
-
-            <View> Hello </View>
         
-        ))}
+        <>
+        <TouchableOpacity>
+            <View> 
+                <Text>Create post</Text>
+            </View>
+        </TouchableOpacity>
 
         <View style={styles.container}>
-            
-            <View>
                 <Text style={{fontSize: 35}}>All posts</Text>
-            </View>
-            
-            <View>
-                <FlatList                
-                    style={{flexDirection: "row"}}
-                    data={posts}
-                    renderItem={renderPost}
-
-                />
-            </View>
         </View>
-
+        
+        {posts.map((post: any, index) => (
+            <TouchableOpacity>
+                <View style={{backgroundColor: "white", marginBottom: 10, borderRadius: 10}}>
+                    <Text style={{fontSize: 20}}>{posts[index].title}</Text>
+                    <Text style={{fontSize: 15}}>{posts[index].description}</Text>
+                </View> 
+            </TouchableOpacity>      
+        ))}
+        
         </>
     );
 }

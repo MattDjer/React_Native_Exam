@@ -16,8 +16,7 @@ const CreatePost = () => {
     const [description, setDescription] = useState('');
     const [photo, setPhoto] = useState('')
 
-    const handleAddPost = () => {
-        
+    const handleAddPost = () => {       
         const post: Post = new Post(title, description, new Date(), "undefined");
         dispatch(createPost(post));
     }
