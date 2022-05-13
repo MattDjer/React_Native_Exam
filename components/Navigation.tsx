@@ -11,6 +11,7 @@ import ProfileScreen from '../screens/ProfileScreen';
 import SignupScreen from '../screens/SignupScreen';
 import LoginScreen from '../screens/LoginScreen';
 import CreatePost from '../screens/CreatePost';
+import PostsScreen from '../screens/PostsScreen';
 import Screen1 from './../screens/Screen1';
 import Screen2 from './../screens/Screen2';
 import Screen3 from './../screens/Screen3';
@@ -53,6 +54,7 @@ export default function Navigation() {
                 // Show the app with all navigation
                 <Tab.Navigator screenOptions={{ headerShown: false }}>
                         <Tab.Screen name="Home" component={HomeScreen} />
+                        <Tab.Screen name="Posts" component={PostsScreen} />
                         <Tab.Screen name="New Post" component={CreatePost}></Tab.Screen>
                         {/* <Tab.Screen name="Discover" component={DiscoverScreen} /> */}
                         <Tab.Screen name="Chat" component={ChatStackNavigator} />

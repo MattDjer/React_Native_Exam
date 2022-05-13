@@ -6,14 +6,15 @@ import Navbar from '../components/Navbar';
 import Posts from '../components/Posts';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-export default function HomeScreen() {
+export default function PostsScreen() {
     const dispatch = useDispatch();
 
     return (
 
         <SafeAreaView>
             <Navbar/>
-            <ScrollView>        
+            <ScrollView>
+                <Posts/>           
                 <Button title="Logout" onPress={() => dispatch(logout())} />
             </ScrollView>
         </SafeAreaView>
