@@ -9,6 +9,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../App';
 import { User } from "../entities/User";
 import ImagePickerExample from "../components/ImagePickerExample";
+import firebaseApp from "../firebase";
+import { getApps } from "firebase/app";
 
 type ScreenNavigationType = NativeStackNavigationProp<StackParamList, "Profile">;
 
@@ -19,6 +21,11 @@ export default function ProfileScreen() {
 
     const displayName = useSelector((state : RootState) => state.user.loggedInUser.displayName);
     const idToken = useSelector((state : RootState) => state.user.idToken);
+
+    function printFirebaseApps() {
+        console.log("number of instances: ", getApps().length);
+        console.log("app: ", firebaseApp);
+    }
 
     async function getUserInfo() {
         
@@ -67,6 +74,8 @@ export default function ProfileScreen() {
             <Button title="Edit profile" onPress={() => navigation.navigate("EditProfile")} />
             <Text>Logged in as {displayName}</Text>
             <Button title='Logout' onPress={() => dispatch(logout())}/>
+            <Button title="print firebase" onPress={printFirebaseApps}/>
+            
             <ImagePickerExample></ImagePickerExample>
         </View>
     );

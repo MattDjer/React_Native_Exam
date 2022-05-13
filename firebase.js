@@ -1,17 +1,20 @@
-import firebase from "firebase"
+// Import the functions you need from the SDKs you need
+import { initializeApp, getApps } from "firebase/app";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
+// Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyAZUT85tuq5SVz4RM1sr3G_7cG4Qipyceg",
-    authDomain: "react-exam-project.firebaseapp.com",
-    databaseURL: "https://react-exam-project-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "react-exam-project",
-    storageBucket: "react-exam-project.appspot.com",
-    messagingSenderId: "906804188085",
-    appId: "1:906804188085:web:aa9ef74aa1af4a254fbffc",
-    measurementId: "G-2BK11Q7S2T"
-  };
-  
-  // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+  apiKey: "AIzaSyDlO9g-z87u34DcKesUQmUJ81HqYsUXRqY",
+  authDomain: "react-native-firebase-27cc0.firebaseapp.com",
+  databaseURL: "https://react-native-firebase-27cc0-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "react-native-firebase-27cc0",
+  storageBucket: "react-native-firebase-27cc0.appspot.com",
+  messagingSenderId: "1070340936146",
+  appId: "1:1070340936146:web:dac3d013a91f231b18b80b"
+};
 
-export default firebase
+// Initialize Firebase
+const firebaseApp = initializeApp(firebaseConfig);
+
+export default firebaseApp;
