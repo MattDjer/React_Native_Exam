@@ -8,6 +8,7 @@ import { logout, rehydrateUser, REHYDRATE_USER } from '../store/actions/user.act
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../App';
 import { User } from "../entities/User";
+import ImagePickerExample from "../components/ImagePickerExample";
 
 type ScreenNavigationType = NativeStackNavigationProp<StackParamList, "Profile">;
 
@@ -66,6 +67,7 @@ export default function ProfileScreen() {
             <Button title="Edit profile" onPress={() => navigation.navigate("EditProfile")} />
             <Text>Logged in as {displayName}</Text>
             <Button title='Logout' onPress={() => dispatch(logout())}/>
+            <ImagePickerExample></ImagePickerExample>
         </View>
     );
 }
