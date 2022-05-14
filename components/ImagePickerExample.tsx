@@ -5,6 +5,9 @@ import * as ImagePicker from 'expo-image-picker';
 import { useDispatch } from 'react-redux';
 import { async } from '@firebase/util';
 import uuid from "react-native-uuid";
+import { LogBox } from 'react-native';
+
+LogBox.ignoreLogs(['Setting a timer']);
 
 function uploadImageAsync(uri : string) {
     return async function(dispatch : any, getState : any) {
@@ -15,7 +18,7 @@ function uploadImageAsync(uri : string) {
         console.log(3);
         const storage = getStorage();
         console.log(4);
-        const imageRef = ref(storage, uuid.v4());
+        const imageRef = ref(storage, uuid.v4().toString());
         console.log(5);
   
         uploadBytesResumable(imageRef, blob).then((snapshot) => {
@@ -53,7 +56,7 @@ export default function ImagePickerExample() {
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Button title="Pick an image from camera roll" onPress={pickImage} />
       {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
-      <Button title='upload to server' onPress={() => dispatch(uploadImageAsync(image))}/>
+      <Button title='upload to server' onPress={() => {if (image) { dispatch(uploadImageAsync(image)) } }}/>
     </View>
   );
 }
