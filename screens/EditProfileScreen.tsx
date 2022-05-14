@@ -1,49 +1,11 @@
 import React, { useState } from 'react';
-import { Button, LogBox, StyleSheet, Text, View, Image } from 'react-native';
+import { Button, StyleSheet, View, Image } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../App';
-import ImagePickerExample from '../components/ImagePickerExample';
 import Input from '../components/Input';
 import { User } from '../entities/User';
 import { updateEmail, updateProfileInfo } from '../store/actions/profile.actions';
-import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import uuid from "react-native-uuid";
 import * as ImagePicker from 'expo-image-picker';
-import { rehydrateUser } from '../store/actions/user.actions';
-
-
-
-LogBox.ignoreLogs(['Setting a timer']);
-
-function uploadImageAsync(uri : string) {
-    return async function(dispatch : any, getState : any) {
-        const response = await fetch(uri);
-        const blob = await response.blob();
-        const storage = getStorage();
-        const filename = uuid.v4().toString();
-        const imageRef = ref(storage, filename);
-  
-        uploadBytesResumable(imageRef, blob).then((snapshot) => {
-          console.log('Uploaded a blob or file!');
-          dispatch(setProfilePicture(filename));
-        })
-
-    }
-}
-
-function setProfilePicture(filename : string) {
-    return async function(dispatch : any, getState : any) {
-        const storage = getStorage();
-        const imageRef = ref(storage, filename);
-        const url = await getDownloadURL(imageRef);
-        console.log(url);
-
-
-
-    }
-} 
-
-
 
 export default function EditProfileScreen() {
     const user: User = useSelector((state: RootState) => state.user.loggedInUser);
@@ -51,27 +13,24 @@ export default function EditProfileScreen() {
     const [textDisplayName, setTextDisplayName] = useState(user.displayName ? user.displayName : "");
     const [image, setImage] = useState<string | null>(user.photoUrl ? user.photoUrl : null);
     const [imageChanged, setImageChanged] = useState(false);
+    
     const dispatch = useDispatch();
-  
-  
   
     const pickImage = async () => {
       // No permissions request is necessary for launching the image library
       let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         aspect: [4, 3],
         quality: 1,
       });
   
-      console.log(result);
   
       if (!result.cancelled) {
         setImage(result.uri);
         setImageChanged(true);
       }
     };
-    // console.log(user.email);
 
     const onSave = () => {
         if (textEmail !== ''  /* && other inputs are not empty */) {
@@ -93,8 +52,7 @@ export default function EditProfileScreen() {
     }
 
     return (
-        <View style={styles.container}>
-            
+        <View style={styles.container}>         
             {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
             <Button title="Change profile picture" onPress={pickImage} />
             
@@ -108,11 +66,10 @@ export default function EditProfileScreen() {
                 inputValue={textDisplayName}
                 setText={setTextDisplayName}
                 error={"Display name can't be empty"}
-                placeholder="enter displayname here"
+                placeholder="Enter displayname here"
             />
 
-            <Button title="Save" onPress={onSave} />
-            
+            <Button title="Save" onPress={onSave} />           
         </View>
     );
 }

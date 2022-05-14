@@ -51,34 +51,48 @@ export function updateEmail(email : string) {
     } 
 }
 
-export function updateProfileInfo(displayName : string, filename? : string | null ) {
+export function updateProfileInfo(displayName : string, uri? : string | null ) {
     return async function (dispatch : any, getState : any) {
         
         const user = getState().user.loggedInUser;
 
-        
-        
-        if ((user.displayName === displayName || displayName == "") && !filename) {
+        if ((user.displayName === displayName || displayName == "") && !uri) {
             return;
         }
 
-        const photoUrl = await uploadImageAndGetUrl(filename!);
-        console.log("url 2: ", photoUrl);
-        console.log("test");
-        
+        let photoUrl;
 
-        const request = {
+        if (uri) {
+            try {
+                photoUrl = await uploadImageAndGetUrl(uri!);
+                console.log("url 2: ", photoUrl);
+            } 
+            
+            catch (error : any) {
+                console.log(error.message)    
+            }
+
+        }
+
+        const request : any = {
             method : "POST",
             headers : {
                 "Content-Type" : "application/json"
             },
-            body  : JSON.stringify({
-                displayName : displayName,
-                photoUrl : photoUrl,
-                returnSecureToken : true,
-                idToken : await SecureStore.getItemAsync("idToken")
-            })
         }
+
+        const requestBody : any = {
+            displayName : displayName,
+            returnSecureToken : true,
+            idToken : await SecureStore.getItemAsync("idToken")
+        }
+
+        if (photoUrl) {
+            requestBody.photoUrl = photoUrl;
+        }
+
+        request.body = JSON.stringify(requestBody);
+
 
         const response = await fetch("https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyDlO9g-z87u34DcKesUQmUJ81HqYsUXRqY", request);
 
@@ -88,23 +102,15 @@ export function updateProfileInfo(displayName : string, filename? : string | nul
         }
 
         else {
-            console.log("profile info changed successfully");
-
             const data = await response.json();
 
-            console.log("update profile: ", data);
-            
             const newUser = new User(data.email, data.displayName, data.photoUrl);
-
-            
-
             const idToken = data.idToken ? data.idToken : getState().user.idToken;
 
             await SecureStore.setItemAsync("idToken", idToken);
             await SecureStore.setItemAsync("user", JSON.stringify(newUser));
             
             dispatch(rehydrateUser(newUser, idToken));
-            console.log("id token update: ", getState());
         }
     }
 }

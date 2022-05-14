@@ -60,11 +60,7 @@ export default function ProfileScreen() {
             <Text>Profile Screen</Text>
             <Button title="Edit profile" onPress={() => navigation.navigate("EditProfile")} />
             <Text>Logged in as {displayName}</Text>
-            <>
-            <Button color={"red"} title='Log out' onPress={() => dispatch(logout())}/>
-            </>
-                        
-            
+            <Button color={"red"} title='Log out' onPress={() => dispatch(logout())}/>            
         </View>
     );
 }
