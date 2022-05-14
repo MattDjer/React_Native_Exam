@@ -10,9 +10,8 @@ import HomeScreen from '../screens/HomeScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import SignupScreen from '../screens/SignupScreen';
 import LoginScreen from '../screens/LoginScreen';
-import CreatePost from '../screens/CreatePost';
 import PostsScreen from '../screens/PostsScreen';
-import PostDetails from '../screens/PostDetails'
+import PostDetails from '../screens/Details'
 import Screen1 from './../screens/Screen1';
 import Screen2 from './../screens/Screen2';
 import Screen3 from './../screens/Screen3';
@@ -36,7 +35,7 @@ function PostsStackNavigator() {
     return (
         <Stack.Navigator>
             <Stack.Screen name="Posts" component={PostsScreen}  />
-            <Stack.Screen name="PostDetails" component={PostDetails} />
+            <Stack.Screen name="Details" component={PostDetails} />
         </Stack.Navigator>
     );
 }

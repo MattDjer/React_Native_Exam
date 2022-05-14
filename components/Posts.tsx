@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, StyleSheet, Text, TextInput, View, Image, FlatList, TouchableOpacity, TouchableHighlight } from 'react-native';
+import { Button, StyleSheet, Text, TextInput, View, Image, FlatList, TouchableOpacity, TouchableHighlight, Keyboard } from 'react-native';
 import { fetchPosts } from '../store/actions/post.actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { Post } from '../entities/Post';
@@ -7,7 +7,7 @@ import { createPost, postDetails } from '../store/actions/post.actions';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { StackParamList } from "../typings/navigations";
-import uuid from "react-native-uuid";
+
 
 type ScreenNavigationType = NativeStackNavigationProp<
     StackParamList,
@@ -16,18 +16,15 @@ type ScreenNavigationType = NativeStackNavigationProp<
 
 export default function Posts() {
     const navigation = useNavigation<ScreenNavigationType>()
-
+    
     const dispatch = useDispatch()
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [photo, setPhoto] = useState('')
 
     const handleAddPost = () => {       
-        let postId = uuid.v4().toString()
-        console.log(postId)
 
-        const post: Post = new Post(postId, 
-                                    title, 
+        const post: Post = new Post(title, 
                                     description, 
                                     new Date(), 
                                     "undefined",  // user ID 
@@ -35,19 +32,37 @@ export default function Posts() {
                                     [],           // empty array for comments
                                     "undefined"); // user DisplayName 
         dispatch(createPost(post));
+        dispatch(fetchPosts())
+        setTitle('')
+        setDescription('')
+
+        Keyboard.dismiss()
     }
 
-    const posts: Post[] = useSelector((state: any) => state.post.posts) 
+    let posts: Post[] = useSelector((state: any) => state.post.posts) 
     
     useEffect(() => {
-        dispatch(fetchPosts());
+        dispatch(fetchPosts());        
     }, [])
 
 
+    // Used to sum comments
+    let count = 0
+    function sumComments(index: number) {
+        for (let comment in posts[index].comments) {
+            count += 1
+        }
+    }
+
+    function resetCount() { count = 0}
+
+
+    // Navigation
     const goToDetails = (post: any) => {        
         dispatch(postDetails(post));
-        navigation.navigate("PostDetails")
+        navigation.navigate("Details")
     }
+
 
     return (
         
@@ -85,6 +100,11 @@ export default function Posts() {
                         <Text style={{fontSize: 20}}>{posts[index].title}</Text> 
                         <Text style={{fontSize: 12, color: "purple"}}>
                             {posts[index].displayName ? posts[index].displayName : posts[index].userMail}
+                        </Text>
+                        {resetCount()}
+                        {sumComments(index)}
+                        <Text>
+                               Comments: {count}                      
                         </Text>
                     </View>
                     

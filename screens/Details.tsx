@@ -1,22 +1,34 @@
-import React, { useState } from 'react';
-import { Button, StyleSheet, Text, View, ScrollView, TextInput } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Button, StyleSheet, Text, View, ScrollView, TextInput, TouchableOpacity, Keyboard } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
 import { Post } from '../entities/Post'
-import { addComment } from '../store/actions/comment.actions'
+import { addComment, fetchComments } from '../store/actions/comment.actions'
+import { fetchPosts } from '../store/actions/post.actions'
 
 export default function PostDetails() {
        
     const [comment, setComment] = useState('')   
 
-    const post: Post[] = useSelector((state: any) => state.post.post) 
-
     const dispatch = useDispatch()
     const postComment = () => {
-        dispatch(addComment(comment))
+        dispatch(addComment(comment, post))
+        dispatch(fetchComments(post.id))
+        dispatch(fetchPosts())
+        setComment('')
+        Keyboard.dismiss()
     }
 
+    const post: Post[] = useSelector((state: any) => state.post.post) 
+    const comments: Comment[] = [] = useSelector((state: any) => state.comment.comments) 
+
+    useEffect(() => {
+        dispatch(fetchComments(post.id));
+    }, [])
+
+
     return (
+        <>
         <SafeAreaView>
            <View style={styles.container}>
                     <View style={{flexDirection: "row", justifyContent: 'space-between', padding: 10, }}> 
@@ -42,8 +54,26 @@ export default function PostDetails() {
                     title='Submit' 
                     onPress={postComment}
                 />                   
-            </View>         
-        </SafeAreaView>       
+            </View>    
+
+            {comments.map((comment: any, index) => (
+            <TouchableOpacity
+                key={index} 
+                >
+                <View style={styles.container}>
+                    <View style={{flexDirection: "row", justifyContent: 'space-between', padding: 10, }}> 
+                        <Text style={{fontSize: 20}}>{comments[index].text}</Text> 
+                        <Text style={{fontSize: 12, color: "purple"}}>
+                            {comments[index].displayName ? comments[index].displayName : comments[index].userMail}
+                        </Text>
+                    </View>
+                                         
+                </View> 
+            </TouchableOpacity>      
+        ))}
+                 
+        </SafeAreaView>
+        </>       
     );
 }
 

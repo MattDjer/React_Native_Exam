@@ -6,13 +6,16 @@ import Navigation from './components/Navigation';
 import chatReducer from './store/reducers/chat.reducer';
 import postReducer from './store/reducers/post.reducer';
 import userReducer from './store/reducers/user.reducer';
+import commentReducer from './store/reducers/comment.reducer';
 
 //test
 
 const rootReducer = combineReducers({
+  comment: commentReducer,
   chat: chatReducer,
   user: userReducer,
   post: postReducer,
+  
   // posts: PostReducer
 });
 export type RootState = ReturnType<typeof rootReducer>

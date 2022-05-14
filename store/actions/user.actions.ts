@@ -33,9 +33,7 @@ export const login = (email: string, password: string) => {
             console.log("There was a problem login in")
             //dispatch({type: SIGNUP_FAILED, payload: 'something'})
         } else {
-            const data: FirebaseLoginSuccess = await response.json(); // json to javascript
-            console.log("data from server", data);
-            
+            const data: FirebaseLoginSuccess = await response.json(); // json to javascript            
             
             let user = new User(data.email, '', '');
             if (data.displayName) {

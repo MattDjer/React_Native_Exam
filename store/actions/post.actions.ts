@@ -32,18 +32,20 @@ export const fetchPosts = () => {
         } else {
             const data = await response.json(); // json to javascript
             let posts: Post[] = []
-           
+        
             for (const key in data) {
                 // create Post objects and push them into the array posts.
                 const obj = data[key];
-                posts.push(new Post(obj.id, 
-                                    obj.title, 
+
+                posts.push(new Post(obj.title, 
                                     obj.description, 
                                     obj.timestamp, 
                                     obj.userId, 
                                     obj.userMail, 
+                                    obj.comments,
+                                    key,
                                     obj.displayName,
-                                    obj.comments))
+                                    ))
             }
 
             dispatch({ type: 'FETCH_POSTS', payload: posts })
@@ -59,8 +61,6 @@ export const createPost = (post: Post) => {
         post.userId = getState().user.localId;
         post.userMail = getState().user.loggedInUser.email //
         
-        console.log("POST IN ACTIONS")
-        console.log(post)
 
         //delete chatroom.id // for an update, this would remove the id attribute (and value) from the chatroom
         const response = await fetch(
@@ -70,7 +70,7 @@ export const createPost = (post: Post) => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(
-                post               
+                post             
             )
         });
 
