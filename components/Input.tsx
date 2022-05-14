@@ -3,8 +3,8 @@ import { StyleSheet, Text, TextInput, View } from 'react-native';
 
 
 
-const Input = ({ title, inputValue, error, setText }:
-    { title: string, inputValue: string, error: string, setText: (i: string) => void }) => {
+const Input = ({ title, inputValue, error, setText, placeholder }:
+    { title: string, inputValue: string, error: string, setText: (i: string) => void, placeholder? : string }) => {
 
     const [entered, setEntered] = useState(false)
 
@@ -16,7 +16,7 @@ const Input = ({ title, inputValue, error, setText }:
     return (
         <View style={styles.container}>
             <Text>{title}</Text>
-            <TextInput value={inputValue} onChangeText={handleChangeText} onBlur={() => setEntered(true)} />
+            <TextInput style={styles.inputField} value={inputValue} placeholder={placeholder} onChangeText={handleChangeText} onBlur={() => setEntered(true)} />
             {inputValue === '' && entered ? <Text>{error}</Text> : <></>}
         </View>
     );
@@ -26,9 +26,15 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        // alignItems: 'center',
+        alignItems: 'center',
         // justifyContent: 'center',
     },
+
+    inputField: {
+        borderColor : "black",
+        borderStyle : "solid",
+        borderWidth : 1
+    }
 })
 
 export default Input;

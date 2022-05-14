@@ -4,13 +4,10 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useEffect } from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
 import { StackParamList } from '../typings/navigations';
-import { logout, rehydrateUser, REHYDRATE_USER } from '../store/actions/user.actions';
+import { logout, rehydrateUser } from '../store/actions/user.actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../App';
 import { User } from "../entities/User";
-import ImagePickerExample from "../components/ImagePickerExample";
-import firebaseApp from "../firebase";
-import { getApps } from "firebase/app";
 
 type ScreenNavigationType = NativeStackNavigationProp<StackParamList, "Profile">;
 
@@ -22,10 +19,6 @@ export default function ProfileScreen() {
     const displayName = useSelector((state : RootState) => state.user.loggedInUser.displayName);
     const idToken = useSelector((state : RootState) => state.user.idToken);
 
-    function printFirebaseApps() {
-        console.log("number of instances: ", getApps().length);
-        console.log("app: ", firebaseApp);
-    }
 
     async function getUserInfo() {
         
@@ -48,14 +41,8 @@ export default function ProfileScreen() {
         }
 
         else {
-            console.log("profile info retrieved");
-
             const data = await response.json();
-
-            console.log("user info: ", data);
-            
             const newUser = new User(data.users[0].email, data.users[0].displayName, data.users[0].photoUrl);
-
 
             await SecureStore.setItemAsync("user", JSON.stringify(newUser));
             
@@ -73,10 +60,7 @@ export default function ProfileScreen() {
             <Text>Profile Screen</Text>
             <Button title="Edit profile" onPress={() => navigation.navigate("EditProfile")} />
             <Text>Logged in as {displayName}</Text>
-            <Button title='Logout' onPress={() => dispatch(logout())}/>
-            <Button title="print firebase" onPress={printFirebaseApps}/>
-            
-            
+            <Button color={"red"} title='Log out' onPress={() => dispatch(logout())}/>            
         </View>
     );
 }
@@ -87,5 +71,5 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
-    },
+    }
 })

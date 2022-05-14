@@ -43,7 +43,7 @@ function PostsStackNavigator() {
 function ProfileStackNavigator() {
     return (
         <Stack.Navigator>
-            <Stack.Screen name="Profile" component={ProfileScreen} />
+            <Stack.Screen name="Profile" component={ProfileScreen} options={{title : "Profile"}} />
             <Stack.Screen name="EditProfile" component={EditProfileScreen} />
         </Stack.Navigator>
     )
@@ -71,8 +71,8 @@ export default function Navigation() {
             ) : (
                 // show a stack navigator with only signup and login screens.
                 <Stack.Navigator>
+                    <Stack.Screen name="Login" component={LoginScreen} />
                     <Stack.Screen name="Signup" component={SignupScreen} />
-                    <Stack.Screen name="Login" component={LoginScreen} /> 
                 </Stack.Navigator>
             )}
         </NavigationContainer>

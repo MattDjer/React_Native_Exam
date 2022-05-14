@@ -1,13 +1,22 @@
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import * as SecureStore from 'expo-secure-store';
 import React, { useEffect, useState } from 'react';
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { rehydrateUser, login } from '../store/actions/user.actions';
+import { StackParamList } from '../typings/navigations';
+
+type ScreenNavigationType = NativeStackNavigationProp<
+    StackParamList,
+    "Signup"
+>
 
 export default function SignupScreen() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useDispatch();
+    const navigation = useNavigation<ScreenNavigationType>()
 
     async function readPersistedUserInfo() {
         const token = await SecureStore.getItemAsync('idToken');
@@ -34,6 +43,7 @@ export default function SignupScreen() {
             <TextInput value={email} placeholder="email" onChangeText={setEmail} />
             <TextInput value={password} placeholder="password"  secureTextEntry={true} onChangeText={setPassword} />
             <Button title="Signin" onPress={() => dispatch(login(email, password))} />
+            <Button title="Go to signup" onPress={() => navigation.navigate("Signup")} />
         </View>
     );
 }
