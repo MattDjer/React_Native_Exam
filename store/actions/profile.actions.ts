@@ -1,6 +1,8 @@
 import * as SecureStore from 'expo-secure-store';
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { User } from '../../entities/User';
 import { LOGIN, rehydrateUser, REHYDRATE_USER } from "./user.actions";
+import uuid from "react-native-uuid";
 
 export function updateEmail(email : string) {
     return async function(dispatch : any, getState : any) {
@@ -49,14 +51,21 @@ export function updateEmail(email : string) {
     } 
 }
 
-export function updateProfileInfo(displayName : string) {
+export function updateProfileInfo(displayName : string, filename? : string | null ) {
     return async function (dispatch : any, getState : any) {
         
         const user = getState().user.loggedInUser;
+
         
-        if (user.displayName === displayName || displayName == "") {
+        
+        if ((user.displayName === displayName || displayName == "") && !filename) {
             return;
         }
+
+        const photoUrl = await uploadImageAndGetUrl(filename!);
+        console.log("url 2: ", photoUrl);
+        console.log("test");
+        
 
         const request = {
             method : "POST",
@@ -65,6 +74,7 @@ export function updateProfileInfo(displayName : string) {
             },
             body  : JSON.stringify({
                 displayName : displayName,
+                photoUrl : photoUrl,
                 returnSecureToken : true,
                 idToken : await SecureStore.getItemAsync("idToken")
             })
@@ -97,4 +107,19 @@ export function updateProfileInfo(displayName : string) {
             console.log("id token update: ", getState());
         }
     }
+}
+
+async function uploadImageAndGetUrl(uri : string) {
+    const response = await fetch(uri);
+    const blob = await response.blob();
+    const storage = getStorage();
+    const filename = uuid.v4().toString();
+    const imageRef = ref(storage, filename);
+    let url = "";
+
+    await uploadBytesResumable(imageRef, blob);
+    console.log('Uploaded a blob or file!');
+    url = await getDownloadURL(imageRef)
+    console.log("url: ", url);
+    return url;
 }

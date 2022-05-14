@@ -9,6 +9,7 @@ import { updateEmail, updateProfileInfo } from '../store/actions/profile.actions
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import uuid from "react-native-uuid";
 import * as ImagePicker from 'expo-image-picker';
+import { rehydrateUser } from '../store/actions/user.actions';
 
 
 
@@ -36,6 +37,9 @@ function setProfilePicture(filename : string) {
         const imageRef = ref(storage, filename);
         const url = await getDownloadURL(imageRef);
         console.log(url);
+
+
+
     }
 } 
 
@@ -45,7 +49,8 @@ export default function EditProfileScreen() {
     const user: User = useSelector((state: RootState) => state.user.loggedInUser);
     const [textEmail, setTextEmail] = useState(user.email);
     const [textDisplayName, setTextDisplayName] = useState(user.displayName ? user.displayName : "");
-    const [image, setImage] = useState<string | null>(null);
+    const [image, setImage] = useState<string | null>(user.photoUrl ? user.photoUrl : null);
+    const [imageChanged, setImageChanged] = useState(false);
     const dispatch = useDispatch();
   
   
@@ -63,7 +68,7 @@ export default function EditProfileScreen() {
   
       if (!result.cancelled) {
         setImage(result.uri);
-        //uploadImageAsync(result.uri);
+        setImageChanged(true);
       }
     };
     // console.log(user.email);
@@ -72,7 +77,15 @@ export default function EditProfileScreen() {
         if (textEmail !== ''  /* && other inputs are not empty */) {
             // save the data to the server
             dispatch(updateEmail(textEmail));
-            dispatch(updateProfileInfo(textDisplayName));
+            if (imageChanged) {
+                setImageChanged(false);
+                dispatch(updateProfileInfo(textDisplayName, image));
+
+            }
+
+            else {
+                dispatch(updateProfileInfo(textDisplayName));
+            }
             
         } else {
             //Show error message
