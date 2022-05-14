@@ -43,7 +43,7 @@ function PostsStackNavigator() {
 function ProfileStackNavigator() {
     return (
         <Stack.Navigator>
-            <Stack.Screen name="Profile" component={ProfileScreen} />
+            <Stack.Screen name="Profile" component={ProfileScreen} options={{title : "Profile"}} />
             <Stack.Screen name="EditProfile" component={EditProfileScreen} />
         </Stack.Navigator>
     )

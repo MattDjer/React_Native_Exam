@@ -94,7 +94,10 @@ export default function EditProfileScreen() {
 
     return (
         <View style={styles.container}>
-            <Text>Edit Profile Screen</Text>
+            
+            {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+            <Button title="Change profile picture" onPress={pickImage} />
+            
             <Input title="What is your email?"
                 inputValue={textEmail}
                 setText={setTextEmail}
@@ -105,11 +108,8 @@ export default function EditProfileScreen() {
                 inputValue={textDisplayName}
                 setText={setTextDisplayName}
                 error={"Display name can't be empty"}
+                placeholder="enter displayname here"
             />
-
-            <Button title="Pick an image from camera roll" onPress={pickImage} />
-            {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
-            <Button title='upload to server' onPress={() => {if (image) { dispatch(uploadImageAsync(image)) } }}/>
 
             <Button title="Save" onPress={onSave} />
             
@@ -122,6 +122,6 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-end',
     },
 })
