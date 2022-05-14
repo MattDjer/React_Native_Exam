@@ -10,7 +10,7 @@ export const addComment = (comment: string) => {
         console.log(comment)
         //delete chatroom.id // for an update, this would remove the id attribute (and value) from the chatroom
         const response = await fetch(
-            'https://react-native-firebase-27cc0-default-rtdb.europe-west1.firebasedatabase.app/comments.json?auth=' + token, {
+            'https://react-native-firebase-27cc0-default-rtdb.europe-west1.firebasedatabase.app/posts.json?auth=' + token, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

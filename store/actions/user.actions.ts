@@ -35,18 +35,21 @@ export const login = (email: string, password: string) => {
         } else {
             const data: FirebaseLoginSuccess = await response.json(); // json to javascript
             console.log("data from server", data);
-
-            const user = new User(data.email, '', '');
             
+            
+            let user = new User(data.email, '', '');
+            if (data.displayName) {
+                user = new User(data.email, data.displayName, '');
+            }
 
             await SecureStore.setItemAsync('idToken', data.idToken);
             await SecureStore.setItemAsync('localId', data.localId);
             await SecureStore.setItemAsync('user', JSON.stringify(user)); // convert user js-obj. to json
 
-            let localId =  await SecureStore.getItemAsync('localId')
-            let usert =  await SecureStore.getItemAsync('user')
-
-            dispatch({ type: LOGIN, payload: { user, idToken: data.idToken, localId: data.localId } })
+            dispatch({ type: LOGIN, payload: { user, 
+                                               idToken: data.idToken, 
+                                               localId: data.localId, 
+                                                } })
         }
     }
 }
@@ -77,12 +80,12 @@ export const signup = (email: string, password: string) => {
             //dispatch({type: SIGNUP_FAILED, payload: 'something'})
         } else {
             const data: FirebaseSignupSuccess = await response.json(); // json to javascript
-            console.log("data from server", data);
+            //console.log("data from server", data);
 
             const user = new User(data.email, '', '');
 
             await SecureStore.setItemAsync('idToken', data.idToken);
-            await SecureStore.setItemAsync('user', JSON.stringify(user)); // convert user js-obj. to json
+            await SecureStore.setItemAsync('user', JSON.stringify(user)); // convert user js-obj. to json            
 
             dispatch({ type: SIGNUP, payload: { user, idToken: data.idToken, localId: data.localId } })
             console.log(getState());

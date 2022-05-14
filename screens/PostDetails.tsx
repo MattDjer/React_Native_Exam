@@ -12,8 +12,7 @@ export default function PostDetails() {
     const post: Post[] = useSelector((state: any) => state.post.post) 
 
     const dispatch = useDispatch()
-    const addComment = () => {
-        console.log(comment)
+    const postComment = () => {
         dispatch(addComment(comment))
     }
 
@@ -41,7 +40,7 @@ export default function PostDetails() {
                 />
                 <Button 
                     title='Submit' 
-                    onPress={addComment}
+                    onPress={postComment}
                 />                   
             </View>         
         </SafeAreaView>       

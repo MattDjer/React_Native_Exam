@@ -7,6 +7,7 @@ import { createPost, postDetails } from '../store/actions/post.actions';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { StackParamList } from "../typings/navigations";
+import uuid from "react-native-uuid";
 
 type ScreenNavigationType = NativeStackNavigationProp<
     StackParamList,
@@ -22,11 +23,18 @@ export default function Posts() {
     const [photo, setPhoto] = useState('')
 
     const handleAddPost = () => {       
-        const post: Post = new Post(title, description, new Date(), "undefined", "undefined"); // getting user info in post.action
+        let postId = uuid.v4().toString()
+        console.log(postId)
+
+        const post: Post = new Post(postId, 
+                                    title, 
+                                    description, 
+                                    new Date(), 
+                                    "undefined",  // user ID 
+                                    "undefined",  // user Mail
+                                    [],           // empty array for comments
+                                    "undefined"); // user DisplayName 
         dispatch(createPost(post));
-        dispatch(fetchPosts())
-        setDescription('')
-        setTitle('')       
     }
 
     const posts: Post[] = useSelector((state: any) => state.post.posts) 

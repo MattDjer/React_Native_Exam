@@ -36,7 +36,14 @@ export const fetchPosts = () => {
             for (const key in data) {
                 // create Post objects and push them into the array posts.
                 const obj = data[key];
-                posts.push(new Post(obj.title, obj.description, obj.timestamp, obj.userId, obj.userMail, obj.displayName))
+                posts.push(new Post(obj.id, 
+                                    obj.title, 
+                                    obj.description, 
+                                    obj.timestamp, 
+                                    obj.userId, 
+                                    obj.userMail, 
+                                    obj.displayName,
+                                    obj.comments))
             }
 
             dispatch({ type: 'FETCH_POSTS', payload: posts })
@@ -45,15 +52,15 @@ export const fetchPosts = () => {
 }
 
 
-
 export const createPost = (post: Post) => {
     return async (dispatch: any, getState: any) => {
         const token = getState().user.idToken;
         post.displayName = getState().user.loggedInUser.displayName       
         post.userId = getState().user.localId;
-        post.userMail = getState().user.loggedInUser.email
-
-
+        post.userMail = getState().user.loggedInUser.email //
+        
+        console.log("POST IN ACTIONS")
+        console.log(post)
 
         //delete chatroom.id // for an update, this would remove the id attribute (and value) from the chatroom
         const response = await fetch(
@@ -63,12 +70,12 @@ export const createPost = (post: Post) => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(
-                post                
+                post               
             )
         });
 
         if (!response.ok) {
-            console.log("WHOE")
+            console.log("Failed to create post")
             //There was a problem..
             //dispatch({type: ADD_CHATROOM_FAILED, payload: 'something'})
         } else {
