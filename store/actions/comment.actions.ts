@@ -2,7 +2,7 @@
 export const ADD_COMMENT = 'ADD_COMMENT';
 
 
-export const addComment = (comment: any) => {
+export const addComment = (comment: string) => {
     return async (dispatch: any, getState: any) => {
         const token = getState().user.idToken;
         const userId = getState().user.localId;

@@ -18,9 +18,13 @@ const userReducer = (state: ReduxState = initialState, action: any) => {
         case REHYDRATE_USER:
             return { ...state, loggedInUser: action.payload.user, idToken: action.payload.idToken}
         case SIGNUP:
-            return { ...state, loggedInUser: action.payload.user, idToken: action.payload.idToken, localId: action.payload.localId }
+            return { ...state, loggedInUser: action.payload.user, idToken: action.payload.idToken, 
+                               localId: action.payload.localId, userMail: action.payload.userMail, 
+                               username: action.payload.username }
         case LOGIN: 
-            return { ...state, loggedInUser: action.payload.user, idToken: action.payload.idToken, localId: action.payload.localId }
+            return { ...state, loggedInUser: action.payload.user, idToken: action.payload.idToken, 
+                               localId: action.payload.localId, userMail: action.payload.userMail, 
+                               displayName: action.payload.displayName }
 
 
         default:

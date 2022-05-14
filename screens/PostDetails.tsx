@@ -14,15 +14,23 @@ export default function PostDetails() {
     const dispatch = useDispatch()
     const addComment = () => {
         console.log(comment)
-        //dispatch(addComment(comment))
+        dispatch(addComment(comment))
     }
 
     return (
         <SafeAreaView>
            <View style={styles.container}>
-                <Text style={styles.titles}>{post.title}</Text>
-                <Text style={styles.text}>{post.description}</Text>                      
-            </View>
+                    <View style={{flexDirection: "row", justifyContent: 'space-between', padding: 10, }}> 
+                        <Text style={{fontSize: 20}}>{post.title}</Text> 
+                        <Text style={{fontSize: 12, color: "purple"}}>
+                            {post.displayName ? post.displayName : post.userMail}
+                        </Text>
+                    </View>
+                    
+                    <View style={{paddingLeft: 10, paddingBottom: 5}}>
+                        <Text style={{fontSize: 15}}>{post.description}</Text>  
+                    </View>                        
+                </View>
 
             <View style={styles.container}>
                 <TextInput 

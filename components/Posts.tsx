@@ -22,7 +22,7 @@ export default function Posts() {
     const [photo, setPhoto] = useState('')
 
     const handleAddPost = () => {       
-        const post: Post = new Post(title, description, new Date(), "undefined");
+        const post: Post = new Post(title, description, new Date(), "undefined", "undefined"); // getting user info in post.action
         dispatch(createPost(post));
         dispatch(fetchPosts())
         setDescription('')
@@ -73,8 +73,16 @@ export default function Posts() {
                 key={index} 
                 onPress={() => goToDetails(posts[index])}>
                 <View style={styles.container}>
-                    <Text style={{fontSize: 20}}>{posts[index].title}</Text>
-                    <Text style={{fontSize: 15}}>{posts[index].description}</Text>                      
+                    <View style={{flexDirection: "row", justifyContent: 'space-between', padding: 10, }}> 
+                        <Text style={{fontSize: 20}}>{posts[index].title}</Text> 
+                        <Text style={{fontSize: 12, color: "purple"}}>
+                            {posts[index].displayName ? posts[index].displayName : posts[index].userMail}
+                        </Text>
+                    </View>
+                    
+                    <View style={{paddingLeft: 10, paddingBottom: 5}}>
+                        <Text style={{fontSize: 15}}>{posts[index].description}</Text>  
+                    </View>                        
                 </View> 
             </TouchableOpacity>      
         ))}

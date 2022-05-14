@@ -44,7 +44,7 @@ export const login = (email: string, password: string) => {
             await SecureStore.setItemAsync('user', JSON.stringify(user)); // convert user js-obj. to json
 
             let localId =  await SecureStore.getItemAsync('localId')
-            console.log(localId)
+            let usert =  await SecureStore.getItemAsync('user')
 
             dispatch({ type: LOGIN, payload: { user, idToken: data.idToken, localId: data.localId } })
         }
