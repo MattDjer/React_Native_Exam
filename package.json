@@ -32,7 +32,8 @@
     "react-redux": "^7.2.6",
     "redux": "^4.1.2",
     "redux-thunk": "^2.4.1",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "expo-image-manipulator": "~10.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

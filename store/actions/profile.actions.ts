@@ -3,6 +3,7 @@ import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/
 import { User } from '../../entities/User';
 import { LOGIN, rehydrateUser, REHYDRATE_USER } from "./user.actions";
 import uuid from "react-native-uuid";
+import { manipulateAsync, FlipType, SaveFormat } from 'expo-image-manipulator';
 
 export function updateEmail(email : string) {
     return async function(dispatch : any, getState : any) {
@@ -116,6 +117,9 @@ export function updateProfileInfo(displayName : string, uri? : string | null ) {
 }
 
 async function uploadImageAndGetUrl(uri : string) {
+    const resizedImage = await manipulateAsync(uri, [{resize : {height : 500, width : 500}}], {compress : 1, format : SaveFormat.PNG});
+    uri = resizedImage.uri;
+    
     const response = await fetch(uri);
     const blob = await response.blob();
     const storage = getStorage();
