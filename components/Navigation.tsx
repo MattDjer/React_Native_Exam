@@ -10,7 +10,6 @@ import HomeScreen from '../screens/HomeScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import SignupScreen from '../screens/SignupScreen';
 import LoginScreen from '../screens/LoginScreen';
-import CreatePost from '../screens/CreatePost';
 import PostsScreen from '../screens/PostsScreen';
 import PostDetails from '../screens/PostDetails'
 import Screen1 from './../screens/Screen1';
@@ -72,8 +71,8 @@ export default function Navigation() {
             ) : (
                 // show a stack navigator with only signup and login screens.
                 <Stack.Navigator>
+                    <Stack.Screen name="Login" component={LoginScreen} />
                     <Stack.Screen name="Signup" component={SignupScreen} />
-                    <Stack.Screen name="Login" component={LoginScreen} /> 
                 </Stack.Navigator>
             )}
         </NavigationContainer>

@@ -40,12 +40,13 @@ export default function SignupScreen() {
 
     return (
         <View style={styles.container}>  
-            <Button title="Go to login screen" onPress={() => navigation.navigate("Login")} />
+            
 
             <Text>Signup</Text>
             <TextInput value={email} placeholder="email" onChangeText={setEmail} />
             <TextInput value={password} placeholder="password" secureTextEntry={true} onChangeText={setPassword} />
             <Button title="Signup" onPress={() => dispatch(signup(email, password))} />
+            <Button title="Go to login" onPress={() => navigation.navigate("Login")} />
             
         </View>
     );
