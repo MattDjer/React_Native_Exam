@@ -76,7 +76,7 @@ export default function ProfileScreen() {
             <Button title='Logout' onPress={() => dispatch(logout())}/>
             <Button title="print firebase" onPress={printFirebaseApps}/>
             
-            <ImagePickerExample></ImagePickerExample>
+            
         </View>
     );
 }

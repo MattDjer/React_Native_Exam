@@ -11,23 +11,28 @@ LogBox.ignoreLogs(['Setting a timer']);
 
 function uploadImageAsync(uri : string) {
     return async function(dispatch : any, getState : any) {
-        console.log(1);
         const response = await fetch(uri);
-        console.log(2);
         const blob = await response.blob();
-        console.log(3);
         const storage = getStorage();
-        console.log(4);
-        const imageRef = ref(storage, uuid.v4().toString());
-        console.log(5);
+        const filename = uuid.v4().toString();
+        const imageRef = ref(storage, filename);
   
         uploadBytesResumable(imageRef, blob).then((snapshot) => {
           console.log('Uploaded a blob or file!');
+          dispatch(setProfilePicture(filename));
         })
 
-        console.log(6);
     }
 }
+
+function setProfilePicture(filename : string) {
+    return async function(dispatch : any, getState : any) {
+        const storage = getStorage();
+        const imageRef = ref(storage, filename);
+        const url = await getDownloadURL(imageRef);
+        console.log(url);
+    }
+} 
 
 export default function ImagePickerExample() {
   const [image, setImage] = useState<string | null>(null);
