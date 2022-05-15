@@ -14,8 +14,6 @@ export const postDetails = (post: Post) => {
     };
 
 
-
-
 export const fetchPosts = () => {
     return async (dispatch: any, getState: any) => {
         const token = getState().user.idToken;
@@ -100,23 +98,30 @@ export const addLikeToPost = (numberOfLikes: number, postId: string) => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(
-                userLike            
-            )
+                body: JSON.stringify(
+                    userLike            
+                )
         });
-
-        // Increment Number of likes
-        await fetch(
-            'https://react-native-firebase-27cc0-default-rtdb.europe-west1.firebasedatabase.app/posts/'+ postId +'/.json?auth=' + token, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(
-               { "numberOfLikes" : numberOfLikes + 1 }       
-            )
-        });
-
+        if (!responseUserLike.ok) {
+            console.log("Failed to add user to like")
+            //dispatch({type: ADD_CHATROOM_FAILED, payload: 'something'})
+        } 
+        else {
+            // Increment Number of likes
+            const responseNumberOfLikes = await fetch(
+                'https://react-native-firebase-27cc0-default-rtdb.europe-west1.firebasedatabase.app/posts/'+ postId +'/.json?auth=' + token, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                    body: JSON.stringify(
+                        { "numberOfLikes" : numberOfLikes + 1 }       
+                    )
+                });
+            if (!responseNumberOfLikes.ok) {
+                console.log("Failed to increment like")    
+            }     
+        }
     }
 }
 
@@ -139,17 +144,25 @@ export const removeLikeFromPost = (numberOfLikes: number, postId: string) => {
                 userLike            
             )
         });
-
+        if (!responseUserLike.ok) {
+            console.log("Failed to remove user from like")
+        }    
+        else {    
         // Decrement Number of likes
-        await fetch(
-            'https://react-native-firebase-27cc0-default-rtdb.europe-west1.firebasedatabase.app/posts/'+ postId +'/.json?auth=' + token, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(
-               { "numberOfLikes" : numberOfLikes - 1 }       
-            )
-        });
+            await fetch(
+                'https://react-native-firebase-27cc0-default-rtdb.europe-west1.firebasedatabase.app/posts/'+ postId +'/.json?auth=' + token, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(
+                { "numberOfLikes" : numberOfLikes - 1 }       
+                )
+            });
+            if (!responseUserLike.ok) {
+                console.log("Failed to decrement number of likes")
+                //dispatch({type: ADD_CHATROOM_FAILED, payload: 'something'})
+            }
+        }
     }
 }

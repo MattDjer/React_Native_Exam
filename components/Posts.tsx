@@ -77,11 +77,11 @@ export default function Posts() {
     function renderLikeButton(item: any) {
         for (let userLike in item.userLikes) {
             if (item.userLikes[userLike].email == user.email) { 
-                return <Text>
+                return  <Text>
                             <Button title='Liked' onPress={() => handleRemoveLike(item.numberOfLikes, item.id)}>Liked</Button>       
                         </Text>
                 }
-                } return <Text>
+            }   return  <Text>
                             <Button title='Like' onPress={() => handleAddLike(item.numberOfLikes, item.id)}>Like</Button>       
                         </Text>
     }
