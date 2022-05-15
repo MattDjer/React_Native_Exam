@@ -102,12 +102,23 @@ export function updateProfileInfo(displayName : string, uri? : string | null ) {
 
         request.body = JSON.stringify(requestBody);
 
+        let response;
 
-        const response = await fetch("https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyDlO9g-z87u34DcKesUQmUJ81HqYsUXRqY", request);
+        try {
+            response = await fetch("https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyDlO9g-z87u34DcKesUQmUJ81HqYsUXRqY", request);
+        }
+
+        catch(err) {
+            dispatch({type : UPDATE_PROFILE_FAILED});
+            return;
+        }
+
+ 
 
         if (!response.ok) {
             //handle error
             console.log("changig profile info failed");
+            dispatch({type : UPDATE_PROFILE_FAILED});
         }
 
         else {
