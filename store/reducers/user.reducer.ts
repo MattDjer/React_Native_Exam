@@ -25,8 +25,6 @@ const userReducer = (state: ReduxState = initialState, action: any) => {
             return { ...state, loggedInUser: action.payload.user, idToken: action.payload.idToken, 
                                localId: action.payload.localId, userMail: action.payload.userMail, 
                                displayName: action.payload.displayName }
-
-
         default:
             return state;
     }

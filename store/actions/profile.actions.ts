@@ -5,8 +5,15 @@ import { LOGIN, rehydrateUser, REHYDRATE_USER } from "./user.actions";
 import uuid from "react-native-uuid";
 import { manipulateAsync, FlipType, SaveFormat } from 'expo-image-manipulator';
 
+export const IMAGE_UPLOAD_FAILED = "IMAGE_UPLOAD_FAILED";
+export const UPDATE_PROFILE_FAILED = "UPDATE_PROFILE_FAILED";
+export const CLEAR_MESSAGES = "CLEAR_MESSAGES";
+export const UPDATE_PROFILE_SUCCESS = "UPDATE_PROFILE_SUCCESS";
+
 export function updateEmail(email : string) {
     return async function(dispatch : any, getState : any) {
+
+        
         
         const user = getState().user.loggedInUser;
 
@@ -54,6 +61,7 @@ export function updateEmail(email : string) {
 
 export function updateProfileInfo(displayName : string, uri? : string | null ) {
     return async function (dispatch : any, getState : any) {
+
         
         const user = getState().user.loggedInUser;
 
@@ -65,12 +73,12 @@ export function updateProfileInfo(displayName : string, uri? : string | null ) {
 
         if (uri) {
             try {
-                photoUrl = await uploadImageAndGetUrl(uri!);
+                photoUrl = await uploadImageAndGetUrl(uri);
                 console.log("url 2: ", photoUrl);
             } 
             
             catch (error : any) {
-                console.log(error.message)    
+                dispatch({type : IMAGE_UPLOAD_FAILED});    
             }
 
         }
@@ -117,7 +125,7 @@ export function updateProfileInfo(displayName : string, uri? : string | null ) {
 }
 
 async function uploadImageAndGetUrl(uri : string) {
-    const resizedImage = await manipulateAsync(uri, [{resize : {height : 500, width : 500}}], {compress : 1, format : SaveFormat.PNG});
+    const resizedImage = await manipulateAsync(uri, [{resize : {height : 400, width : 400}}], {compress : 1, format : SaveFormat.PNG});
     uri = resizedImage.uri;
     
     const response = await fetch(uri);
