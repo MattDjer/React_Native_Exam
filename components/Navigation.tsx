@@ -63,7 +63,7 @@ export default function Navigation() {
                 // Show the app with all navigation
                 <Tab.Navigator screenOptions={{ headerShown: false }}>
                         <Tab.Screen name="Home" component={HomeScreen} />
-                        <Tab.Screen name="Posts" component={PostsStackNavigator} />
+                        <Tab.Screen name="Post" component={PostsStackNavigator} />
                         {/* <Tab.Screen name="Discover" component={DiscoverScreen} /> */}
                         <Tab.Screen name="Chat" component={ChatStackNavigator} />
                         <Tab.Screen name="Menu" component={ProfileStackNavigator} options={{title : "Profile"}}/>
@@ -88,11 +88,5 @@ const styles = StyleSheet.create({
     },
 })
 
-const Icon = (props: any) => (
-    <TouchableOpacity>
-      <View>
-        <Text>{props.text}</Text>
-      </View>
-    </TouchableOpacity>
-  );
+
   

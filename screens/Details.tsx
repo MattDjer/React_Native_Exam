@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, StyleSheet, Text, View, ScrollView, TextInput, TouchableOpacity, Keyboard } from 'react-native';
+import { Button, StyleSheet, Text, View, ScrollView, TextInput, TouchableOpacity, Keyboard, FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
 import { Post } from '../entities/Post'
@@ -54,23 +54,26 @@ export default function PostDetails() {
                     title='Submit' 
                     onPress={postComment}
                 />                   
-            </View>    
+            </View>  
 
-            {comments.map((comment: any, index) => (
-            <TouchableOpacity
-                key={index} 
-                >
-                <View style={styles.container}>
-                    <View style={{flexDirection: "row", justifyContent: 'space-between', padding: 10, }}> 
-                        <Text style={{fontSize: 20}}>{comments[index].text}</Text> 
-                        <Text style={{fontSize: 12, color: "purple"}}>
-                            {comments[index].displayName ? comments[index].displayName : comments[index].userMail}
-                        </Text>
-                    </View>
-                                         
-                </View> 
-            </TouchableOpacity>      
-        ))}
+            <FlatList
+                data={comments}
+                renderItem={({ item }: { item: any }) => (
+                    <TouchableOpacity>
+                        <View style={styles.container}>
+                            <View style={{flexDirection: "row", justifyContent: 'space-between', padding: 10, }}>
+                                <Text style={{fontSize: 20}}>{item.text} </Text>
+                                <Text style={{fontSize: 12, color: "purple"}}>
+                                            {item.displayName ? item.displayName : item.userMail}
+                                </Text>
+                            </View>
+                        </View>
+                    </TouchableOpacity>
+
+                )} 
+                keyExtractor={(index) => index.toString()}              
+            >
+            </FlatList>  
                  
         </SafeAreaView>
         </>       

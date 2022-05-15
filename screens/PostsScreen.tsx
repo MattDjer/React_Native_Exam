@@ -7,15 +7,12 @@ import Posts from '../components/Posts';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function PostsScreen() {
-    const dispatch = useDispatch();
 
     return (
 
         <SafeAreaView>
-            <Navbar/>
-            <ScrollView>
-                <Posts />           
-            </ScrollView>
+            <Navbar/>           
+            <Posts />                      
         </SafeAreaView>
     );
 }
