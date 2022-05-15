@@ -55,9 +55,10 @@ export default function PostDetails() {
                     onPress={postComment}
                 />                   
             </View>  
-
+            
             <FlatList
                 data={comments}
+                keyExtractor={(index) => index.toString()} 
                 renderItem={({ item }: { item: any }) => (
                     <TouchableOpacity>
                         <View style={styles.container}>
@@ -70,11 +71,10 @@ export default function PostDetails() {
                         </View>
                     </TouchableOpacity>
 
-                )} 
-                keyExtractor={(index) => index.toString()}              
+                )}                              
             >
             </FlatList>  
-                 
+        
         </SafeAreaView>
         </>       
     );

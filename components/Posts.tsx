@@ -28,7 +28,7 @@ export default function Posts() {
     const [photo, setPhoto] = useState('')
 
     useEffect(() => {
-        dispatch(fetchPosts());        
+        dispatch(fetchPosts());       
     }, [])
 
 
@@ -45,8 +45,7 @@ export default function Posts() {
         dispatch(createPost(post));
         dispatch(fetchPosts())
         setTitle('')
-        setDescription('')
-
+        setDescription('')     
         Keyboard.dismiss() // leaves keyboard when submitting
     }
 
@@ -86,13 +85,20 @@ export default function Posts() {
                         </Text>
     }
 
+    
+    // Renders Flatlist with correct margin
+    let marginBottom = 0
+    for (let post in posts) {
+        marginBottom += 30
+    }
+   
 
     // Navigation
     const goToDetails = (post: any) => {        
         dispatch(postDetails(post));
         navigation.navigate("Details")
     }
-
+    
 
     return (      
         <>
@@ -120,10 +126,11 @@ export default function Posts() {
             <Text style={{fontSize: 35, alignSelf: "center"}}>All posts</Text>
         </View>
         
-
+        
         <FlatList
-            style={{marginBottom: 50}}
+            style={{marginBottom}}
             data={posts}
+            inverted={true}
             renderItem={({ item }: { item: any }) => (        
                 <TouchableOpacity onPress={() => goToDetails(item)}>
 
@@ -155,7 +162,7 @@ export default function Posts() {
                 </TouchableOpacity>              
             )}    
             >
-        </FlatList>     
+        </FlatList> 
         </>
     );
 }
@@ -167,6 +174,6 @@ const styles = StyleSheet.create({
         marginBottom: 10, 
         borderRadius: 10, 
         alignSelf: "center", 
-        width: 400
+        width: 370,
     },
 })

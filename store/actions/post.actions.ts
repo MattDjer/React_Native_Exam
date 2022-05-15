@@ -87,8 +87,7 @@ export const createPost = (post: Post) => {
 export const addLikeToPost = (numberOfLikes: number, postId: string) => {
     return async (dispatch: any, getState: any) => {
         const token = getState().user.idToken;
-        const userMail = getState().user.loggedInUser.email //
-        const displayName = getState().user.loggedInUser.displayName
+        const userMail = getState().user.loggedInUser.email 
         const userLike = new UserLike(userMail) 
         
         // Add userLike to post
@@ -104,7 +103,6 @@ export const addLikeToPost = (numberOfLikes: number, postId: string) => {
         });
         if (!responseUserLike.ok) {
             console.log("Failed to add user to like")
-            //dispatch({type: ADD_CHATROOM_FAILED, payload: 'something'})
         } 
         else {
             // Increment Number of likes
@@ -156,12 +154,11 @@ export const removeLikeFromPost = (numberOfLikes: number, postId: string) => {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(
-                { "numberOfLikes" : numberOfLikes - 1 }       
+                    { "numberOfLikes" : numberOfLikes - 1 }       
                 )
             });
             if (!responseUserLike.ok) {
                 console.log("Failed to decrement number of likes")
-                //dispatch({type: ADD_CHATROOM_FAILED, payload: 'something'})
             }
         }
     }
