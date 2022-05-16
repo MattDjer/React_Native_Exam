@@ -8,8 +8,7 @@ export class Post {
         public comments: Comment[],
         public numberOfLikes: number,
         public userLikes: any,
-        public id?: string,
-        public displayName?: string, 
-        
+        public id: string,
+        public displayName?: string,        
         ){}
 }

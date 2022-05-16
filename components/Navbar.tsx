@@ -9,9 +9,7 @@ export default function Navbar() {
     const dispatch = useDispatch();
 
     return (
-        <View style={styles.container}>
-            <Text>Navbar</Text>
-        </View>
+        <View style={styles.container}></View>
     );
 }
 
@@ -20,6 +18,6 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         fontSize: 50,
         fontWeight: "700",
-        margin: 15,
+        margin: 2,
     },
 })

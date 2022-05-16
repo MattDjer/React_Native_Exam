@@ -1,10 +1,12 @@
+import { useSelector } from "react-redux";
 import { Post } from "../../entities/Post";
 import { UserLike } from "../../entities/UserLike";
 
 
 export const ADD_POST = 'ADD_POST';
-export const FETCH_POSTS = 'FETCH_POSTS'
+export const UPDATE_POSTS = 'UPDATE_POSTS'
 export const POST_DETAILS = 'POST_DETAILS'
+export const ADD_LIKE = 'ADD_LIKE'
 
 
 export const postDetails = (post: Post) => {
@@ -48,7 +50,43 @@ export const fetchPosts = () => {
                                     obj.displayName,
                                     ))
             }
-            dispatch({ type: 'FETCH_POSTS', payload: posts })
+            dispatch({ type: 'UPDATE_POSTS', payload: posts })
+        }
+    };
+}
+
+
+export const fetchPost = (postId: string) => {
+    return async (dispatch: any, getState: any) => {
+        const token = getState().user.idToken;
+
+        console.log("FETCHING POST!_______________________________________________")
+
+        const response = await fetch(
+            'https://react-native-firebase-27cc0-default-rtdb.europe-west1.firebasedatabase.app/posts/' + postId  + '/.json?auth=' + token, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+    
+        if (!response.ok) {
+            console.log("Problem fetching posts")
+        } else {
+            const data = await response.json(); // json to javascript
+
+            let post = new Post(data.title, 
+                                data.description, 
+                                data.timestamp, 
+                                data.userId, 
+                                data.userMail, 
+                                data.comments,
+                                data.numberOfLikes,
+                                data.userLikes,
+                                postId,
+                                data.displayName,
+                                )                                    
+                dispatch({ type: 'POST_DETAILS', payload: post })                                                     
         }
     };
 }
@@ -61,7 +99,6 @@ export const createPost = (post: Post) => {
         post.userId = getState().user.localId;
         post.userMail = getState().user.loggedInUser.email //
         
-        console.log(token)
         const response = await fetch(
             'https://react-native-firebase-27cc0-default-rtdb.europe-west1.firebasedatabase.app/posts.json?auth=' + token, {
             method: 'POST',
@@ -77,14 +114,13 @@ export const createPost = (post: Post) => {
             console.log("Failed to create post")
             //dispatch({type: ADD_CHATROOM_FAILED, payload: 'something'})
         } else {
-            const data = await response.json();
-            dispatch({ type: ADD_POST, payload: post })
+            dispatch(fetchPosts())
         }
     };
 }
 
 
-export const addLikeToPost = (numberOfLikes: number, postId: string) => {
+export const addLikeToPost = (numberOfLikes: number, postId: string, isDetailsPage=false) => {
     return async (dispatch: any, getState: any) => {
         const token = getState().user.idToken;
         const userMail = getState().user.loggedInUser.email 
@@ -117,14 +153,15 @@ export const addLikeToPost = (numberOfLikes: number, postId: string) => {
                     )
                 });
             if (!responseNumberOfLikes.ok) {
-                console.log("Failed to increment like")    
+                console.log("Failed to increment likes")    
             }     
         }
+        isDetailsPage ? dispatch(fetchPost(postId)) : dispatch(fetchPosts()) 
     }
 }
 
 
-export const removeLikeFromPost = (numberOfLikes: number, postId: string) => {
+export const removeLikeFromPost = (numberOfLikes: number, postId: string, isDetailsPage=false) => {
     return async (dispatch: any, getState: any) => {
         const token = getState().user.idToken;
         const userMail = getState().user.loggedInUser.email //
@@ -161,5 +198,6 @@ export const removeLikeFromPost = (numberOfLikes: number, postId: string) => {
                 console.log("Failed to decrement number of likes")
             }
         }
+        isDetailsPage ? dispatch(fetchPost(postId)) : dispatch(fetchPosts()) 
     }
 }

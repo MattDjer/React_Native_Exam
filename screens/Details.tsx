@@ -4,13 +4,18 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
 import { Post } from '../entities/Post'
 import { addComment, fetchComments } from '../store/actions/comment.actions'
-import { fetchPosts } from '../store/actions/post.actions'
+import { fetchPosts, addLikeToPost, removeLikeFromPost, fetchPost } from '../store/actions/post.actions'
+import { User } from "../entities/User"
+import { RootState } from '../App';
 
 export default function PostDetails() {
        
+    const user: User = useSelector((state: RootState) => state.user.loggedInUser);
+
     const [comment, setComment] = useState('')   
 
     const dispatch = useDispatch()
+    
     const postComment = () => {
         dispatch(addComment(comment, post))
         dispatch(fetchComments(post.id))
@@ -27,22 +32,68 @@ export default function PostDetails() {
     }, [])
 
 
+     // Used to sum number of comments
+     let count = 0
+     function sumComments(item: any) {
+         for (let comment in item.comments) {
+             count += 1
+         }
+     }
+ 
+
+     // Render like button based on whether user already liked the post
+    const renderLikeButton = (item: any) => {
+        for (let userLike in item.userLikes) {
+            if (item.userLikes[userLike].email == user.email) { 
+                return  <Text>
+                            <Button title='Liked' onPress={() => handleRemoveLike(item.numberOfLikes, item.id)}>Liked</Button>       
+                        </Text>
+                }
+            }   return  <Text>
+                            <Button title='Like' onPress={() => handleAddLike(item.numberOfLikes, item.id)}>Like</Button>       
+                        </Text>
+    }
+
+
+    // Handle User Likes
+    const isDetailsPage = true
+    const handleAddLike = (numberOfLikes: number, postId: string) => {    
+        dispatch(addLikeToPost(numberOfLikes, postId, isDetailsPage))
+    }
+
+    const handleRemoveLike = (numberOfLikes: number, postId: string) => {        
+        dispatch(removeLikeFromPost(numberOfLikes, postId, isDetailsPage))
+    }
+
+
     return (
         <>
         <SafeAreaView>
            <View style={styles.container}>
-                    <View style={{flexDirection: "row", justifyContent: 'space-between', padding: 10, }}> 
-                        <Text style={{fontSize: 20}}>{post.title}</Text> 
-                        <Text style={{fontSize: 12, color: "purple"}}>
-                            {post.displayName ? post.displayName : post.userMail}
-                        </Text>
-                    </View>
-                    
-                    <View style={{paddingLeft: 10, paddingBottom: 5}}>
-                        <Text style={{fontSize: 15}}>{post.description}</Text>  
-                    </View>                        
-                </View>
 
+                    <View style={styles.container}>
+                        
+                        <View style={{flexDirection: "row", justifyContent: 'space-between', padding: 10, }}>                          
+                            <Text style={{fontSize: 12, color: "purple"}}>
+                                        {post.displayName ? post.displayName : post.userMail}                                        
+                            </Text>
+
+                            {sumComments(post)}
+                            <Text style={{color: "blue"}}>Comments: {count}</Text>                                 
+                            <Text style={{color: "blue"}}>Likes: {post.numberOfLikes}</Text>                                            
+                            {renderLikeButton(post)}                                                 
+                        </View>
+
+                        <View>
+                            <Text style={{fontSize: 20, alignSelf: "center" }}>{post.title}</Text>
+                        </View>
+
+                        <View style={{paddingLeft: 10, paddingBottom: 5}}>
+                            <Text style={{fontSize: 15}}>{post.description}</Text>  
+                        </View>              
+                    
+                    </View> 
+            </View>
             <View style={styles.container}>
                 <TextInput 
                     placeholder='Write a comment'
@@ -58,7 +109,6 @@ export default function PostDetails() {
             
             <FlatList
                 data={comments}
-                keyExtractor={(index) => index.toString()} 
                 renderItem={({ item }: { item: any }) => (
                     <TouchableOpacity>
                         <View style={styles.container}>
@@ -73,20 +123,19 @@ export default function PostDetails() {
 
                 )}                              
             >
-            </FlatList>  
-        
+            </FlatList>          
         </SafeAreaView>
         </>       
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
+    container: {      
         backgroundColor: "white", 
         marginBottom: 10, 
         borderRadius: 10, 
         alignSelf: "center", 
-        width: 300,
+        width: 370,
     },
     titles: {
         fontSize: 20,
