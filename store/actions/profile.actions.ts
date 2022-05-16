@@ -1,5 +1,5 @@
 import * as SecureStore from 'expo-secure-store';
-import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
+import { deleteObject, getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { User } from '../../entities/User';
 import { rehydrateUser } from "./user.actions";
 import uuid from "react-native-uuid";
@@ -61,7 +61,7 @@ export function updateEmail(email : string) {
     } 
 }
 
-export function updateProfileInfo(displayName : string, uri? : string | null ) {
+export function updateProfileInfo(displayName : string, uri? : string | null, oldUrl? : string | null) {
     return async function (dispatch : any, getState : any) {
 
         
@@ -72,6 +72,10 @@ export function updateProfileInfo(displayName : string, uri? : string | null ) {
         }
 
         let photoUrl;
+
+        if (oldUrl) {
+            deleteOldPhoto(oldUrl);
+        }
 
         if (uri) {
             try {
@@ -154,4 +158,10 @@ async function uploadImageAndGetUrl(uri : string) {
     url = await getDownloadURL(imageRef)
     console.log("url: ", url);
     return url;
+}
+
+async function deleteOldPhoto(url : string) {
+    const storage = getStorage();
+    const storageRef = ref(storage, url);
+    await deleteObject(storageRef);
 }

@@ -50,7 +50,7 @@ export default function EditProfileScreen() {
             dispatch(updateEmail(textEmail));
             if (imageChanged) {
                 setImageChanged(false);
-                dispatch(updateProfileInfo(textDisplayName, image));
+                dispatch(updateProfileInfo(textDisplayName, image, user.photoUrl));
 
             }
 
