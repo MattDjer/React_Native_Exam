@@ -44,7 +44,7 @@ function ProfileStackNavigator() {
     return (
         <Stack.Navigator>
             <Stack.Screen name="Profile" component={ProfileScreen} options={{title : "Profile"}} />
-            <Stack.Screen name="EditProfile" component={EditProfileScreen} />
+            <Stack.Screen name="EditProfile" component={EditProfileScreen} options={{title : "Edit profile"}} />
         </Stack.Navigator>
     )
 }

@@ -1,13 +1,13 @@
 import * as SecureStore from 'expo-secure-store';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { User } from '../../entities/User';
-import { LOGIN, rehydrateUser, REHYDRATE_USER } from "./user.actions";
+import { rehydrateUser } from "./user.actions";
 import uuid from "react-native-uuid";
-import { manipulateAsync, FlipType, SaveFormat } from 'expo-image-manipulator';
+import { manipulateAsync, SaveFormat } from 'expo-image-manipulator';
 
-export const IMAGE_UPLOAD_FAILED = "IMAGE_UPLOAD_FAILED";
+
 export const UPDATE_PROFILE_FAILED = "UPDATE_PROFILE_FAILED";
-export const CLEAR_MESSAGES = "CLEAR_MESSAGES";
+export const RESET_UPDATE_STATUS = "RESET_UPDATE_STATUS";
 export const UPDATE_PROFILE_SUCCESS = "UPDATE_PROFILE_SUCCESS";
 
 export function updateEmail(email : string) {
@@ -39,6 +39,7 @@ export function updateEmail(email : string) {
         if (!response.ok) {
             //handle error
             console.log("change email failed");
+            dispatch({type : UPDATE_PROFILE_FAILED});
         }
 
         else {
@@ -53,6 +54,7 @@ export function updateEmail(email : string) {
             await SecureStore.setItemAsync("idToken", data.idToken);
             await SecureStore.setItemAsync("user", JSON.stringify(newUser));
             
+            dispatch({type : UPDATE_PROFILE_SUCCESS});
             dispatch(rehydrateUser(newUser, data.idToken));
         }
 
@@ -78,7 +80,7 @@ export function updateProfileInfo(displayName : string, uri? : string | null ) {
             } 
             
             catch (error : any) {
-                dispatch({type : IMAGE_UPLOAD_FAILED});    
+                dispatch({type : UPDATE_PROFILE_FAILED});    
             }
 
         }
@@ -117,7 +119,7 @@ export function updateProfileInfo(displayName : string, uri? : string | null ) {
 
         if (!response.ok) {
             //handle error
-            console.log("changig profile info failed");
+            console.log("changing profile info failed");
             dispatch({type : UPDATE_PROFILE_FAILED});
         }
 
@@ -130,6 +132,7 @@ export function updateProfileInfo(displayName : string, uri? : string | null ) {
             await SecureStore.setItemAsync("idToken", idToken);
             await SecureStore.setItemAsync("user", JSON.stringify(newUser));
             
+            dispatch({type : UPDATE_PROFILE_SUCCESS})
             dispatch(rehydrateUser(newUser, idToken));
         }
     }

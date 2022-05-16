@@ -4,14 +4,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../App';
 import Input from '../components/Input';
 import { User } from '../entities/User';
-import { CLEAR_MESSAGES, updateEmail, updateProfileInfo } from '../store/actions/profile.actions';
+import { RESET_UPDATE_STATUS, updateEmail, updateProfileInfo, UPDATE_PROFILE_FAILED, UPDATE_PROFILE_SUCCESS } from '../store/actions/profile.actions';
 import * as ImagePicker from 'expo-image-picker';
 import { useNavigation } from '@react-navigation/native';
 
 export default function EditProfileScreen() {
     const user: User = useSelector((state: RootState) => state.user.loggedInUser);
-    const errorMessage = useSelector((state: RootState) => state.profile.currentErrorMessage);
-    const successMessage = useSelector((state: RootState) => state.profile.successMessage);
+    const updateProfileStatus = useSelector((state : RootState) => state.profile.updateProfileStatus);
     
     const [textEmail, setTextEmail] = useState(user.email);
     const [textDisplayName, setTextDisplayName] = useState(user.displayName ? user.displayName : "");
@@ -25,9 +24,9 @@ export default function EditProfileScreen() {
     useEffect(() => {
         navigation.addListener("beforeRemove", (e) => {
             // clear error and success messages
-            dispatch({type : CLEAR_MESSAGES});
+            dispatch({type : RESET_UPDATE_STATUS});
         })
-    }, [navigation, errorMessage, successMessage]);
+    }, [navigation, updateProfileStatus]);
   
     const pickImage = async () => {
       // No permissions request is necessary for launching the image library
@@ -47,7 +46,7 @@ export default function EditProfileScreen() {
 
     const onSave = () => {
         if (textEmail !== ''  /* && other inputs are not empty */) {
-            // save the data to the server
+            dispatch({type : RESET_UPDATE_STATUS});
             dispatch(updateEmail(textEmail));
             if (imageChanged) {
                 setImageChanged(false);
@@ -74,7 +73,7 @@ export default function EditProfileScreen() {
                     </View>
 
 
-                    <View style={{display : "flex", flex : 1}}>
+                    <View style={[{display : "flex", flex : 1}]}>
                         <Input title="What is your email?"
                             inputValue={textEmail}
                             setText={setTextEmail}
@@ -92,12 +91,8 @@ export default function EditProfileScreen() {
                         />
                     </View>
                     
-                    
-
-
-
-                    <Text>{errorMessage ? errorMessage : ""}</Text>
-                    <Text>{successMessage ? successMessage : ""}</Text>
+                    {updateProfileStatus === UPDATE_PROFILE_SUCCESS && (<Text style={{color : "green"}}>Profile successfully updated</Text>)}
+                    {updateProfileStatus === UPDATE_PROFILE_FAILED && (<Text style={{color : "red"}}>Something went wrong updating profile</Text>)}
 
                     <View style={{marginTop : "auto"}}>
                         <Button title="Save" onPress={onSave} /> 
@@ -135,5 +130,12 @@ const styles = StyleSheet.create({
     innerContainer: {
         display: "flex",
         flex: 1
+    },
+    boxWithShadow: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2,  
+        elevation: 5
     }
 })

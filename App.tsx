@@ -16,7 +16,7 @@ const rootReducer = combineReducers({
   chat: chatReducer,
   user: userReducer,
   post: postReducer,
-  profile:profileReducer
+  profile: profileReducer
 });
 export type RootState = ReturnType<typeof rootReducer>
 

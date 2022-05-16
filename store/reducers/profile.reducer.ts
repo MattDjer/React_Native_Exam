@@ -1,29 +1,32 @@
-import { CLEAR_MESSAGES, IMAGE_UPLOAD_FAILED, UPDATE_PROFILE_FAILED, UPDATE_PROFILE_SUCCESS } from "../actions/profile.actions"
+import { RootState } from "../../App";
+import { RESET_UPDATE_STATUS, UPDATE_PROFILE_FAILED, UPDATE_PROFILE_SUCCESS } from "../actions/profile.actions"
+
+export const UPDATE_DEFAULT = "UPDATE_DEFAULT";
 
 interface ReduxState {
     currentErrorMessage : string | null,
-    successMessage : string | null
+    successMessage : string | null,
+    updateProfileStatus : string;
 }
 
 const initialState : ReduxState = {
     currentErrorMessage : null,
-    successMessage : null
+    successMessage : null,
+    updateProfileStatus : UPDATE_DEFAULT
 }
 
 interface ReduxAction {
     type : string
 }
 
-const profileReducer = (state : ReduxState = initialState, action : ReduxAction) => {
+const profileReducer = (state : ReduxState = initialState, action : ReduxAction) : ReduxState => {
     switch(action.type) {
-        case CLEAR_MESSAGES:
-            return {...state, currentErrorMessage : null, successMessage : null}
-        case IMAGE_UPLOAD_FAILED:
-            return {...state, currentErrorMessage : "Sorry, something went wrong uploading your new profile image", successMessage : null}
+        case RESET_UPDATE_STATUS:
+            return {...state, updateProfileStatus : UPDATE_DEFAULT}
         case UPDATE_PROFILE_FAILED:
-            return {...state, currentErrorMessage : "Something went wrong updating profile info", successMessage : null}
+            return {...state, updateProfileStatus : UPDATE_PROFILE_FAILED}
         case UPDATE_PROFILE_SUCCESS:
-            return {...state, successMessage : "New profile info saved", currentErrorMessage : null}
+            return state.updateProfileStatus === UPDATE_DEFAULT ? {...state, updateProfileStatus : UPDATE_PROFILE_SUCCESS} : state; 
         default:
             return state;
     }
