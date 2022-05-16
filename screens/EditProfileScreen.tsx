@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, StyleSheet, View, Image, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, Text } from 'react-native';
+import { Button, StyleSheet, View, Image, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, Text, TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../App';
 import Input from '../components/Input';
@@ -67,26 +67,43 @@ export default function EditProfileScreen() {
     return (
         <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === "ios" ? "padding" : "height"}>         
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <View>
-                    {image && <Image source={{ uri: image }} style={{ width: 150, height: 150 }} />}
-                    <Button title="Change profile picture" onPress={pickImage} />
-                    
-                    <Input title="What is your email?"
-                        inputValue={textEmail}
-                        setText={setTextEmail}
-                        error="Email cannot be empty"
-                    />
+                <View style={styles.innerContainer}>
+                    <View style={styles.uploadAndImage}>
+                        <Button title="Change profile picture" onPress={pickImage} />
+                        {image && <Image source={{ uri: image }} style={styles.image} />}
+                    </View>
 
-                    <Input title='What name should be displayed to other people'
-                        inputValue={textDisplayName}
-                        setText={setTextDisplayName}
-                        error={"Display name can't be empty"}
-                        placeholder="Enter displayname here"
-                    />
+
+                    <View style={{display : "flex", flex : 1}}>
+                        <Input title="What is your email?"
+                            inputValue={textEmail}
+                            setText={setTextEmail}
+                            error="Email cannot be empty"
+                        />
+                    </View>
+
+
+                    <View style={{display : "flex", flex : 1}}>
+                        <Input title='What name should be displayed to other people'
+                            inputValue={textDisplayName}
+                            setText={setTextDisplayName}
+                            error={"Display name can't be empty"}
+                            placeholder="Enter displayname here"
+                        />
+                    </View>
+                    
+                    
+
+
+
                     <Text>{errorMessage ? errorMessage : ""}</Text>
                     <Text>{successMessage ? successMessage : ""}</Text>
-                    <Button title="Save" onPress={onSave} /> 
-                </View>
+
+                    <View style={{marginTop : "auto"}}>
+                        <Button title="Save" onPress={onSave} /> 
+                    </View>
+
+            </View>
  
             </TouchableWithoutFeedback>
          
@@ -99,6 +116,24 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
-        justifyContent: 'flex-end',
+        justifyContent: 'space-between',
     },
+    uploadAndImage: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        flex: 1
+
+    },
+    image: {
+        width: 150, 
+        height: 150, 
+        borderRadius: 200, 
+        borderWidth: 3, 
+        borderColor: "grey" 
+    },
+    innerContainer: {
+        display: "flex",
+        flex: 1
+    }
 })
