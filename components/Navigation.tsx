@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
 import { RootState } from '../App';
 import EditProfileScreen from '../screens/EditProfileScreen';
@@ -16,7 +16,7 @@ import Screen1 from './../screens/Screen1';
 import Screen2 from './../screens/Screen2';
 import Screen3 from './../screens/Screen3';
 import { StackParamList } from "./../typings/navigations";
-import { AntDesign, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
+import { AntDesign, FontAwesome } from '@expo/vector-icons';
 
 
 const Stack = createNativeStackNavigator<StackParamList>();

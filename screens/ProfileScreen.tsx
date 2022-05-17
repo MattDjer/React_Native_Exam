@@ -1,8 +1,8 @@
 import * as SecureStore from "expo-secure-store"
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React, { useEffect } from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Button, StyleSheet, Text, View, Image } from 'react-native';
 import { StackParamList } from '../typings/navigations';
 import { logout, rehydrateUser } from '../store/actions/user.actions';
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,6 +18,7 @@ export default function ProfileScreen() {
 
     const displayName = useSelector((state : RootState) => state.user.loggedInUser.displayName);
     const idToken = useSelector((state : RootState) => state.user.idToken);
+    const user: User = useSelector((state: RootState) => state.user.loggedInUser);
 
 
     async function getUserInfo() {
@@ -51,16 +52,26 @@ export default function ProfileScreen() {
 
     }
 
+
     useEffect(() => {
         getUserInfo();
     }, [])
 
     return (
         <View style={styles.container}>
-            <Text>Profile Screen</Text>
+            <View style={styles.infoAndImage}>
+                {user.photoUrl !== "" && <Image source={{ uri: user.photoUrl }} style={styles.image} />}
+                <View style={{marginTop : 15}}>
+                    <Text>{user.email}</Text>
+                    {user.displayName !== "" && <Text>Logged in as {displayName}</Text>}
+                </View>    
+            </View>
             <Button title="Edit profile" onPress={() => navigation.navigate("EditProfile")} />
-            <Text>Logged in as {displayName}</Text>
-            <Button color={"red"} title='Log out' onPress={() => dispatch(logout())}/>            
+            
+            <View style={{marginTop: "auto"}}>
+                <Button color={"red"} title='Log out' onPress={() => dispatch(logout())}/>  
+            </View>
+          
         </View>
     );
 }
@@ -70,6 +81,18 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
+    },
+    image: {
+        width: 120, 
+        height: 120, 
+        borderRadius: 200, 
+        borderWidth: 3, 
+        borderColor: "grey" 
+    },
+    infoAndImage: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "flex-start",
     }
 })
