@@ -4,6 +4,7 @@ import { User } from '../../entities/User';
 import { rehydrateUser } from "./user.actions";
 import uuid from "react-native-uuid";
 import { manipulateAsync, SaveFormat } from 'expo-image-manipulator';
+import firebaseApp from '../../firebase';
 
 
 export const UPDATE_PROFILE_FAILED = "UPDATE_PROFILE_FAILED";
@@ -148,7 +149,7 @@ async function uploadImageAndGetUrl(uri : string) {
     
     const response = await fetch(uri);
     const blob = await response.blob();
-    const storage = getStorage();
+    const storage = getStorage(firebaseApp);
     const filename = uuid.v4().toString();
     const imageRef = ref(storage, filename);
     let url = "";
@@ -161,7 +162,7 @@ async function uploadImageAndGetUrl(uri : string) {
 }
 
 async function deleteOldPhoto(url : string) {
-    const storage = getStorage();
+    const storage = getStorage(firebaseApp);
     const storageRef = ref(storage, url);
     await deleteObject(storageRef);
 }
