@@ -19,7 +19,6 @@ export default function HomeScreen() {
             <Navbar/>
             <ScrollView>        
                 <Button title="Logout" onPress={() => dispatch(logout())} />
-
             </ScrollView>
         </SafeAreaView>
     );

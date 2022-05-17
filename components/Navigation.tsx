@@ -16,6 +16,7 @@ import Screen1 from './../screens/Screen1';
 import Screen2 from './../screens/Screen2';
 import Screen3 from './../screens/Screen3';
 import { StackParamList } from "./../typings/navigations";
+import { AntDesign, FontAwesome } from '@expo/vector-icons';
 
 
 const Stack = createNativeStackNavigator<StackParamList>();
@@ -62,11 +63,11 @@ export default function Navigation() {
             {user !== null ? (
                 // Show the app with all navigation
                 <Tab.Navigator screenOptions={{ headerShown: false }}>
-                        <Tab.Screen name="Home" component={HomeScreen} />
-                        <Tab.Screen name="Post" component={PostsStackNavigator} />
+                        <Tab.Screen name="Home" component={HomeScreen} options={{title : "Home", tabBarIcon : () => (<AntDesign name="home" size={24} color="black" />)}}/>
+                        <Tab.Screen name="Post" component={PostsStackNavigator} options={{title : "Posts", tabBarIcon : () => (<FontAwesome name="list-alt" size={24} color="black" />)}}/>
                         {/* <Tab.Screen name="Discover" component={DiscoverScreen} /> */}
-                        <Tab.Screen name="Chat" component={ChatStackNavigator} />
-                        <Tab.Screen name="Menu" component={ProfileStackNavigator} options={{title : "Profile"}}/>
+                        
+                        <Tab.Screen name="Menu" component={ProfileStackNavigator} options={{title : "Profile", tabBarIcon : () => (<AntDesign name="profile" size={24} color="black" />)}}/>
                 </Tab.Navigator>
             ) : (
                 // show a stack navigator with only signup and login screens.
