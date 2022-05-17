@@ -9,27 +9,25 @@ import { User } from "../entities/User"
 import { RootState } from '../App';
 
 export default function PostDetails() {
-       
+    
+    const dispatch = useDispatch()
+
     const user: User = useSelector((state: RootState) => state.user.loggedInUser);
+    const post: Post = useSelector((state: any) => state.post.post)  
+    const comments: Comment[] = [] = useSelector((state: any) => state.comment.comments)
 
     const [comment, setComment] = useState('')   
-
-    const dispatch = useDispatch()
-    
-    const postComment = () => {
-        dispatch(addComment(comment, post))
-        dispatch(fetchComments(post.id))
-        dispatch(fetchPosts())
-        setComment('')
-        Keyboard.dismiss()
-    }
-
-    const post: Post[] = useSelector((state: any) => state.post.post) 
-    const comments: Comment[] = [] = useSelector((state: any) => state.comment.comments) 
 
     useEffect(() => {
         dispatch(fetchComments(post.id));
     }, [])
+        
+
+    const postComment = () => {
+        dispatch(addComment(comment, post))
+        setComment('')
+        Keyboard.dismiss()
+    }
 
 
      // Used to sum number of comments
@@ -109,18 +107,20 @@ export default function PostDetails() {
             
             <FlatList
                 data={comments}
+                key={(comment: any) => comment.id}
+                inverted={true}
                 renderItem={({ item }: { item: any }) => (
                     <TouchableOpacity>
                         <View style={styles.container}>
                             <View style={{flexDirection: "row", justifyContent: 'space-between', padding: 10, }}>
-                                <Text style={{fontSize: 20}}>{item.text} </Text>
+                                <Text style={{fontSize: 20}}>{item.text}</Text>
                                 <Text style={{fontSize: 12, color: "purple"}}>
                                             {item.displayName ? item.displayName : item.userMail}
                                 </Text>
                             </View>
                         </View>
                     </TouchableOpacity>
-
+                    
                 )}                              
             >
             </FlatList>          

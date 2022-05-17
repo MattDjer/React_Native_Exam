@@ -165,6 +165,7 @@ export default function Posts() {
             style={{marginBottom}}
             data={posts}
             key={(posts: any) => posts.id}
+            inverted={true}
             renderItem={({ item }: { item: any }) => (        
                 <TouchableOpacity onPress={() => goToDetails(item)}>
 

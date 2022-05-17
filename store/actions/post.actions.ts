@@ -1,12 +1,11 @@
-import { useSelector } from "react-redux";
 import { Post } from "../../entities/Post";
 import { UserLike } from "../../entities/UserLike";
+import { Comment } from "../../entities/Comment";
 
 
 export const ADD_POST = 'ADD_POST';
 export const UPDATE_POSTS = 'UPDATE_POSTS'
 export const POST_DETAILS = 'POST_DETAILS'
-export const ADD_LIKE = 'ADD_LIKE'
 
 
 export const postDetails = (post: Post) => {
@@ -34,20 +33,20 @@ export const fetchPosts = () => {
             const data = await response.json(); // json to javascript
             let posts: Post[] = []
             
-            for (const key in data) {
+            for (const KeyPost in data) {
                 // create Post objects and push them into the array posts.
-                const obj = data[key];
-
-                posts.push(new Post(obj.title, 
-                                    obj.description, 
-                                    obj.timestamp, 
-                                    obj.userId, 
-                                    obj.userMail, 
-                                    obj.comments,
-                                    obj.numberOfLikes,
-                                    obj.userLikes,
-                                    key,
-                                    obj.displayName,
+                let objPost = data[KeyPost];
+                
+                posts.push(new Post(objPost.title, 
+                                    objPost.description, 
+                                    objPost.timestamp, 
+                                    objPost.userId, 
+                                    objPost.userMail, 
+                                    objPost.comments,
+                                    objPost.numberOfLikes,
+                                    objPost.userLikes,
+                                    KeyPost,
+                                    objPost.displayName,
                                     ))
             }
             dispatch({ type: 'UPDATE_POSTS', payload: posts })
@@ -59,8 +58,6 @@ export const fetchPosts = () => {
 export const fetchPost = (postId: string) => {
     return async (dispatch: any, getState: any) => {
         const token = getState().user.idToken;
-
-        console.log("FETCHING POST!_______________________________________________")
 
         const response = await fetch(
             'https://react-native-firebase-27cc0-default-rtdb.europe-west1.firebasedatabase.app/posts/' + postId  + '/.json?auth=' + token, {
@@ -99,24 +96,30 @@ export const createPost = (post: Post) => {
         post.userId = getState().user.localId;
         post.userMail = getState().user.loggedInUser.email //
         
-        const response = await fetch(
-            'https://react-native-firebase-27cc0-default-rtdb.europe-west1.firebasedatabase.app/posts.json?auth=' + token, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(
-                post             
-            )
-        });
-
-        if (!response.ok) {
-            console.log("Failed to create post")
-            //dispatch({type: ADD_CHATROOM_FAILED, payload: 'something'})
-        } else {
-            dispatch(fetchPosts())
+        if (!post.description || !post.title) {
+            return alert("Can't add an empty Title or empty Description")
         }
-    };
+        else {
+            const response = await fetch(
+                'https://react-native-firebase-27cc0-default-rtdb.europe-west1.firebasedatabase.app/posts.json?auth=' + token, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(
+                    post             
+                )
+            });
+
+            if (!response.ok) {
+                alert("Failed to create post")
+                //dispatch({type: ADD_CHATROOM_FAILED, payload: 'something'})
+            } 
+            else {
+                dispatch(fetchPosts())
+            }
+        };
+    }
 }
 
 

@@ -5,7 +5,7 @@ export class Post {
         public timestamp: Date, 
         public userId: string, 
         public userMail: string, 
-        public comments: Comment[],
+        public comments: Comment[] = [],
         public numberOfLikes: number,
         public userLikes: any,
         public id: string,
