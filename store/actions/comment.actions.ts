@@ -1,6 +1,6 @@
 import { Comment } from "../../entities/Comment";
 import { Post } from '../../entities/Post'
-import { fetchPost } from "./post.actions";
+import { fetchPost, fetchPosts } from "./post.actions";
 
 
 export const ADD_COMMENT = 'ADD_COMMENT';
@@ -39,8 +39,8 @@ export const addComment = (comment: string, post: Post) => {
                 //dispatch({type: ADD_CHATROOM_FAILED, payload: 'something'})
             } else {
                 dispatch({ type: ADD_COMMENT, payload: userComment })
-                dispatch(fetchPost(post.id))
                 dispatch(fetchComments(post.id))
+                dispatch(fetchPosts())
             }
         }        
     };
