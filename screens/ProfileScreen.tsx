@@ -8,6 +8,7 @@ import { logout, rehydrateUser } from '../store/actions/user.actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../App';
 import { User } from "../entities/User";
+import { AntDesign } from '@expo/vector-icons';
 
 type ScreenNavigationType = NativeStackNavigationProp<StackParamList, "Profile">;
 
@@ -60,10 +61,15 @@ export default function ProfileScreen() {
     return (
         <View style={styles.container}>
             <View style={styles.infoAndImage}>
-                {user.photoUrl !== "" && <Image source={{ uri: user.photoUrl }} style={styles.image} />}
+                {(user.photoUrl !== ""  && user.photoUrl !== undefined) ? (
+                    <Image source={{ uri: user.photoUrl }} style={styles.image} />
+                ) : (
+                    <Image source={require("../images/default.png")} style={styles.image} />
+                )}
+                
                 <View style={{marginTop : 15}}>
                     <Text>{user.email}</Text>
-                    {user.displayName !== "" && <Text>Logged in as {displayName}</Text>}
+                    {(user.displayName !== ""  && displayName !== undefined)  && <Text>Logged in as {displayName}</Text>}
                 </View>    
             </View>
             <Button title="Edit profile" onPress={() => navigation.navigate("EditProfile")} />
