@@ -16,7 +16,7 @@ import Screen1 from './../screens/Screen1';
 import Screen2 from './../screens/Screen2';
 import Screen3 from './../screens/Screen3';
 import { StackParamList } from "./../typings/navigations";
-import { AntDesign, FontAwesome } from '@expo/vector-icons';
+import { AntDesign, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
 
 
 const Stack = createNativeStackNavigator<StackParamList>();
@@ -50,7 +50,6 @@ function ProfileStackNavigator() {
     )
 }
 
-
 export default function Navigation() {
     const user = useSelector((state: RootState) => state.user.loggedInUser)
 
@@ -67,7 +66,7 @@ export default function Navigation() {
                         <Tab.Screen name="Post" component={PostsStackNavigator} options={{title : "Posts", tabBarIcon : () => (<FontAwesome name="list-alt" size={24} color="black" />)}}/>
                         {/* <Tab.Screen name="Discover" component={DiscoverScreen} /> */}
                         
-                        <Tab.Screen name="Menu" component={ProfileStackNavigator} options={{title : "Profile", tabBarIcon : () => (<AntDesign name="profile" size={24} color="black" />)}}/>
+                        <Tab.Screen name="Menu" component={ProfileStackNavigator} options={{title : "Profile", tabBarIcon : () => (<AntDesign name="user" size={24} color="black" />)}}/>
                 </Tab.Navigator>
             ) : (
                 // show a stack navigator with only signup and login screens.
