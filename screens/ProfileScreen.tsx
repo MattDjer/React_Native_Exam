@@ -61,7 +61,7 @@ export default function ProfileScreen() {
     return (
         <View style={styles.container}>
             <View style={styles.infoAndImage}>
-                {(user.photoUrl !== ""  && user.photoUrl !== undefined) ? (
+                {user.photoUrl ? (
                     <Image source={{ uri: user.photoUrl }} style={styles.image} />
                 ) : (
                     <Image source={require("../images/default.png")} style={styles.image} />
