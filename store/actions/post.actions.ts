@@ -123,7 +123,7 @@ export const createPost = (post: Post) => {
 }
 
 
-export const addLikeToPost = (numberOfLikes: number, postId: string, isDetailsPage=false) => {
+export const addLikeToPost = (numberOfLikes: number, postId: string) => {
     return async (dispatch: any, getState: any) => {
         const token = getState().user.idToken;
         const userMail = getState().user.loggedInUser.email 
@@ -159,12 +159,13 @@ export const addLikeToPost = (numberOfLikes: number, postId: string, isDetailsPa
                 console.log("Failed to increment likes")    
             }     
         }
-        isDetailsPage ? dispatch(fetchPost(postId)) : dispatch(fetchPosts()) 
+        dispatch(fetchPost(postId))
+        dispatch(fetchPosts()) 
     }
 }
 
 
-export const removeLikeFromPost = (numberOfLikes: number, postId: string, isDetailsPage=false) => {
+export const removeLikeFromPost = (numberOfLikes: number, postId: string) => {
     return async (dispatch: any, getState: any) => {
         const token = getState().user.idToken;
         const userMail = getState().user.loggedInUser.email //
@@ -201,6 +202,7 @@ export const removeLikeFromPost = (numberOfLikes: number, postId: string, isDeta
                 console.log("Failed to decrement number of likes")
             }
         }
-        isDetailsPage ? dispatch(fetchPost(postId)) : dispatch(fetchPosts()) 
+        dispatch(fetchPost(postId))
+        dispatch(fetchPosts()) 
     }
 }

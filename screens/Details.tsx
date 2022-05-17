@@ -54,13 +54,12 @@ export default function PostDetails() {
 
 
     // Handle User Likes
-    const isDetailsPage = true
     const handleAddLike = (numberOfLikes: number, postId: string) => {    
-        dispatch(addLikeToPost(numberOfLikes, postId, isDetailsPage))
+        dispatch(addLikeToPost(numberOfLikes, postId))
     }
 
     const handleRemoveLike = (numberOfLikes: number, postId: string) => {        
-        dispatch(removeLikeFromPost(numberOfLikes, postId, isDetailsPage))
+        dispatch(removeLikeFromPost(numberOfLikes, postId))
     }
 
 
