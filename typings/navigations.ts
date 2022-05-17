@@ -9,4 +9,5 @@ export type StackParamList = {
     PostDetails: undefined;
     Posts: undefined;
     Details: undefined;
+    EventsScreen: undefined;
 }
