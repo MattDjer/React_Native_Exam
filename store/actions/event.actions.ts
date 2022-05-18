@@ -1,3 +1,5 @@
+export const ADD_EVENTS = "ADD_EVENTS";
+
 export interface EventQueryParams {
     offset? : number,
     categories? : string[],
@@ -41,6 +43,8 @@ export function fetchEvents(queryParams : EventQueryParams) {
             const data = await response.json();
             console.log("Events fetched");
             console.log("Events: ", data);
+            dispatch({type : ADD_EVENTS, payload : data.events});
+            
         }
         
     }

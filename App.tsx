@@ -8,6 +8,7 @@ import postReducer from './store/reducers/post.reducer';
 import userReducer from './store/reducers/user.reducer';
 import commentReducer from './store/reducers/comment.reducer';
 import profileReducer from './store/reducers/profile.reducer';
+import eventReducer from './store/reducers/event.reducer';
 
 //test
 
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
   chat: chatReducer,
   user: userReducer,
   post: postReducer,
-  profile: profileReducer
+  profile: profileReducer,
+  event: eventReducer
 });
 export type RootState = ReturnType<typeof rootReducer>
 
