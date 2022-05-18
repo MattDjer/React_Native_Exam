@@ -7,7 +7,7 @@ import { fetchEvents } from "../store/actions/event.actions";
 
 const renderItem = ({item} : any) => {
     return (
-        <View style={{paddingBottom : 15, paddingTop : 15}}>
+        <View style={{paddingBottom : 15, paddingTop : 15, display : "flex", alignItems : "center"}}>
             <Text>{item.name}</Text>
             {item.image_url && (<Image source={{uri : item.image_url}} style={{width : 200, height: 200}}/>)}
         </View>
@@ -40,10 +40,12 @@ export default function EventsScreen() {
             <Text>Events fetched: {events.length}</Text>
 
 
-            <View style={{alignSelf : "center"}}>
+            <View>
                 <FlatList
+                    contentContainerStyle={{paddingBottom : 100, alignItems : "center", display : "flex"}}
                     data={events}
                     renderItem={renderItem}
+                    showsVerticalScrollIndicator={false}      
                 />
             </View>
 
