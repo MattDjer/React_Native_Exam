@@ -43,6 +43,7 @@ export function fetchEvents(queryParams : EventQueryParams) {
             const data = await response.json();
             console.log("Events fetched");
             console.log("Events: ", data);
+            //console.log("image: ", data.events[0].image_url)
             dispatch({type : ADD_EVENTS, payload : data.events});
             
         }

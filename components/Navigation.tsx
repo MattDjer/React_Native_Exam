@@ -16,7 +16,7 @@ import Screen1 from './../screens/Screen1';
 import Screen2 from './../screens/Screen2';
 import Screen3 from './../screens/Screen3';
 import { StackParamList } from "./../typings/navigations";
-import { AntDesign, FontAwesome } from '@expo/vector-icons';
+import { AntDesign, FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import EventsScreen from '../screens/EventsScreen';
 
 
@@ -65,7 +65,7 @@ export default function Navigation() {
                 <Tab.Navigator screenOptions={{ headerShown: false }}>
                         <Tab.Screen name="Home" component={HomeScreen} options={{title : "Home", tabBarIcon : () => (<AntDesign name="home" size={24} color="black" />)}}/>
                         <Tab.Screen name="Post" component={PostsStackNavigator} options={{title : "Posts", tabBarIcon : () => (<FontAwesome name="list-alt" size={24} color="black" />)}}/>
-                        <Tab.Screen name="Discover" component={EventsScreen} options={{title : "Events"}}/> 
+                        <Tab.Screen name="Discover" component={EventsScreen} options={{title : "Events", tabBarIcon : () => (<MaterialIcons name="event-available" size={24} color="black" />)}}/> 
                         
                         <Tab.Screen name="Menu" component={ProfileStackNavigator} options={{title : "Profile", tabBarIcon : () => (<AntDesign name="user" size={24} color="black" />)}}/>
                 </Tab.Navigator>

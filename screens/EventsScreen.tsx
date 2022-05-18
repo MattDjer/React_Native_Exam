@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, View, StyleSheet, Button, TextInput, Switch, FlatList } from "react-native";
+import { Text, View, StyleSheet, Button, TextInput, Switch, FlatList, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../App";
@@ -7,8 +7,9 @@ import { fetchEvents } from "../store/actions/event.actions";
 
 const renderItem = ({item} : any) => {
     return (
-        <View>
+        <View style={{paddingBottom : 15, paddingTop : 15}}>
             <Text>{item.name}</Text>
+            {item.image_url && (<Image source={{uri : item.image_url}} style={{width : 200, height: 200}}/>)}
         </View>
     )
 }
@@ -38,10 +39,14 @@ export default function EventsScreen() {
             <Button title="Fetch events" onPress={() => dispatch(fetchEvents({isFree : isFree, location : location}))}/>
             <Text>Events fetched: {events.length}</Text>
 
-            <FlatList
-                data={events}
-                renderItem={renderItem}
-            />
+
+            <View style={{alignSelf : "center"}}>
+                <FlatList
+                    data={events}
+                    renderItem={renderItem}
+                />
+            </View>
+
 
 
         
