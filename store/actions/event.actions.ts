@@ -1,5 +1,10 @@
 export const ADD_EVENTS = "ADD_EVENTS";
 
+export interface categoryAndFilter {
+    isEnabled : boolean,
+    value : string
+}
+
 export interface EventQueryParams {
     offset? : number,
     categories? : string[],
@@ -15,7 +20,7 @@ export function fetchEvents(queryParams : EventQueryParams) {
         queryString += queryParams.isFree ? "&is_free=" + queryParams.isFree : "";
         
         queryString += "&limit=10";
-        if (queryParams.categories) {
+        if (queryParams.categories && queryParams.categories.length > 0) {
             queryString += "&categories="
             for (let i = 0; i < queryParams.categories.length; i++) {
                 queryString += queryParams.categories[i];

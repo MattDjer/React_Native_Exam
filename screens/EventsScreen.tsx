@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, Button, TextInput, Switch, FlatList, Image } fr
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../App";
-import { fetchEvents } from "../store/actions/event.actions";
+import { categoryAndFilter, fetchEvents } from "../store/actions/event.actions";
 
 const renderItem = ({item} : any) => {
     return (
@@ -19,8 +19,21 @@ export default function EventsScreen() {
 
     const [isFree, setIsfree] = useState(false);
     const [location, setLocation] = useState("");
+    //const categories : categoryAndLabel[] = [{label : "Music", value : "music"}, {label : "Film", value : "film"}, {label : "Lectures and books", value : "lectures-books"}];
+    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+    const [categoriesOpen, setCategoriesOpen] = useState(false);
 
     const dispatch = useDispatch();
+
+    function toggleCategory(category : string) {
+        const filteredArray = selectedCategories.filter((elm) => elm !== category);
+        setSelectedCategories(filteredArray);
+    }
+
+    function categoryIsEnabled(category : string) {
+        const foundElement = selectedCategories.find((elm) => category === elm);
+        return foundElement !== undefined;
+    } 
 
     return (
         <SafeAreaView style={styles.container}>
@@ -36,7 +49,29 @@ export default function EventsScreen() {
                     <Switch value={isFree} onValueChange={() => setIsfree(!isFree)}/>
                 </View>      
             </View>
-            <Button title="Fetch events" onPress={() => dispatch(fetchEvents({isFree : isFree, location : location}))}/>
+            
+            <View>
+                <Text>Filter by categories</Text>
+                <Button title={!categoriesOpen ? "Open categories" : "Close categories"} onPress={() => setCategoriesOpen(!categoriesOpen)}/>
+                {categoriesOpen && (<View>
+                    <View style={styles.filter}>
+                        <Text>Music</Text>
+                        <Switch value={categoryIsEnabled("music")} onValueChange={() => toggleCategory("music")}/>
+                    </View>
+                    
+                    <View style={styles.filter}>
+                        <Text>Film</Text>
+                        <Switch value={categoryIsEnabled("film")} onValueChange={() => toggleCategory("film")}/>
+                    </View>
+
+                    <View style={styles.filter}>
+                        <Text>Lectures and books</Text>
+                        <Switch value={categoryIsEnabled("lectures-books")} onValueChange={() => toggleCategory("lectures-books")}/>
+                    </View>
+                </View>)}
+            </View>
+            
+            <Button title="Fetch events" onPress={() => dispatch(fetchEvents({isFree : isFree, location : location, categories : selectedCategories}))}/>
             <Text>Events fetched: {events.length}</Text>
 
 
