@@ -13,6 +13,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { deleteObject, getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import firebaseApp from '../firebase';
 import uuid from "react-native-uuid"
+import { getDate } from '../components/GetDate'
 
 
 type ScreenNavigationType = NativeStackNavigationProp<
@@ -55,10 +56,13 @@ export default function Posts() {
         getUrlFromStorage(image)
     }
     
-    const handleAddPost = () => {       
+    const handleAddPost = () => {
+        
+        const currentDate = getDate()
+        
         const post: Post = new Post(title, 
                                     description, 
-                                    new Date(), 
+                                    currentDate, 
                                     "undefined",  // user ID 
                                     "undefined",  // user Mail
                                     [],           // empty array for comments
@@ -250,6 +254,10 @@ export default function Posts() {
 
                         <View style={{paddingLeft: 35, paddingBottom: 5, paddingRight: 35}}>
                             <Text style={{fontSize: 15}}>{item.description}</Text>  
+                        </View>
+
+                        <View> 
+                            <Text style={{fontSize: 13, padding: 5, color: "blue"}}>{item.timestamp} </Text>    
                         </View>              
                     
                     </View>  

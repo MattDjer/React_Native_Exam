@@ -1,6 +1,7 @@
 import { Comment } from "../../entities/Comment";
 import { Post } from '../../entities/Post'
 import { fetchPosts, fetchPost } from "./post.actions";
+import { getDate } from "../../components/GetDate"
 
 
 export const ADD_COMMENT = 'ADD_COMMENT';
@@ -17,9 +18,10 @@ export const addComment = (comment: string, post: Post) => {
             alert("Can't add an empty comment")
         }
         else {
-            let userComment = new Comment(comment, new Date(), email, "undefined") // id later fetched from firebase
+            const currentDate = getDate()
+            let userComment = new Comment(comment, currentDate, email, "undefined") // id later fetched from firebase
             if (displayName) {
-                userComment = new Comment(comment, new Date(), email, "undefined", displayName)
+                userComment = new Comment(comment, currentDate, email, "undefined", displayName)
             }
                     
             const response = await fetch(

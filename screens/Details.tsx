@@ -99,7 +99,11 @@ export default function PostDetails() {
 
                         <View style={{paddingLeft: 35, paddingBottom: 5}}>
                             <Text style={{fontSize: 15}}>{post.description}</Text>  
-                        </View>              
+                        </View> 
+
+                        <View>
+                            <Text style={{fontSize: 13, padding: 5, color: "blue"}}>{post.timestamp} </Text>     
+                        </View>             
                     
                     </View> 
             </View>
@@ -122,14 +126,25 @@ export default function PostDetails() {
                 inverted={true}
                 renderItem={({ item }: { item: any }) => (
                     <TouchableOpacity>
+                        
                         <View style={styles.container}>
-                            <View style={{flexDirection: "row", justifyContent: 'space-between', padding: 10, }}>
-                                <Text style={{fontSize: 20}}>{item.text}</Text>
+                           
+                            <View style={{flexDirection: "row", justifyContent: 'space-between', padding: 10, }}>                               
                                 <Text style={{fontSize: 12, color: "purple"}}>
                                             {item.displayName ? item.displayName : item.userMail}
                                 </Text>
                             </View>
+
+                            <View>
+                                <Text style={{fontSize: 20, padding: 10}}>{item.text}</Text>
+                            </View>
+
+                            <View>
+                                <Text style={{fontSize: 13, padding: 5, color: "blue"}}>{item.timestamp} </Text>     
+                            </View> 
+                        
                         </View>
+
                     </TouchableOpacity>
                     
                 )}                              
