@@ -12,9 +12,7 @@ export const RESET_UPDATE_STATUS = "RESET_UPDATE_STATUS";
 export const UPDATE_PROFILE_SUCCESS = "UPDATE_PROFILE_SUCCESS";
 
 export function updateEmail(email : string) {
-    return async function(dispatch : any, getState : any) {
-
-        
+    return async function(dispatch : any, getState : any) {        
         
         const user = getState().user.loggedInUser;
 
@@ -38,20 +36,15 @@ export function updateEmail(email : string) {
         const response = await fetch("https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyDlO9g-z87u34DcKesUQmUJ81HqYsUXRqY", request);
 
         if (!response.ok) {
-            //handle error
-            console.log("change email failed");
             dispatch({type : UPDATE_PROFILE_FAILED});
         }
 
         else {
-            console.log("email changed successfully");
 
             const data = await response.json();
-
-            
+    
             const newUser = new User(data.email, user.displayName, user.photoUrl);
             
-
             await SecureStore.setItemAsync("idToken", data.idToken);
             await SecureStore.setItemAsync("user", JSON.stringify(newUser));
             
@@ -65,7 +58,6 @@ export function updateEmail(email : string) {
 export function updateProfileInfo(displayName : string, uri? : string | null, oldUrl? : string | null) {
     return async function (dispatch : any, getState : any) {
 
-        
         const user = getState().user.loggedInUser;
 
         if ((user.displayName === displayName || displayName == "") && !uri) {
@@ -81,7 +73,6 @@ export function updateProfileInfo(displayName : string, uri? : string | null, ol
         if (uri) {
             try {
                 photoUrl = await uploadImageAndGetUrl(uri);
-                console.log("url 2: ", photoUrl);
             } 
             
             catch (error : any) {
@@ -120,11 +111,7 @@ export function updateProfileInfo(displayName : string, uri? : string | null, ol
             return;
         }
 
- 
-
         if (!response.ok) {
-            //handle error
-            console.log("changing profile info failed");
             dispatch({type : UPDATE_PROFILE_FAILED});
         }
 
@@ -155,9 +142,7 @@ async function uploadImageAndGetUrl(uri : string) {
     let url = "";
 
     await uploadBytesResumable(imageRef, blob);
-    console.log('Uploaded a blob or file!');
     url = await getDownloadURL(imageRef)
-    console.log("url: ", url);
     return url;
 }
 
