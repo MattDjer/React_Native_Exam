@@ -10,7 +10,7 @@ import { StackParamList } from "../typings/navigations";
 import { User } from "../entities/User"
 import { RootState } from '../App';
 import * as ImagePicker from 'expo-image-picker';
-import { deleteObject, getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import firebaseApp from '../firebase';
 import uuid from "react-native-uuid"
 import { getDate } from '../components/GetDate'
@@ -152,7 +152,6 @@ export default function Posts() {
         });
         if (!result.cancelled) {
             setImage(result.uri);
-            setImageChanged(true);
         }
     };
 
@@ -224,7 +223,7 @@ export default function Posts() {
         <FlatList
             style={{marginBottom}}
             data={posts}
-            key={(posts: any) => posts.id}
+            keyExtractor={(posts: any) => posts.id}
             inverted={true}
             renderItem={({ item }: { item: any }) => (        
                 <TouchableOpacity onPress={() => goToDetails(item)}>
