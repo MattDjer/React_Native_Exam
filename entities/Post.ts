@@ -9,6 +9,7 @@ export class Post {
         public numberOfLikes: number,
         public userLikes: any,
         public id: string,
-        public displayName?: string,        
+        public photoUrl: string, 
+        public displayName?: string,       
         ){}
 }

@@ -8,16 +8,17 @@ import { RESET_UPDATE_STATUS, updateEmail, updateProfileInfo, UPDATE_PROFILE_FAI
 import * as ImagePicker from 'expo-image-picker';
 import { useNavigation } from '@react-navigation/native';
 
+
 export default function EditProfileScreen() {
     const user: User = useSelector((state: RootState) => state.user.loggedInUser);
     const updateProfileStatus = useSelector((state : RootState) => state.profile.updateProfileStatus);
-    
+
     const [textEmail, setTextEmail] = useState(user.email);
     const [textDisplayName, setTextDisplayName] = useState(user.displayName ? user.displayName : "");
     const [image, setImage] = useState<string | null>(user.photoUrl ? user.photoUrl : null);
     const [imageChanged, setImageChanged] = useState(false);
 
-    
+
     const dispatch = useDispatch();
     const navigation = useNavigation();
 

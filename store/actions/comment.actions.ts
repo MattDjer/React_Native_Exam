@@ -1,6 +1,6 @@
 import { Comment } from "../../entities/Comment";
 import { Post } from '../../entities/Post'
-import { fetchPost, fetchPosts } from "./post.actions";
+import { fetchPosts, fetchPost } from "./post.actions";
 
 
 export const ADD_COMMENT = 'ADD_COMMENT';
@@ -34,13 +34,10 @@ export const addComment = (comment: string, post: Post) => {
             });
 
             if (!response.ok) {
-                console.log("WHOE")
-                //There was a problem..
-                //dispatch({type: ADD_CHATROOM_FAILED, payload: 'something'})
+                alert("There was a problem creating the comment ")
             } else {
                 dispatch({ type: ADD_COMMENT, payload: userComment })
                 dispatch(fetchComments(post.id))
-                dispatch(fetchPosts())
             }
         }        
     };
@@ -58,34 +55,26 @@ export const fetchComments = (postId: string) => {
                 'Content-Type': 'application/json'
             }
         });
-      
-        //console.log(await response.json());
     
         if (!response.ok) {
-            console.log("Problem fetching posts")
+            alert("Problem loading comments")
         } else {
-            const data = await response.json(); // json to javascript
+            const data = await response.json();
             let comments: Comment[] = []
         
-            for (const key in data) {
-                // create Post objects and push them into the array posts.
-                const obj = data[key];
+            for (const CommentKey in data) {
+                const obj = data[CommentKey];
 
                 comments.push(new Comment(obj.text, 
                                           obj.timestamp,                                           
                                           obj.userMail,
-                                          key, 
+                                          CommentKey, 
                                           obj.displayName,
                                         ))
-            }
-                                        /*
-                                         public text: string,
-                                        public timestamp: Date, 
-                                        public userMail: string, 
-                                        public displayName?: string,
-                                        public id?: string,
-                                        */
+            }         
             dispatch({ type: 'FETCH_COMMENTS', payload: comments })
+            dispatch(fetchPosts())
+            dispatch(fetchPost(postId))            
         }
     };
 }
