@@ -21,8 +21,7 @@ const commentReducer = (state: ReduxState = initialState, action: ReduxAction) =
     switch (action.type) {
 
 
-        case FETCH_COMMENTS:
-            // create a new state object with the action.payload assigned to the POSTS array.
+        case FETCH_COMMENTS: 
             return { ...state, comments: action.payload }
 
         case ADD_COMMENT:

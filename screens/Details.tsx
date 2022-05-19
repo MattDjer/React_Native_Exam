@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Button, StyleSheet, Text, View, ScrollView, TextInput, TouchableOpacity, Keyboard, FlatList } from 'react-native';
+import { Button, StyleSheet, Text, View, TextInput, TouchableOpacity, Keyboard, FlatList, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
 import { Post } from '../entities/Post'
 import { addComment, fetchComments } from '../store/actions/comment.actions'
-import { fetchPosts, addLikeToPost, removeLikeFromPost, fetchPost } from '../store/actions/post.actions'
+import { addLikeToPost, removeLikeFromPost } from '../store/actions/post.actions'
 import { User } from "../entities/User"
 import { RootState } from '../App';
 
@@ -30,12 +30,12 @@ export default function PostDetails() {
     }
 
 
-     // Used to sum number of comments
+     // Used to render number of comments
      let count = 0
      function sumComments(item: any) {
-         for (let comment in item.comments) {
-             count += 1
-         }
+        for (let comment in item.comments) { 
+            count += 1
+        }
      }
  
 
@@ -62,6 +62,14 @@ export default function PostDetails() {
         dispatch(removeLikeFromPost(numberOfLikes, postId))
     }
 
+    const renderImage = (photoUrl: any) => {
+        if (photoUrl) { 
+            return  <View>
+                        <Image source={{ uri : photoUrl }} style={styles.imagePost} />
+                    </View>
+        }     
+    }
+
 
     return (
         <>
@@ -81,13 +89,21 @@ export default function PostDetails() {
                             {renderLikeButton(post)}                                                 
                         </View>
 
+                        <View style={styles.border}></View>
+
                         <View>
                             <Text style={{fontSize: 20, alignSelf: "center" }}>{post.title}</Text>
                         </View>
 
-                        <View style={{paddingLeft: 10, paddingBottom: 5}}>
+                            {renderImage(post.photoUrl)}
+
+                        <View style={{paddingLeft: 35, paddingBottom: 5}}>
                             <Text style={{fontSize: 15}}>{post.description}</Text>  
-                        </View>              
+                        </View> 
+
+                        <View>
+                            <Text style={{fontSize: 13, padding: 5, color: "blue"}}>{post.timestamp} </Text>     
+                        </View>             
                     
                     </View> 
             </View>
@@ -110,14 +126,25 @@ export default function PostDetails() {
                 inverted={true}
                 renderItem={({ item }: { item: any }) => (
                     <TouchableOpacity>
+                        
                         <View style={styles.container}>
-                            <View style={{flexDirection: "row", justifyContent: 'space-between', padding: 10, }}>
-                                <Text style={{fontSize: 20}}>{item.text}</Text>
+                           
+                            <View style={{flexDirection: "row", justifyContent: 'space-between', padding: 10, }}>                               
                                 <Text style={{fontSize: 12, color: "purple"}}>
                                             {item.displayName ? item.displayName : item.userMail}
                                 </Text>
                             </View>
+
+                            <View>
+                                <Text style={{fontSize: 20, padding: 10}}>{item.text}</Text>
+                            </View>
+
+                            <View>
+                                <Text style={{fontSize: 13, padding: 5, color: "blue"}}>{item.timestamp} </Text>     
+                            </View> 
+                        
                         </View>
+
                     </TouchableOpacity>
                     
                 )}                              
@@ -143,5 +170,17 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 15,
         marginLeft: 10
+    },
+    imagePost: {
+        marginTop: 5,
+        width: 150, 
+        height: 150, 
+        borderWidth: 3, 
+        borderColor: "grey",
+        alignSelf: "center", 
+    },
+    border: {
+        borderBottomWidth: 1,
+        borderBottomColor: "black"
     }
 })
