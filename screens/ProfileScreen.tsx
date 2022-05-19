@@ -1,14 +1,13 @@
 import * as SecureStore from "expo-secure-store"
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Button, StyleSheet, Text, View, Image } from 'react-native';
 import { StackParamList } from '../typings/navigations';
 import { logout, rehydrateUser } from '../store/actions/user.actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../App';
 import { User } from "../entities/User";
-import { AntDesign } from '@expo/vector-icons';
 
 type ScreenNavigationType = NativeStackNavigationProp<StackParamList, "Profile">;
 

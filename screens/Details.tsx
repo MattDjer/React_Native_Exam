@@ -122,7 +122,7 @@ export default function PostDetails() {
             
             <FlatList
                 data={comments}
-                key={(comment: any) => comment.id}
+                keyExtractor={(comment: any) => comment.id}
                 inverted={true}
                 renderItem={({ item }: { item: any }) => (
                     <TouchableOpacity>

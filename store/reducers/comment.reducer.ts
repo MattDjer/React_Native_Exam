@@ -19,8 +19,6 @@ interface ReduxAction {
 
 const commentReducer = (state: ReduxState = initialState, action: ReduxAction) => {
     switch (action.type) {
-
-
         case FETCH_COMMENTS: 
             return { ...state, comments: action.payload }
 

@@ -1,6 +1,5 @@
 import { Post } from "../../entities/Post";
 import { UserLike } from "../../entities/UserLike";
-import { uploadImageAndGetUrl } from "../actions/profile.actions"
 
 export const ADD_POST = 'ADD_POST';
 export const UPDATE_POSTS = 'UPDATE_POSTS'

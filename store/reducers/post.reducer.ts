@@ -1,5 +1,5 @@
 import { Post } from "../../entities/Post";
-import { UPDATE_POSTS, POST_DETAILS, ADD_POST } from "../actions/post.actions";
+import { UPDATE_POSTS, POST_DETAILS } from "../actions/post.actions";
 
 
 interface ReduxState {

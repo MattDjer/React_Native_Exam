@@ -1,4 +1,3 @@
-import { RootState } from "../../App";
 import { RESET_UPDATE_STATUS, UPDATE_PROFILE_FAILED, UPDATE_PROFILE_SUCCESS } from "../actions/profile.actions"
 
 export const UPDATE_DEFAULT = "UPDATE_DEFAULT";
