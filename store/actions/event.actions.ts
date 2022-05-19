@@ -1,15 +1,11 @@
 export const ADD_EVENTS = "ADD_EVENTS";
 
-export interface categoryAndFilter {
-    isEnabled : boolean,
-    value : string
-}
-
 export interface EventQueryParams {
     offset? : number,
     categories? : string[],
     location? : string,
-    isFree? : boolean
+    isFree? : boolean,
+    limit? : number;
 }
 
 export function fetchEvents(queryParams : EventQueryParams) {
@@ -19,7 +15,7 @@ export function fetchEvents(queryParams : EventQueryParams) {
         queryString += queryParams.location ? "&location=" + queryParams.location : "";
         queryString += queryParams.isFree ? "&is_free=" + queryParams.isFree : "";
         
-        queryString += "&limit=10";
+        queryString += queryParams.limit ?  "&limit=" + queryParams.limit.toString() : "&limit=10";
         if (queryParams.categories && queryParams.categories.length > 0) {
             queryString += "&categories="
             for (let i = 0; i < queryParams.categories.length; i++) {
@@ -41,18 +37,12 @@ export function fetchEvents(queryParams : EventQueryParams) {
         const response = await fetch(url, request);
 
         if(!response.ok) {
-            console.log("Error fetching events");
-            console.log("Error data: ", await response.json());
+            alert("Error fetching events")
         }
 
         else {
             const data = await response.json();
-            console.log("Events fetched");
-            console.log("Events: ", data);
-            //console.log("image: ", data.events[0].image_url)
             dispatch({type : ADD_EVENTS, payload : data.events});
-            
         }
-        
     }
 }

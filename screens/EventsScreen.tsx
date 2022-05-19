@@ -89,7 +89,7 @@ export default function EventsScreen() {
                 </View>)}
             </View>
             
-            <Button title="Fetch events" onPress={() => dispatch(fetchEvents({isFree : isFree, location : location, categories : selectedCategories}))}/>
+            <Button title="Fetch events" onPress={() => {setCurrentpage(0); dispatch(fetchEvents({isFree : isFree, location : location, categories : selectedCategories}))}}/>
             <Text>Events fetched: {events.length}</Text>
 
 
