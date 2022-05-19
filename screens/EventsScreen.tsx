@@ -40,7 +40,7 @@ export default function EventsScreen() {
             <Text>Events fetched: {events.length}</Text>
 
 
-            <View>
+            <View style={{flex : 1}}>
                 <FlatList
                     contentContainerStyle={{paddingBottom : 100, alignItems : "center", display : "flex"}}
                     data={events}
@@ -48,6 +48,7 @@ export default function EventsScreen() {
                     showsVerticalScrollIndicator={false}      
                 />
             </View>
+            <Text>This should be visible</Text>
 
 
 

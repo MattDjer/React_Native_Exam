@@ -14,7 +14,7 @@ export function fetchEvents(queryParams : EventQueryParams) {
         queryString += queryParams.location ? "&location=" + queryParams.location : "";
         queryString += queryParams.isFree ? "&is_free=" + queryParams.isFree : "";
         
-        queryString += "&limit=3";
+        queryString += "&limit=10";
         if (queryParams.categories) {
             queryString += "&categories="
             for (let i = 0; i < queryParams.categories.length; i++) {
