@@ -26,12 +26,19 @@ export default function EventsScreen() {
     const dispatch = useDispatch();
 
     function toggleCategory(category : string) {
-        const filteredArray = selectedCategories.filter((elm) => elm !== category);
-        setSelectedCategories(filteredArray);
+        if (categoryIsEnabled(category)) {
+            const filteredArray = selectedCategories.filter((elm) => elm !== category);
+            setSelectedCategories(filteredArray);
+        }
+
+        else {
+            setSelectedCategories([...selectedCategories, category]);
+        }
     }
 
     function categoryIsEnabled(category : string) {
         const foundElement = selectedCategories.find((elm) => category === elm);
+        console.log("called");
         return foundElement !== undefined;
     } 
 
