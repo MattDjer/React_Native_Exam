@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, Button, TextInput, Switch, FlatList, Image } fr
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../App";
-import { categoryAndFilter, fetchEvents } from "../store/actions/event.actions";
+import { fetchEvents } from "../store/actions/event.actions";
 
 const renderItem = ({item} : any) => {
     return (
@@ -19,9 +19,9 @@ export default function EventsScreen() {
 
     const [isFree, setIsfree] = useState(false);
     const [location, setLocation] = useState("");
-    //const categories : categoryAndLabel[] = [{label : "Music", value : "music"}, {label : "Film", value : "film"}, {label : "Lectures and books", value : "lectures-books"}];
     const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
     const [categoriesOpen, setCategoriesOpen] = useState(false);
+    const [currentPage, setCurrentpage] = useState(0);
 
     const dispatch = useDispatch();
 
@@ -38,9 +38,20 @@ export default function EventsScreen() {
 
     function categoryIsEnabled(category : string) {
         const foundElement = selectedCategories.find((elm) => category === elm);
-        console.log("called");
         return foundElement !== undefined;
-    } 
+    }
+    
+    function nextPage() {
+        setCurrentpage(currentPage + 1);
+        dispatch(fetchEvents({isFree : isFree, location : location, categories : selectedCategories, offset : currentPage + 1}));
+    }
+
+    function previousPage() {
+        if (currentPage > 0) {
+            setCurrentpage(currentPage - 1);
+            dispatch(fetchEvents({isFree : isFree, location : location, categories : selectedCategories, offset : currentPage - 1}));
+        }
+    }
 
     return (
         <SafeAreaView style={styles.container}>
@@ -90,7 +101,10 @@ export default function EventsScreen() {
                     showsVerticalScrollIndicator={false}      
                 />
             </View>
-            <Text>This should be visible</Text>
+            <View style={{display : "flex", flexDirection : "row"}}>
+                    <Button title="Prev" disabled={currentPage <= 0} onPress={previousPage}/>
+                    <Button title="Next" onPress={nextPage}/>
+            </View>
 
 
 
