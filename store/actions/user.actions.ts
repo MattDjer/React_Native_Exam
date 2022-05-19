@@ -29,8 +29,7 @@ export const login = (email: string, password: string) => {
 
 
         if (!response.ok) {
-            console.log("There was a problem login in")
-            //TODO: display error message to user
+            alert("Wrong username or password");
         } else {
             const data: FirebaseLoginSuccess = await response.json(); // json to javascript            
             
@@ -67,8 +66,7 @@ export const signup = (email: string, password: string) => {
         });
 
         if (!response.ok) {
-            //TODO: display error message to user
-            //dispatch({type: SIGNUP_FAILED, payload: 'something'})
+            alert("User already exists with that email");
         } else {
             const data: FirebaseSignupSuccess = await response.json();
             const user = new User(data.email, '', '');

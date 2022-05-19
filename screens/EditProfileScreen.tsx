@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, StyleSheet, View, Image, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, Text, TouchableOpacity } from 'react-native';
+import { Button, StyleSheet, View, Image, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../App';
 import Input from '../components/Input';
@@ -46,7 +46,7 @@ export default function EditProfileScreen() {
     };
 
     const onSave = () => {
-        if (textEmail !== ''  /* && other inputs are not empty */) {
+        if (textEmail !== '') {
             dispatch({type : RESET_UPDATE_STATUS});
             dispatch(updateEmail(textEmail));
             if (imageChanged) {
@@ -60,7 +60,7 @@ export default function EditProfileScreen() {
             }
             
         } else {
-            //Show error message
+            alert("Email cannot be empty");
         }
     }
 
