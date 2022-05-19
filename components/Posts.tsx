@@ -36,7 +36,7 @@ export default function Posts() {
         dispatch(fetchPosts());       
     }, [])
 
-    
+
     // Add new post
     let url = "";
     const getUrlFromStorage = async (image: string) => {
@@ -240,11 +240,13 @@ export default function Posts() {
                             {renderLikeButton(item)}                                                 
                         </View>
 
+                        <View style={styles.border}></View>
+
                         <View>
                             <Text style={{fontSize: 20, alignSelf: "center" }}>{item.title}</Text>
                         </View>
 
-                            {renderImage(item.photoUrl)}
+                            {renderImage(item.photoUrl)}   
 
                         <View style={{paddingLeft: 35, paddingBottom: 5, paddingRight: 35}}>
                             <Text style={{fontSize: 15}}>{item.description}</Text>  
@@ -292,5 +294,9 @@ const styles = StyleSheet.create({
         borderColor: "grey",
         alignSelf: "center", 
     },
+    border: {
+        borderBottomWidth: 1,
+        borderBottomColor: "black"
+    }
 })
 

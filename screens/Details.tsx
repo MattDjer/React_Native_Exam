@@ -89,6 +89,8 @@ export default function PostDetails() {
                             {renderLikeButton(post)}                                                 
                         </View>
 
+                        <View style={styles.border}></View>
+
                         <View>
                             <Text style={{fontSize: 20, alignSelf: "center" }}>{post.title}</Text>
                         </View>
@@ -162,4 +164,8 @@ const styles = StyleSheet.create({
         borderColor: "grey",
         alignSelf: "center", 
     },
+    border: {
+        borderBottomWidth: 1,
+        borderBottomColor: "black"
+    }
 })
