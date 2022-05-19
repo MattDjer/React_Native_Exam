@@ -27,17 +27,7 @@ export default function PostDetails() {
         dispatch(addComment(comment, post))
         setComment('')
         Keyboard.dismiss()
-    }
-
-
-     // Used to render number of comments
-     let count = 0
-     function sumComments(item: any) {
-        for (let comment in item.comments) { 
-            count += 1
-        }
-     }
- 
+    } 
 
      // Render like button based on whether user already liked the post
     const renderLikeButton = (item: any) => {
@@ -83,8 +73,8 @@ export default function PostDetails() {
                                         {post.displayName ? post.displayName : post.userMail}                                        
                             </Text>
 
-                            {sumComments(post)}
-                            <Text style={{color: "blue"}}>Comments: {count}</Text>                                 
+                            {post.comments.length}
+                            <Text style={{color: "blue"}}>Comments: {post.comments.length}</Text>                                 
                             <Text style={{color: "blue"}}>Likes: {post.numberOfLikes}</Text>                                            
                             {renderLikeButton(post)}                                                 
                         </View>
