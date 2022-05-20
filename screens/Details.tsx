@@ -27,7 +27,28 @@ export default function PostDetails() {
         dispatch(addComment(comment, post))
         setComment('')
         Keyboard.dismiss()
-    } 
+    }
+    
+    function renderComment({ item }: { item: any }) {
+        return (
+                <View style={styles.container}>
+                
+                    <View style={{flexDirection: "row", justifyContent: 'space-between', padding: 10, }}>                               
+                        <Text style={{fontSize: 12, color: "purple"}}>
+                                    {item.displayName ? item.displayName : item.userMail}
+                        </Text>
+                    </View>
+
+                    <View>
+                        <Text style={{fontSize: 20, padding: 10}}>{item.text}</Text>
+                    </View>
+
+                    <View>
+                        <Text style={{fontSize: 13, padding: 5, color: "blue"}}>{item.timestamp} </Text>     
+                    </View> 
+                </View>
+        )
+    }
 
      // Render like button based on whether user already liked the post
     const renderLikeButton = (item: any) => {
@@ -36,10 +57,12 @@ export default function PostDetails() {
                 return  <Text>
                             <Button title='Liked' onPress={() => handleRemoveLike(item.numberOfLikes, item.id)}>Liked</Button>       
                         </Text>
-                }
-            }   return  <Text>
-                            <Button title='Like' onPress={() => handleAddLike(item.numberOfLikes, item.id)}>Like</Button>       
-                        </Text>
+            }
+        }  
+        
+        return  <Text>
+                    <Button title='Like' onPress={() => handleAddLike(item.numberOfLikes, item.id)}>Like</Button>       
+                </Text>
     }
 
 
@@ -62,39 +85,36 @@ export default function PostDetails() {
 
 
     return (
-        <>
         <SafeAreaView>
            <View style={styles.container}>
+                <View style={styles.container}>
+                    <View style={{flexDirection: "row", justifyContent: 'space-between', padding: 10, }}>                          
+                        <Text style={{fontSize: 12, color: "purple"}}>
+                                    {post.displayName ? post.displayName : post.userMail}                                        
+                        </Text>
 
-                    <View style={styles.container}>
-                        
-                        <View style={{flexDirection: "row", justifyContent: 'space-between', padding: 10, }}>                          
-                            <Text style={{fontSize: 12, color: "purple"}}>
-                                        {post.displayName ? post.displayName : post.userMail}                                        
-                            </Text>
+                        <Text style={{color: "blue"}}>Comments: {post.comments.length}</Text>                                 
+                        <Text style={{color: "blue"}}>Likes: {post.numberOfLikes}</Text>                                            
+                        {renderLikeButton(post)}                                                 
+                    </View>
 
-                            <Text style={{color: "blue"}}>Comments: {post.comments.length}</Text>                                 
-                            <Text style={{color: "blue"}}>Likes: {post.numberOfLikes}</Text>                                            
-                            {renderLikeButton(post)}                                                 
-                        </View>
+                    <View style={styles.border}></View>
 
-                        <View style={styles.border}></View>
+                    <View>
+                        <Text style={{fontSize: 20, alignSelf: "center" }}>{post.title}</Text>
+                    </View>
 
-                        <View>
-                            <Text style={{fontSize: 20, alignSelf: "center" }}>{post.title}</Text>
-                        </View>
+                        {renderImage(post.photoUrl)}
 
-                            {renderImage(post.photoUrl)}
-
-                        <View style={{paddingLeft: 35, paddingBottom: 5}}>
-                            <Text style={{fontSize: 15}}>{post.description}</Text>  
-                        </View> 
-
-                        <View>
-                            <Text style={{fontSize: 13, padding: 5, color: "blue"}}>{post.timestamp} </Text>     
-                        </View>             
-                    
+                    <View style={{paddingLeft: 35, paddingBottom: 5}}>
+                        <Text style={{fontSize: 15}}>{post.description}</Text>  
                     </View> 
+
+                    <View>
+                        <Text style={{fontSize: 13, padding: 5, color: "blue"}}>{post.timestamp} </Text>     
+                    </View>             
+                
+                </View> 
             </View>
             <View style={styles.container}>
                 <TextInput 
@@ -113,34 +133,10 @@ export default function PostDetails() {
                 data={comments}
                 keyExtractor={(comment: any) => comment.id}
                 inverted={true}
-                renderItem={({ item }: { item: any }) => (
-                    <TouchableOpacity>
-                        
-                        <View style={styles.container}>
-                           
-                            <View style={{flexDirection: "row", justifyContent: 'space-between', padding: 10, }}>                               
-                                <Text style={{fontSize: 12, color: "purple"}}>
-                                            {item.displayName ? item.displayName : item.userMail}
-                                </Text>
-                            </View>
-
-                            <View>
-                                <Text style={{fontSize: 20, padding: 10}}>{item.text}</Text>
-                            </View>
-
-                            <View>
-                                <Text style={{fontSize: 13, padding: 5, color: "blue"}}>{item.timestamp} </Text>     
-                            </View> 
-                        
-                        </View>
-
-                    </TouchableOpacity>
-                    
-                )}                              
-            >
-            </FlatList>          
-        </SafeAreaView>
-        </>       
+                renderItem={renderComment}
+                contentContainerStyle={{paddingTop : 100}}                              
+            />          
+        </SafeAreaView>   
     );
 }
 
