@@ -11,6 +11,7 @@ export const UPDATE_PROFILE_FAILED = "UPDATE_PROFILE_FAILED";
 export const RESET_UPDATE_STATUS = "RESET_UPDATE_STATUS";
 export const UPDATE_PROFILE_SUCCESS = "UPDATE_PROFILE_SUCCESS";
 
+
 export function updateEmail(email : string) {
     return async function(dispatch : any, getState : any) {        
         
@@ -42,7 +43,6 @@ export function updateEmail(email : string) {
         else {
 
             const data = await response.json();
-    
             const newUser = new User(data.email, user.displayName, user.photoUrl);
             
             await SecureStore.setItemAsync("idToken", data.idToken);
@@ -85,7 +85,7 @@ export function updateProfileInfo(displayName : string, uri? : string | null, ol
             method : "POST",
             headers : {
                 "Content-Type" : "application/json"
-            },
+            }
         }
 
         const requestBody : any = {

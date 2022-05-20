@@ -18,7 +18,6 @@ export default function EditProfileScreen() {
     const [image, setImage] = useState<string | null>(user.photoUrl ? user.photoUrl : null);
     const [imageChanged, setImageChanged] = useState(false);
 
-
     const dispatch = useDispatch();
     const navigation = useNavigation();
 
@@ -77,7 +76,6 @@ export default function EditProfileScreen() {
                         )}
                     </View>
 
-
                     <View style={[{display : "flex", flex : 1}]}>
                         <Input title="What is your email?"
                             inputValue={textEmail}
@@ -85,7 +83,6 @@ export default function EditProfileScreen() {
                             error="Email cannot be empty"
                         />
                     </View>
-
 
                     <View style={{display : "flex", flex : 1}}>
                         <Input title='What name should be displayed to other people'
@@ -102,11 +99,8 @@ export default function EditProfileScreen() {
                     <View style={{marginTop : "auto"}}>
                         <Button title="Save" onPress={onSave} /> 
                     </View>
-
-            </View>
- 
+                </View>
             </TouchableWithoutFeedback>
-         
         </KeyboardAvoidingView>
     );
 }

@@ -34,15 +34,23 @@ export function fetchEvents(queryParams : EventQueryParams) {
             }
         }
 
-        const response = await fetch(url, request);
+        try {
+            const response = await fetch(url, request);
 
-        if(!response.ok) {
-            alert("Error fetching events")
+            if(!response.ok) {
+                alert("Error fetching events")
+            }
+    
+            else {
+                const data = await response.json();
+                dispatch({type : ADD_EVENTS, payload : data.events});
+            }
         }
 
-        else {
-            const data = await response.json();
-            dispatch({type : ADD_EVENTS, payload : data.events});
+        catch(err) {
+            alert("A network error occured when trying to fetch events");
         }
+
+
     }
 }
