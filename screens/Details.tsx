@@ -73,7 +73,6 @@ export default function PostDetails() {
                                         {post.displayName ? post.displayName : post.userMail}                                        
                             </Text>
 
-                            {post.comments.length}
                             <Text style={{color: "blue"}}>Comments: {post.comments.length}</Text>                                 
                             <Text style={{color: "blue"}}>Likes: {post.numberOfLikes}</Text>                                            
                             {renderLikeButton(post)}                                                 
