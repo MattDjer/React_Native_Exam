@@ -23,8 +23,6 @@ const Input = ({ title, inputValue, error, setText, placeholder }:
 const styles = StyleSheet.create({
     container: {
         backgroundColor: '#fff',
-        //alignItems: 'center',
-        // justifyContent: 'center',
         borderColor: "grey",
         borderStyle: "solid",
         borderWidth: 1,

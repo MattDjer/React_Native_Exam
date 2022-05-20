@@ -42,10 +42,6 @@ export default function Navigation() {
 
     return (
         <NavigationContainer>
-            {/* Move navigation related code to a seperate component that is used here */}
-            {/* Determine if the user is logged in and display:
-        A stack navigator (only) with signup and login // options={{ tabBarBadge: 3 }}
-        Our "normal" app with tabs navigation */}
             {user !== null ? (
                 // Show the app with all navigation
                 <Tab.Navigator screenOptions={{ headerShown: false }}>

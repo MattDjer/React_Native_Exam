@@ -70,7 +70,11 @@ export default function EditProfileScreen() {
                 <View style={styles.innerContainer}>
                     <View style={styles.uploadAndImage}>
                         <Button title="Change profile picture" onPress={pickImage} />
-                        {image && <Image source={{ uri: image }} style={styles.image} />}
+                        {image ? (
+                            <Image source={{ uri: image }} style={styles.image} />
+                        ) : (
+                            <Image source={require("../images/default.png")} style={styles.image} />
+                        )}
                     </View>
 
 
