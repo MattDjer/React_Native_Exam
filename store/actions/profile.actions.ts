@@ -5,7 +5,9 @@ import { rehydrateUser } from "./user.actions";
 import uuid from "react-native-uuid";
 import { manipulateAsync, SaveFormat } from 'expo-image-manipulator';
 import firebaseApp from '../../firebase';
+import { LogBox } from 'react-native';
 
+LogBox.ignoreLogs(['Setting a timer']);
 
 export const UPDATE_PROFILE_FAILED = "UPDATE_PROFILE_FAILED";
 export const RESET_UPDATE_STATUS = "RESET_UPDATE_STATUS";
