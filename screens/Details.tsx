@@ -16,7 +16,7 @@ export default function PostDetails() {
     const post: Post = useSelector((state: any) => state.post.post)  
     const comments: Comment[] = [] = useSelector((state: any) => state.comment.comments)
 
-    const [comment, setComment] = useState('')   
+    const [commentText, setCommentText] = useState('')   
 
     useEffect(() => {
         dispatch(fetchComments(post.id));
@@ -24,8 +24,8 @@ export default function PostDetails() {
         
 
     const postComment = () => {
-        dispatch(addComment(comment, post))
-        setComment('')
+        dispatch(addComment(commentText, post))
+        setCommentText('')
         Keyboard.dismiss()
     }
     
@@ -120,8 +120,8 @@ export default function PostDetails() {
                 <TextInput 
                     placeholder='Write a comment'
                     style={styles.text}
-                    value={comment}
-                    onChangeText={setComment}
+                    value={commentText}
+                    onChangeText={setCommentText}
                 />
                 <Button 
                     title='Submit' 

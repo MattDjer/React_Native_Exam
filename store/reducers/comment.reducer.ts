@@ -4,26 +4,23 @@ import { ADD_COMMENT, FETCH_COMMENTS } from "../actions/comment.actions";
 
 interface ReduxState {
     comments: Comment[],
-    comment: Comment[]
 }
 
 const initialState: ReduxState = {
     comments: [],
-    comment: []
 }
 
 interface ReduxAction {
     type: string,
-    payload?: boolean | number | string | Comment
+    payload: Comment | Comment[]
 }
 
 const commentReducer = (state: ReduxState = initialState, action: ReduxAction) => {
     switch (action.type) {
         case FETCH_COMMENTS: 
             return { ...state, comments: action.payload }
-
         case ADD_COMMENT:
-            return { ...state, comment: action.payload}
+            return { ...state, comments: [...state.comments, action.payload]}
 
         default:
             return state;

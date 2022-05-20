@@ -8,20 +8,20 @@ export const ADD_COMMENT = 'ADD_COMMENT';
 export const FETCH_COMMENTS = 'FETCH_COMMENTS';
 
 
-export const addComment = (comment: string, post: Post) => {
+export const addComment = (commentText: string, post: Post) => {
     return async (dispatch: any, getState: any) => {
         const token = getState().user.idToken;
         const displayName = getState().user.loggedInUser.displayName       
         const email = getState().user.loggedInUser.email
 
-        if (!comment) {
+        if (!commentText) {
             alert("Can't add an empty comment")
         }
         else {
             const currentDate = getDate()
-            let userComment = new Comment(comment, currentDate, email, "undefined") // id later fetched from firebase
+            let userComment = new Comment(commentText, currentDate, email, "undefined") // id later fetched from firebase
             if (displayName) {
-                userComment = new Comment(comment, currentDate, email, "undefined", displayName)
+                userComment = new Comment(commentText, currentDate, email, "undefined", displayName)
             }
                     
             const response = await fetch(
@@ -38,7 +38,6 @@ export const addComment = (comment: string, post: Post) => {
             if (!response.ok) {
                 alert("There was a problem creating the comment ")
             } else {
-                dispatch({ type: ADD_COMMENT, payload: userComment })
                 dispatch(fetchComments(post.id))
             }
         }        
