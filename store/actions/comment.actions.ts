@@ -62,9 +62,9 @@ export const fetchComments = (postId: string) => {
             alert("Problem loading comments")
         } else {
             const data = await response.json();
-            let comments: Comment[] = []
+            let comments: Comment[] = [];
         
-            for (const CommentKey in data) {
+            for (let CommentKey in data) {
                 const obj = data[CommentKey];
 
                 comments.push(new Comment(obj.text, 
@@ -74,7 +74,7 @@ export const fetchComments = (postId: string) => {
                                           obj.displayName,
                                         ))
             }         
-            dispatch({ type: 'FETCH_COMMENTS', payload: comments })
+            dispatch({ type: FETCH_COMMENTS, payload: comments })
             dispatch(fetchPosts())
             dispatch(fetchPost(postId))            
         }

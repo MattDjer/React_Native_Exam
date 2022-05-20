@@ -31,7 +31,7 @@ export default function Posts() {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [openCreateForm, setOpenCreateForm] = useState(false)
-    const [image, setImage] = useState<string | null>(user.photoUrl ? user.photoUrl : null);
+    const [image, setImage] = useState<string | null>(null);
 
     useEffect(() => {
         dispatch(fetchPosts());       
