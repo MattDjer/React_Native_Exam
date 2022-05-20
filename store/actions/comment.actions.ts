@@ -38,7 +38,10 @@ export const addComment = (commentText: string, post: Post) => {
             if (!response.ok) {
                 alert("There was a problem creating the comment ")
             } else {
-                dispatch(fetchComments(post.id))
+                const data = await response.json();
+                userComment.id = data.name;
+                dispatch({type : ADD_COMMENT, payload : userComment});
+                dispatch(fetchPosts());
             }
         }        
     };
