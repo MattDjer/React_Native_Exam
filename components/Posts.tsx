@@ -79,16 +79,12 @@ export default function Posts() {
     // Render like button based on whether user already liked the post
     const LikeButton = ({ item } : {item : Post}) => {
         for (let userLike in item.userLikes) {
-            
             if (item.userLikes[userLike].email == user.email) {
-                
-                return  <Text>
-                            <Button title='Liked' onPress={() => dispatch(removeLikeFromPost(item.numberOfLikes, item.id))}>Liked</Button>       
-                        </Text>
-                }
-            }   return  <Text>
-                            <Button title='Like' onPress={() => dispatch(addLikeToPost(item.numberOfLikes, item.id))}>Like</Button>       
-                        </Text>
+                return <Button title='Liked' onPress={() => dispatch(removeLikeFromPost(item.numberOfLikes, item.id))}>Liked</Button>                       
+            }
+        }   
+        
+        return <Button title='Like' onPress={() => dispatch(addLikeToPost(item.numberOfLikes, item.id))}>Like</Button>            
     }
 
 
