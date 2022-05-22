@@ -9,7 +9,11 @@ const renderItem = ({item} : any) => {
     return (
         <View style={{paddingBottom : 15, paddingTop : 15, display : "flex", alignItems : "center"}}>
             <Text>{item.name}</Text>
-            {item.image_url && (<Image source={{uri : item.image_url}} style={{width : 200, height: 200}}/>)}
+            {item.image_url ? (
+                <Image source={{uri : item.image_url}} style={{width : 200, height: 200}}/>
+            ) : (
+                <></>
+            )}
         </View>
     )
 }
