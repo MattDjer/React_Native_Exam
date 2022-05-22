@@ -103,13 +103,6 @@ export default function Posts() {
     function resetCount() { count = 0 }
 
 
-    // Renders Flatlist with bottom margin depending on length
-    let marginBottom = 0
-    for (let post in posts) {
-        marginBottom += 15
-    }
-
-
     // Render Title
     const pageTitle = () => {
         if (posts.length > 0) {
@@ -221,7 +214,7 @@ export default function Posts() {
         </View>
                 
         <FlatList
-            style={{marginBottom}}
+            style={{display : "flex", marginBottom: 50}}
             data={posts}
             keyExtractor={(posts: any) => posts.id}
             inverted={true}
