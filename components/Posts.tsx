@@ -28,10 +28,9 @@ export default function Posts() {
     const posts: Post[] = useSelector((state: any) => state.post.posts) 
 
     const dispatch = useDispatch()
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [openCreateForm, setOpenCreateForm] = useState(false)
-    const [image, setImage] = useState<string | null>(null);
+    
+    const [openCreateForm, setOpenCreateForm] = useState(false);
+
 
     useEffect(() => {
         dispatch(fetchPosts());       
@@ -52,8 +51,8 @@ export default function Posts() {
     }
     
     
-    const handleAddPost = async () => {
-        const url = image ? await uploadAndGetUrl(image) : "";  
+    const handleAddPost = async (title : string, description : string, image : string | null) => {
+        const url = image ? await uploadAndGetUrl(image) : ""; 
         
         const currentDate = getDate();
         
@@ -70,22 +69,9 @@ export default function Posts() {
                                     "undefined",  // user DisplayName                             
                                     ); 
         dispatch(createPost(post));
- 
-        setTitle('');
-        setDescription('');
-        setImage(null);
+
         
         Keyboard.dismiss(); // leaves keyboard after submitting post
-    }
-
-
-    // Handle User Likes
-    const handleAddLike = (numberOfLikes: number, postId: string) => {
-        dispatch(addLikeToPost(numberOfLikes, postId))
-    }
-
-    const handleRemoveLike = (numberOfLikes: number, postId: string) => {
-        dispatch(removeLikeFromPost(numberOfLikes, postId))
     }
 
     // Render Title
@@ -98,32 +84,21 @@ export default function Posts() {
  
 
     // Render like button based on whether user already liked the post
-    const LikeButton = ({ item } : {item : any}) => {
+    const LikeButton = ({ item } : {item : Post}) => {
         for (let userLike in item.userLikes) {
             
             if (item.userLikes[userLike].email == user.email) {
                 
                 return  <Text>
-                            <Button title='Liked' onPress={() => handleRemoveLike(item.numberOfLikes, item.id)}>Liked</Button>       
+                            <Button title='Liked' onPress={() => dispatch(removeLikeFromPost(item.numberOfLikes, item.id))}>Liked</Button>       
                         </Text>
                 }
             }   return  <Text>
-                            <Button title='Like' onPress={() => handleAddLike(item.numberOfLikes, item.id)}>Like</Button>       
+                            <Button title='Like' onPress={() => dispatch(addLikeToPost(item.numberOfLikes, item.id))}>Like</Button>       
                         </Text>
     }
 
-    const pickImage = async () => {
-        // No permissions request is necessary for launching the image library
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true,
-            aspect: [4, 3],
-            quality: 1,
-        });
-        if (!result.cancelled) {
-            setImage(result.uri);
-        }
-    };
+
 
 
     const renderImage = (postPhoto: string) => {
@@ -135,34 +110,58 @@ export default function Posts() {
     }
 
 
-    const renderPostForm = () => {       
-        if (openCreateForm) {
-            return <View style={{margin: 10}}>           
-                        <TextInput 
-                            placeholder="Title" 
-                            value={title} 
-                            onChangeText={setTitle}/>
+    const PostForm = () => {
+        const [title, setTitle] = useState('');
+        const [description, setDescription] = useState('');
+        const [image, setImage] = useState<string | null>(null);
 
-
-                        <View style={styles.uploadAndImage}>
-                            <Button title="Add post picture" onPress={pickImage} />
-                        </View>    
-
-                        <View>                            
-                            {image && <Image source={{ uri: image }} style={styles.imageCreate} />}
-                        </View>            
-
-                        <TextInput 
-                            placeholder="Description"
-                            value={description} 
-                            onChangeText={setDescription}/>
-
-                        <Button title='Submit' onPress={handleAddPost}/>         
-                    </View>             
+        function resetFields() {
+            setTitle("");
+            setImage(null);
+            setDescription("");
         }
-        else { 
-            return <View></View>
-         }    
+
+        const pickImage = async () => {
+            // No permissions request is necessary for launching the image library
+            let result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                allowsEditing: true,
+                aspect: [4, 3],
+                quality: 1,
+            });
+            if (!result.cancelled) {
+                setImage(result.uri);
+            }
+        };
+
+        return (
+            <>
+                {openCreateForm && (
+                    <View style={{margin: 10}}>           
+                    <TextInput 
+                        placeholder="Title" 
+                        value={title} 
+                        onChangeText={setTitle}/>
+
+
+                    <View style={styles.uploadAndImage}>
+                        <Button title="Add post picture" onPress={pickImage} />
+                    </View>    
+
+                    <View>                            
+                        {image && <Image source={{ uri: image }} style={styles.imageCreate} />}
+                    </View>            
+
+                    <TextInput 
+                        placeholder="Description"
+                        value={description} 
+                        onChangeText={setDescription}/>
+
+                    <Button title='Submit' onPress={() => {resetFields(); handleAddPost(title, description, image)}}/>         
+                    </View>
+                )}
+            </>
+        ) 
     }
 
 
@@ -177,14 +176,13 @@ export default function Posts() {
         <>
  
         <TouchableOpacity style={styles.container} onPress={() => setOpenCreateForm(!openCreateForm)}>
-            
             <View style={{alignItems: "center"}}>
-                <Text>Create post</Text>             
+                <Text>Create post</Text>
             </View>
-
-            {renderPostForm()}
-            
         </TouchableOpacity>
+
+        <PostForm/> 
+
 
         <View>
             {pageTitle()}

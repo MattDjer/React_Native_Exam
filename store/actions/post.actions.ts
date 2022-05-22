@@ -39,11 +39,9 @@ export const fetchPosts = () => {
                 const comments : Comment[] = [];
 
                 for (let key in objPost.comments) {
-                    console.log("comment here: ", objPost.comments[key]);
                     comments.push(objPost.comments[key]);
                 }
 
-                console.log("comments array: ", comments);
                 
                 posts.push(new Post(objPost.title, 
                                     objPost.description, 
@@ -58,7 +56,6 @@ export const fetchPosts = () => {
                                     objPost.displayName,
                                     ))
             }
-            console.log(posts);
             dispatch({ type: 'UPDATE_POSTS', payload: posts })
         }
     };
