@@ -98,7 +98,7 @@ export default function Posts() {
  
 
     // Render like button based on whether user already liked the post
-    const renderLikeButton = (item: any) => {
+    const LikeButton = ({ item } : {item : any}) => {
         for (let userLike in item.userLikes) {
             
             if (item.userLikes[userLike].email == user.email) {
@@ -207,7 +207,7 @@ export default function Posts() {
                             
                             <Text style={{color: "blue"}}>Comments: {item.comments.length}</Text>                                 
                             <Text style={{color: "blue"}}>Likes: {item.numberOfLikes}</Text>                                            
-                            {renderLikeButton(item)}                                                 
+                            <LikeButton item={item}/>                                                 
                         </View>
 
                         <View style={styles.border}></View>
