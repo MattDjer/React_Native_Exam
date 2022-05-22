@@ -1,3 +1,5 @@
+import { Comment } from "./Comment";
+
 export class Post {
     constructor(
         public title: string, 
