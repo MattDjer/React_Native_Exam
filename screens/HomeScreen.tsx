@@ -1,19 +1,31 @@
 import React from 'react';
-import { Button, ScrollView } from 'react-native';
+import { Button, Text, View, Image } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { logout } from '../store/actions/user.actions';
 import Navbar from '../components/Navbar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function HomeScreen() {
-    const dispatch = useDispatch();
     
     return (
-        <SafeAreaView>
-            <Navbar/>
-            <ScrollView>        
-                <Button title="Logout" onPress={() => dispatch(logout())} />
-            </ScrollView>
+        <SafeAreaView style={{alignItems: "center", backgroundColor: "white"}}>
+            
+            <Text style={{marginBottom: 40}}> Welcome to the GoodTimes app</Text>
+            
+                
+
+            <Text style={{fontSize: 20, marginTop: 10}}>Here you can find official events</Text>
+            <Text>Go to the Events tab to search at your location!</Text>
+            <Image 
+                source={{ uri: "https://upload.wikimedia.org/wikipedia/commons/0/01/Orange_Stage_%282012%29.jpg" }} 
+                style={{ width: "100%", height: 180 }} />
+
+
+            <Text style={{fontSize: 20, marginTop: 80}}>You can also find privat events</Text>
+            <Text> Go the the Posts tab to see the latest activity</Text> 
+            <Image 
+                source={{ uri: "https://c.tenor.com/QM-si3_EAyIAAAAC/listening-to-music-dancing.gif" }} 
+                style={{ width: "100%", height: 180 }} />   
         </SafeAreaView>
     );
 }

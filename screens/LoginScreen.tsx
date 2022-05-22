@@ -43,6 +43,7 @@ export default function SignupScreen() {
             <TextInput value={email} placeholder="email" onChangeText={setEmail} />
             <TextInput value={password} placeholder="password"  secureTextEntry={true} onChangeText={setPassword} />
             <Button title="Signin" onPress={() => dispatch(login(email, password))} />
+            <Text style={{marginTop: 10, color: "blue"}}>Don't have a user yet?</Text>
             <Button title="Go to signup" onPress={() => navigation.navigate("Signup")} />
         </View>
     );
