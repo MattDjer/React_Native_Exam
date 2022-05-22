@@ -21,39 +21,34 @@ type ScreenNavigationType = NativeStackNavigationProp<
     "Posts"
 >
 
+const uploadAndGetUrl = async (image: string) => {
+    const response = await fetch(image);
+    const blob = await response.blob();
+
+    const storage = getStorage(firebaseApp);
+    const filename = uuid.v4().toString();
+    const imageRef = ref(storage, filename);
+
+    await uploadBytesResumable(imageRef, blob);
+    return await getDownloadURL(imageRef);
+}
+
 export default function Posts() {
-    const navigation = useNavigation<ScreenNavigationType>()
+    const navigation = useNavigation<ScreenNavigationType>();
+    const dispatch = useDispatch();
 
     const user: User = useSelector((state: RootState) => state.user.loggedInUser);
-    const posts: Post[] = useSelector((state: any) => state.post.posts) 
-
-    const dispatch = useDispatch()
+    const posts: Post[] = useSelector((state: any) => state.post.posts); 
     
     const [openCreateForm, setOpenCreateForm] = useState(false);
-
 
     useEffect(() => {
         dispatch(fetchPosts());       
     }, [])
-
-
-    // Add new post
-    const uploadAndGetUrl = async (image: string) => {
-        const response = await fetch(image);
-        const blob = await response.blob();
-
-        const storage = getStorage(firebaseApp);
-        const filename = uuid.v4().toString();
-        const imageRef = ref(storage, filename);
-
-        await uploadBytesResumable(imageRef, blob);
-        return await getDownloadURL(imageRef);
-    }
     
     
     const handleAddPost = async (title : string, description : string, image : string | null) => {
         const url = image ? await uploadAndGetUrl(image) : ""; 
-        
         const currentDate = getDate();
         
         const post: Post = new Post(title, 
@@ -69,13 +64,11 @@ export default function Posts() {
                                     "undefined",  // user DisplayName                             
                                     ); 
         dispatch(createPost(post));
-
-        
         Keyboard.dismiss(); // leaves keyboard after submitting post
     }
 
     // Render Title
-    const pageTitle = () => {
+    const PageTitle = () => {
         if (posts.length > 0) {
             return <Text style={{fontSize: 25, alignSelf: "center"}}>All posts</Text>
         }
@@ -96,17 +89,6 @@ export default function Posts() {
             }   return  <Text>
                             <Button title='Like' onPress={() => dispatch(addLikeToPost(item.numberOfLikes, item.id))}>Like</Button>       
                         </Text>
-    }
-
-
-
-
-    const renderImage = (postPhoto: string) => {
-        if (postPhoto) { 
-            return  <View>
-                        <Image source={{ uri: postPhoto }} style={styles.imagePosts} />
-                    </View>
-        }     
     }
 
 
@@ -185,7 +167,7 @@ export default function Posts() {
 
 
         <View>
-            {pageTitle()}
+            <PageTitle/>
         </View>
                 
         <FlatList
@@ -195,7 +177,6 @@ export default function Posts() {
             inverted={true}
             renderItem={({ item }: { item: any }) => (        
                 <TouchableOpacity onPress={() => goToDetails(item)}>
-
                     <View style={styles.container}>
                         
                         <View style={{flexDirection: "row", justifyContent: 'space-between', padding: 10, }}>                          
@@ -214,7 +195,9 @@ export default function Posts() {
                             <Text style={{fontSize: 20, alignSelf: "center" }}>{item.title}</Text>
                         </View>
 
-                            {renderImage(item.photoUrl)}   
+                        <View>
+                            {item.photoUrl !== "" && (<Image source={{ uri: item.photoUrl }} style={styles.imagePosts} />)}
+                        </View>   
 
                         <View style={{paddingLeft: 35, paddingBottom: 5, paddingRight: 35}}>
                             <Text style={{fontSize: 15}}>{item.description}</Text>  
@@ -225,7 +208,6 @@ export default function Posts() {
                         </View>              
                     
                     </View>  
-
                 </TouchableOpacity>              
             )}
             >
