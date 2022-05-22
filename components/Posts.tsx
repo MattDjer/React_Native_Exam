@@ -55,7 +55,7 @@ export default function Posts() {
     const handleAddPost = async () => {
         const url = image ? await uploadAndGetUrl(image) : "";  
         
-        const currentDate = getDate()
+        const currentDate = getDate();
         
         const post: Post = new Post(title, 
                                     description, 
@@ -71,11 +71,11 @@ export default function Posts() {
                                     ); 
         dispatch(createPost(post));
  
-        setTitle('')
-        setDescription('')
-        setImage(null)
+        setTitle('');
+        setDescription('');
+        setImage(null);
         
-        Keyboard.dismiss() // leaves keyboard after submitting post
+        Keyboard.dismiss(); // leaves keyboard after submitting post
     }
 
 
@@ -87,18 +87,6 @@ export default function Posts() {
     const handleRemoveLike = (numberOfLikes: number, postId: string) => {
         dispatch(removeLikeFromPost(numberOfLikes, postId))
     }
-
-
-    // Used to sum number of comments
-    let count = 0
-    function sumComments(item: any) {
-        for (let comment in item.comments) {
-            count += 1
-        }
-    }
-
-    function resetCount() { count = 0 }
-
 
     // Render Title
     const pageTitle = () => {
@@ -123,14 +111,6 @@ export default function Posts() {
                             <Button title='Like' onPress={() => handleAddLike(item.numberOfLikes, item.id)}>Like</Button>       
                         </Text>
     }
-
-
-    // Renders or unrenders Create new Post
-    const isFormOpen = () => {
-        if (openCreateForm) { setOpenCreateForm(false) }
-        else { setOpenCreateForm(true) }  
-    }
-    
 
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
@@ -196,7 +176,7 @@ export default function Posts() {
     return (      
         <>
  
-        <TouchableOpacity style={styles.container} onPress={isFormOpen}>
+        <TouchableOpacity style={styles.container} onPress={() => setOpenCreateForm(!openCreateForm)}>
             
             <View style={{alignItems: "center"}}>
                 <Text>Create post</Text>             
@@ -224,11 +204,8 @@ export default function Posts() {
                             <Text style={{fontSize: 12, color: "purple"}}>
                                         {item.displayName ? item.displayName : item.userMail}                                        
                             </Text>
-
-                            {resetCount()}
-                            {sumComments(item)}
                             
-                            <Text style={{color: "blue"}}>Comments: {count}</Text>                                 
+                            <Text style={{color: "blue"}}>Comments: {item.comments.length}</Text>                                 
                             <Text style={{color: "blue"}}>Likes: {item.numberOfLikes}</Text>                                            
                             {renderLikeButton(item)}                                                 
                         </View>

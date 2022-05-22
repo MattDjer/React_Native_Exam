@@ -1,3 +1,4 @@
+import { Comment } from "../../entities/Comment";
 import { Post } from "../../entities/Post";
 import { UserLike } from "../../entities/UserLike";
 
@@ -34,13 +35,22 @@ export const fetchPosts = () => {
             for (const PostKey in data) {
                 // create Post objects and push them into the array posts.
                 let objPost = data[PostKey];
+
+                const comments : Comment[] = [];
+
+                for (let key in objPost.comments) {
+                    console.log("comment here: ", objPost.comments[key]);
+                    comments.push(objPost.comments[key]);
+                }
+
+                console.log("comments array: ", comments);
                 
                 posts.push(new Post(objPost.title, 
                                     objPost.description, 
                                     objPost.timestamp, 
                                     objPost.userId, 
                                     objPost.userMail, 
-                                    objPost.comments,
+                                    comments,
                                     objPost.numberOfLikes,
                                     objPost.userLikes,
                                     PostKey,
@@ -48,6 +58,7 @@ export const fetchPosts = () => {
                                     objPost.displayName,
                                     ))
             }
+            console.log(posts);
             dispatch({ type: 'UPDATE_POSTS', payload: posts })
         }
     };
