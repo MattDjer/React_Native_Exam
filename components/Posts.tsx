@@ -39,8 +39,7 @@ export default function Posts() {
 
 
     // Add new post
-    let url = "";
-    const getUrlFromStorage = async (image: string) => {
+    const uploadAndGetUrl = async (image: string) => {
         const response = await fetch(image);
         const blob = await response.blob();
 
@@ -49,14 +48,12 @@ export default function Posts() {
         const imageRef = ref(storage, filename);
 
         await uploadBytesResumable(imageRef, blob);
-        url = await getDownloadURL(imageRef)
+        return await getDownloadURL(imageRef);
     }
     
-    if (image) { 
-        getUrlFromStorage(image)
-    }
     
-    const handleAddPost = () => {
+    const handleAddPost = async () => {
+        const url = image ? await uploadAndGetUrl(image) : "";  
         
         const currentDate = getDate()
         
