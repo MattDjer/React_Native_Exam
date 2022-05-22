@@ -25,7 +25,7 @@ export default function HomeScreen() {
             <Text> Go the the Posts tab to see the latest activity</Text> 
             <Image 
                 source={{ uri: "https://c.tenor.com/QM-si3_EAyIAAAAC/listening-to-music-dancing.gif" }} 
-                style={{ width: "100%", height: 180 }} />   
+                style={{ width: "100%", height: 180, marginBottom: 100 }} />   
         </SafeAreaView>
     );
 }

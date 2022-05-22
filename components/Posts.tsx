@@ -73,7 +73,7 @@ export default function Posts() {
                                     "undefined",  // user DisplayName                             
                                     ); 
         dispatch(createPost(post));
-
+ 
         setTitle('')
         setDescription('')
         setImage(null)

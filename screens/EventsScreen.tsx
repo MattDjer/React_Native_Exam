@@ -72,7 +72,7 @@ export default function EventsScreen() {
                 </View>      
             </View>
             
-            <View>
+            <View style={{marginBottom: 20}}>
                 <Text>Filter by categories</Text>
                 <Button title={!categoriesOpen ? "Open categories" : "Close categories"} onPress={() => setCategoriesOpen(!categoriesOpen)}/>
                 {categoriesOpen && (<View>
@@ -87,13 +87,13 @@ export default function EventsScreen() {
                     </View>
 
                     <View style={styles.filter}>
-                        <Text>Lectures and books</Text>
+                        <Text>Lecture</Text>
                         <Switch value={categoryIsEnabled("lectures-books")} onValueChange={() => toggleCategory("lectures-books")}/>
                     </View>
                 </View>)}
             </View>
             
-            <Button title="Fetch events" onPress={() => {setCurrentpage(0); dispatch(fetchEvents({isFree : isFree, location : location, categories : selectedCategories}))}}/>
+            <Button title="Find events" onPress={() => {setCurrentpage(0); dispatch(fetchEvents({isFree : isFree, location : location, categories : selectedCategories}))}}/>
             <Text>Events fetched: {events.length}</Text>
 
 
