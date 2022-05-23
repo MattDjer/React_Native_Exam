@@ -148,31 +148,11 @@ export default function Posts() {
         dispatch(postDetails(post));
         navigation.navigate("Details")
     }
-    
-
-    return (      
-        <>
- 
-        <TouchableOpacity style={styles.container} onPress={() => setOpenCreateForm(!openCreateForm)}>
-            <View style={{alignItems: "center"}}>
-                <Text>Create post</Text>
-            </View>
-        </TouchableOpacity>
-
-        <PostForm/> 
 
 
-        <View>
-            <PageTitle/>
-        </View>
-                
-        <FlatList
-            style={{display : "flex", marginBottom: 50}}
-            data={posts}
-            keyExtractor={(posts: any) => posts.id}
-            inverted={true}
-            renderItem={({ item }: { item: any }) => (        
-                <TouchableOpacity onPress={() => goToDetails(item)}>
+    const renderPost = ({ item }: { item: any }) => {
+        return (
+            <TouchableOpacity onPress={() => goToDetails(item)}>
                     <View style={styles.container}>
                         
                         <View style={{flexDirection: "row", justifyContent: 'space-between', padding: 10, }}>                          
@@ -204,8 +184,34 @@ export default function Posts() {
                         </View>              
                     
                     </View>  
-                </TouchableOpacity>              
-            )}
+                </TouchableOpacity>   
+        )
+    }
+    
+
+    return (      
+        <>
+ 
+        <TouchableOpacity style={styles.container} onPress={() => setOpenCreateForm(!openCreateForm)}>
+            <View style={{alignItems: "center"}}>
+                <Text>Create post</Text>
+            </View>
+        </TouchableOpacity>
+
+        <PostForm/> 
+
+
+        <View>
+            <PageTitle/>
+        </View>
+                
+        <FlatList
+            contentContainerStyle={{paddingTop : 20, alignItems : "center", display : "flex"}}
+            style={{display : "flex", marginBottom: 50}}
+            data={posts}
+            keyExtractor={(posts: any) => posts.id}
+            inverted={true}
+            renderItem={renderPost}
             >
         </FlatList> 
         
