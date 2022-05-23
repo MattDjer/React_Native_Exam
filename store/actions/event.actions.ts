@@ -25,7 +25,6 @@ export function fetchEvents(queryParams : EventQueryParams) {
         }
 
         const url = "https://api.yelp.com/v3/events" + queryString;
-        console.log(url);
 
         const request = {
             method : "GET",

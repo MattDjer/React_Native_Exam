@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, StyleSheet, Text, View, TextInput, TouchableOpacity, Keyboard, FlatList, Image } from 'react-native';
+import { Button, StyleSheet, Text, View, TextInput, Keyboard, FlatList, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
 import { Post } from '../entities/Post'

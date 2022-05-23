@@ -1,8 +1,7 @@
 import React from 'react';
-import { Button, Text, View, Image } from 'react-native';
-import { useDispatch } from 'react-redux';
-import { logout } from '../store/actions/user.actions';
-import Navbar from '../components/Navbar';
+import { Text, Image } from 'react-native';
+
+
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function HomeScreen() {
@@ -21,7 +20,7 @@ export default function HomeScreen() {
                 style={{ width: "100%", height: 180 }} />
 
 
-            <Text style={{fontSize: 20, marginTop: 80}}>You can also find privat events</Text>
+            <Text style={{fontSize: 20, marginTop: 80}}>You can also find private events</Text>
             <Text> Go the the Posts tab to see the latest activity</Text> 
             <Image 
                 source={{ uri: "https://c.tenor.com/QM-si3_EAyIAAAAC/listening-to-music-dancing.gif" }} 
