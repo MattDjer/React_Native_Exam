@@ -7,13 +7,6 @@ export const UPDATE_POSTS = 'UPDATE_POSTS'
 export const POST_DETAILS = 'POST_DETAILS'
 
 
-export const postDetails = (post: Post) => {
-    return async (dispatch: any) => {       
-         dispatch({ type: POST_DETAILS, payload: post })
-        }
-    };
-
-
 export const fetchPosts = () => {
     return async (dispatch: any, getState: any) => {
         const token = getState().user.idToken;
@@ -56,7 +49,7 @@ export const fetchPosts = () => {
                                     objPost.displayName,
                                     ))
             }
-            dispatch({ type: 'UPDATE_POSTS', payload: posts })
+            dispatch({ type: UPDATE_POSTS, payload: posts })
         }
     };
 }
@@ -91,7 +84,7 @@ export const fetchPost = (postId: string) => {
                                 data.photoUrl,
                                 data.displayName,
                                 )                                    
-                dispatch({ type: 'POST_DETAILS', payload: post })                                                     
+                dispatch({ type: POST_DETAILS, payload: post })                                                     
         }
     };
 }

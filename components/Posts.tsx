@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, StyleSheet, Text, TextInput, View, Image, FlatList, TouchableOpacity, Keyboard } from 'react-native';
-import { fetchPosts } from '../store/actions/post.actions';
+import { fetchPosts, POST_DETAILS } from '../store/actions/post.actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { Post } from '../entities/Post';
 import { createPost, postDetails, addLikeToPost, removeLikeFromPost } from '../store/actions/post.actions';
@@ -133,7 +133,7 @@ export default function Posts() {
 
     // Navigation to Post Details
     const goToDetails = (post: any) => {        
-        dispatch(postDetails(post));
+        dispatch({ type: POST_DETAILS, payload: post })
         navigation.navigate("Details")
     }
 
