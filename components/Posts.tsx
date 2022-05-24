@@ -3,7 +3,7 @@ import { Button, StyleSheet, Text, TextInput, View, Image, FlatList, TouchableOp
 import { fetchPosts, POST_DETAILS } from '../store/actions/post.actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { Post } from '../entities/Post';
-import { createPost, postDetails, addLikeToPost, removeLikeFromPost } from '../store/actions/post.actions';
+import { createPost, addLikeToPost, removeLikeFromPost } from '../store/actions/post.actions';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { StackParamList } from "../typings/navigations";
