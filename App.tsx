@@ -8,6 +8,7 @@ import userReducer from './store/reducers/user.reducer';
 import commentReducer from './store/reducers/comment.reducer';
 import profileReducer from './store/reducers/profile.reducer';
 import eventReducer from './store/reducers/event.reducer';
+import { QueryClientProvider, QueryClient } from 'react-query'
 
 //test
 
@@ -22,13 +23,15 @@ export type RootState = ReturnType<typeof rootReducer>
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 // const store = createStore(rootReducer);
-
+const queryClient = new QueryClient()
 
 export default function App() {
   return (
-    <Provider store={store}>
-      <Navigation />
-    </Provider>
+    <QueryClientProvider client={queryClient}>
+      <Provider store={store}>
+        <Navigation />
+      </Provider>
+    </QueryClientProvider>
   )
 }
 
