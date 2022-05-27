@@ -10,7 +10,6 @@ import profileReducer from './store/reducers/profile.reducer';
 import eventReducer from './store/reducers/event.reducer';
 import { QueryClientProvider, QueryClient } from 'react-query'
 
-//test
 
 const rootReducer = combineReducers({
   comment: commentReducer,
@@ -22,7 +21,7 @@ const rootReducer = combineReducers({
 export type RootState = ReturnType<typeof rootReducer>
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
-// const store = createStore(rootReducer);
+
 const queryClient = new QueryClient()
 
 export default function App() {
