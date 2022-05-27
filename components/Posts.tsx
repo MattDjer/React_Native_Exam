@@ -1,19 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { Button, StyleSheet, Text, TextInput, View, Image, FlatList, TouchableOpacity, Keyboard } from 'react-native';
+import React, { useEffect } from 'react';
+import { Button, StyleSheet, Text, View, Image, FlatList, TouchableOpacity } from 'react-native';
 import { fetchPosts, POST_DETAILS } from '../store/actions/post.actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { Post } from '../entities/Post';
-import { createPost, addLikeToPost, removeLikeFromPost } from '../store/actions/post.actions';
+import { addLikeToPost, removeLikeFromPost } from '../store/actions/post.actions';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { StackParamList } from "../typings/navigations";
 import { User } from "../entities/User"
 import { RootState } from '../App';
-import * as ImagePicker from 'expo-image-picker';
-import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
-import firebaseApp from '../firebase';
-import uuid from "react-native-uuid"
-import { getDate } from '../components/GetDate'
 
 
 type ScreenNavigationType = NativeStackNavigationProp<
@@ -21,17 +16,6 @@ type ScreenNavigationType = NativeStackNavigationProp<
     "Posts"
 >
 
-const uploadAndGetUrl = async (image: string) => {
-    const response = await fetch(image);
-    const blob = await response.blob();
-
-    const storage = getStorage(firebaseApp);
-    const filename = uuid.v4().toString();
-    const imageRef = ref(storage, filename);
-
-    await uploadBytesResumable(imageRef, blob);
-    return await getDownloadURL(imageRef);
-}
 
 export default function Posts() {
     const navigation = useNavigation<ScreenNavigationType>();
@@ -39,21 +23,11 @@ export default function Posts() {
 
     const user: User = useSelector((state: RootState) => state.user.loggedInUser);
     const posts: Post[] = useSelector((state: any) => state.post.posts); 
-    
-    const [openCreateForm, setOpenCreateForm] = useState(false);
 
     useEffect(() => {
         dispatch(fetchPosts());       
     }, [])
     
-    
-    const handleAddPost = async (title : string, description : string, image : string | null) => {
-        const url = image ? await uploadAndGetUrl(image) : ""; 
-        const currentDate = getDate();
-                                   
-        dispatch(createPost(title, description, currentDate, url));
-        Keyboard.dismiss(); // leaves keyboard after submitting post
-    }
 
     // Render Title
     const PageTitle = () => {
@@ -73,61 +47,6 @@ export default function Posts() {
         }   
         
         return <Button title='Like' onPress={() => dispatch(addLikeToPost(item.numberOfLikes, item.id))}>Like</Button>            
-    }
-
-
-    const PostForm = () => {
-        const [title, setTitle] = useState('');
-        const [description, setDescription] = useState('');
-        const [image, setImage] = useState<string | null>(null);
-
-        function resetFields() {
-            setTitle("");
-            setImage(null);
-            setDescription("");
-        }
-
-        const pickImage = async () => {
-            // No permissions request is necessary for launching the image library
-            let result = await ImagePicker.launchImageLibraryAsync({
-                mediaTypes: ImagePicker.MediaTypeOptions.Images,
-                allowsEditing: true,
-                aspect: [4, 3],
-                quality: 1,
-            });
-            if (!result.cancelled) {
-                setImage(result.uri);
-            }
-        };
-
-        return (
-            <>
-                {openCreateForm && (
-                    <View style={{margin: 10}}>           
-                    <TextInput 
-                        placeholder="Title" 
-                        value={title} 
-                        onChangeText={setTitle}/>
-
-
-                    <View style={styles.uploadAndImage}>
-                        <Button title="Add post picture" onPress={pickImage} />
-                    </View>    
-
-                    <View>                            
-                        {image && <Image source={{ uri: image }} style={styles.imageCreate} />}
-                    </View>            
-
-                    <TextInput 
-                        placeholder="Description"
-                        value={description} 
-                        onChangeText={setDescription}/>
-
-                    <Button title='Submit' onPress={() => {resetFields(); handleAddPost(title, description, image)}}/>         
-                    </View>
-                )}
-            </>
-        ) 
     }
 
 
@@ -176,19 +95,9 @@ export default function Posts() {
         )
     }
     
-
     return (      
         <>
- 
-        <TouchableOpacity style={styles.container} onPress={() => setOpenCreateForm(!openCreateForm)}>
-            <View style={{alignItems: "center"}}>
-                <Text>Create post</Text>
-            </View>
-        </TouchableOpacity>
-
-        <PostForm/> 
-
-
+        
         <View>
             <PageTitle/>
         </View>
@@ -202,11 +111,10 @@ export default function Posts() {
             renderItem={renderPost}
             >
         </FlatList> 
-        
+
         </>
     );
 }
-
 
 
 const styles = StyleSheet.create({

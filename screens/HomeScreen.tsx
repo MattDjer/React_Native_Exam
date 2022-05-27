@@ -10,7 +10,6 @@ export default function HomeScreen() {
 
     const queryClient = useQueryClient()
 
-
     const { isLoading, error, data } = useQuery("events", () => {
        
        let categories = Math.random() > 0.5 ? "music" : "lectures-books"
