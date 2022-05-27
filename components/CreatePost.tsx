@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Button, StyleSheet, Text, TextInput, View, Image, FlatList, TouchableOpacity, Keyboard } from 'react-native';
+import React, { useState } from 'react';
+import { Button, StyleSheet, Text, TextInput, View, Image, TouchableOpacity, Keyboard } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { createPost } from '../store/actions/post.actions';
 import { getDate } from './GetDate';
