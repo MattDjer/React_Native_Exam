@@ -51,13 +51,13 @@ export default function Posts() {
 
 
     // Navigation to Post Details
-    const goToDetails = (post: any) => {        
+    const goToDetails = (post: Post) => {        
         dispatch({ type: POST_DETAILS, payload: post })
         navigation.navigate("Details")
     }
 
 
-    const renderPost = ({ item }: { item: any }) => {
+    const renderPost = ({ item }: { item: Post }) => {
         return (
             <TouchableOpacity onPress={() => goToDetails(item)}>
                     <View style={styles.container}>
