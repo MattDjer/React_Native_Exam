@@ -38,13 +38,13 @@ export default function HomeScreen() {
 
 
             {isLoading ? <Text> Looking for event ... </Text> : <></>}
-            {error ? <Text> {error.message} </Text> : <></>}
+            {error ? <Text> {error instanceof Error ? error.message : ""} </Text> : <></>}
             
             {data?.data.events.length > 0 ? 
             <View style={{alignItems: "center", padding: 10}}>
                 <Text style={{margin: 10, fontSize: 20}}> Recommended event of the day </Text>
-                <Text>{data.data.events[0].name}</Text>
-                <Image source={{ uri : data.data.events[0].image_url}} style={{width: 200, height: 200}}></Image>
+                <Text>{data!.data.events[0].name}</Text>
+                <Image source={{ uri : data!.data.events[0].image_url}} style={{width: 200, height: 200}}></Image>
             </View> 
             :
             <View> 
