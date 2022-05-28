@@ -75,12 +75,16 @@ export default function PostDetails() {
         dispatch(removeLikeFromPost(numberOfLikes, postId))
     }
 
-    const renderImage = (photoUrl: any) => {
+    const PostImage = ({ photoUrl } : { photoUrl : string}) => {
         if (photoUrl) { 
             return  <View>
                         <Image source={{ uri : photoUrl }} style={styles.imagePost} />
                     </View>
-        }     
+        }
+        
+        else {
+            return <></>
+        }
     }
 
 
@@ -104,7 +108,7 @@ export default function PostDetails() {
                         <Text style={{fontSize: 20, alignSelf: "center" }}>{post.title}</Text>
                     </View>
 
-                        {renderImage(post.photoUrl)}
+                    <PostImage photoUrl={post.photoUrl}/>
 
                     <View style={{paddingLeft: 35, paddingBottom: 5}}>
                         <Text style={{fontSize: 15}}>{post.description}</Text>  
