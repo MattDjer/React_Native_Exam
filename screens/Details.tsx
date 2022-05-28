@@ -50,30 +50,17 @@ export default function PostDetails() {
         )
     }
 
-     // Render like button based on whether user already liked the post
-    const renderLikeButton = (item: any) => {
+    // Render like button based on whether user already liked the post
+    const LikeButton = ({ item } : {item : Post}) => {
         for (let userLike in item.userLikes) {
-            if (item.userLikes[userLike].email == user.email) { 
-                return  <Text>
-                            <Button title='Liked' onPress={() => handleRemoveLike(item.numberOfLikes, item.id)}>Liked</Button>       
-                        </Text>
+            if (item.userLikes[userLike].email == user.email) {
+                return <Button title='Liked' onPress={() => dispatch(removeLikeFromPost(item.numberOfLikes, item.id))}>Liked</Button>                       
             }
-        }  
+        }   
         
-        return  <Text>
-                    <Button title='Like' onPress={() => handleAddLike(item.numberOfLikes, item.id)}>Like</Button>       
-                </Text>
+        return <Button title='Like' onPress={() => dispatch(addLikeToPost(item.numberOfLikes, item.id))}>Like</Button>            
     }
 
-
-    // Handle User Likes
-    const handleAddLike = (numberOfLikes: number, postId: string) => {    
-        dispatch(addLikeToPost(numberOfLikes, postId))
-    }
-
-    const handleRemoveLike = (numberOfLikes: number, postId: string) => {        
-        dispatch(removeLikeFromPost(numberOfLikes, postId))
-    }
 
     const PostImage = ({ photoUrl } : { photoUrl : string}) => {
         if (photoUrl) { 
@@ -99,7 +86,7 @@ export default function PostDetails() {
 
                         <Text style={{color: "blue"}}>Comments: {comments.length}</Text>                                 
                         <Text style={{color: "blue"}}>Likes: {post.numberOfLikes}</Text>                                            
-                        {renderLikeButton(post)}                                                 
+                        <LikeButton item={post}/>                                                
                     </View>
 
                     <View style={styles.border}></View>
