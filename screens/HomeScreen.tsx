@@ -33,9 +33,8 @@ export default function HomeScreen() {
             <Text style={{fontSize: 20, marginTop: 10}}>Here you can find official events</Text>
             <Text>Go to the Events tab to search at your location!</Text>
             <Image 
-                source={{ uri: "https://c.tenor.com/QM-si3_EAyIAAAAC/listening-to-music-dancing.gif" }} 
+                source={require("../images/listening-to-music-dancing.gif")} 
                 style={{ width: "100%", height: 180 }} />
-
 
             {isLoading ? <Text> Looking for event ... </Text> : <></>}
             {error ? <Text> {error instanceof Error ? error.message : ""} </Text> : <></>}
