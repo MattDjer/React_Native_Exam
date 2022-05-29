@@ -1,6 +1,8 @@
 import { Comment } from "../../entities/Comment";
 import { Post } from "../../entities/Post";
 import { UserLike } from "../../entities/UserLike";
+import { getDatabase, ref, runTransaction } from "firebase/database";
+import firebaseApp from "../../firebase";
 
 export const ADD_POST = 'ADD_POST';
 export const UPDATE_POSTS = 'UPDATE_POSTS'
@@ -60,7 +62,7 @@ export const fetchPost = (postId: string) => {
         const token = getState().user.idToken;
 
         const response = await fetch(
-            'https://react-native-firebase-27cc0-default-rtdb.europe-west1.firebasedatabase.app/posts/' + postId  + '/.json?auth=' + token, {
+            'https://react-native-firebase-27cc0-default-rtdb.europe-west1.firebasedatabase.app/posts/' + postId  + '.json?auth=' + token, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -157,20 +159,17 @@ export const addLikeToPost = (numberOfLikes: number, postId: string) => {
             alert("Failed to add user to like")
         } 
         else {
-            // Increment Number of likes
-            const responseNumberOfLikes = await fetch(
-                'https://react-native-firebase-27cc0-default-rtdb.europe-west1.firebasedatabase.app/posts/'+ postId +'/.json?auth=' + token, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                    body: JSON.stringify(
-                        { "numberOfLikes" : numberOfLikes + 1 }       
-                    )
-                });
-            if (!responseNumberOfLikes.ok) {
-                alert("Failed to increment likes")    
-            }     
+            const db = getDatabase(firebaseApp);
+            const postRef = ref(db, "posts/" + postId);
+
+            await runTransaction(postRef, (post) => {
+                if (post) {
+                    post.numberOfLikes++;
+                }
+
+                return post;
+            })
+
         }
         dispatch(fetchPost(postId))
         dispatch(fetchPosts()) 
@@ -198,23 +197,19 @@ export const removeLikeFromPost = (numberOfLikes: number, postId: string) => {
         if (!responseUserLike.ok) {
             alert("Failed to remove user from like")
         }    
-        else {    
-        // Decrement Number of likes
-            await fetch(
-                'https://react-native-firebase-27cc0-default-rtdb.europe-west1.firebasedatabase.app/posts/'+ postId +'/.json?auth=' + token, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(
-                    { "numberOfLikes" : numberOfLikes - 1 }       
-                )
-            });
-            if (!responseUserLike.ok) {
-                alert("Failed to decrement number of likes")
-            }
+        else {
+            const db = getDatabase(firebaseApp);
+            const postRef = ref(db, "posts/" + postId);
+            
+            await runTransaction(postRef, (post) => {
+                if (post) {
+                    post.numberOfLikes--;
+                }
+
+                return post;
+            })
         }
-        dispatch(fetchPost(postId))
-        dispatch(fetchPosts()) 
+        dispatch(fetchPost(postId));
+        dispatch(fetchPosts()); 
     }
 }
