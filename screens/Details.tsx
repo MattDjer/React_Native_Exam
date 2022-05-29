@@ -54,11 +54,11 @@ export default function PostDetails() {
     const LikeButton = ({ item } : {item : Post}) => {
         for (let userLike in item.userLikes) {
             if (item.userLikes[userLike].email == user.email) {
-                return <Button title='Liked' onPress={() => dispatch(removeLikeFromPost(item.numberOfLikes, item.id))}>Liked</Button>                       
+                return <Button title='Liked' onPress={() => dispatch(removeLikeFromPost(item.id))}>Liked</Button>                       
             }
         }   
         
-        return <Button title='Like' onPress={() => dispatch(addLikeToPost(item.numberOfLikes, item.id))}>Like</Button>            
+        return <Button title='Like' onPress={() => dispatch(addLikeToPost(item.id))}>Like</Button>            
     }
 
 

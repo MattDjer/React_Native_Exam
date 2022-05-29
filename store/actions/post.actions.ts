@@ -138,7 +138,7 @@ export const createPost = (title: string, description: string, currentDate: stri
 }
 
 
-export const addLikeToPost = (numberOfLikes: number, postId: string) => {
+export const addLikeToPost = (postId: string) => {
     return async (dispatch: any, getState: any) => {
         const token = getState().user.idToken;
         const userMail = getState().user.loggedInUser.email 
@@ -177,7 +177,7 @@ export const addLikeToPost = (numberOfLikes: number, postId: string) => {
 }
 
 
-export const removeLikeFromPost = (numberOfLikes: number, postId: string) => {
+export const removeLikeFromPost = (postId: string) => {
     return async (dispatch: any, getState: any) => {
         const token = getState().user.idToken
         const userMail = getState().user.loggedInUser.email
